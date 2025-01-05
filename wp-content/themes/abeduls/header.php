@@ -103,11 +103,11 @@
                                 <div id="catalog-container" class="catalog-container"></div>
                             </div>
                         </div>
-                        <a href="/individual.php" class="header-item">Индивидуальный заказ</a>
-                        <a href="/services" class="header-item active">Услуги</a>
-                        <a href="/career.php" class="header-item">Карьера</a>
-                        <a href="/contacts.php" class="header-item">Контакты</a>
-                        <a href="/fabric.php" class="header-item">Наша фабрика</a>
+                        <a href="/individual" class="header-item <?php echo is_page('individual') ? 'active' : ''; ?>">Индивидуальный заказ</a>
+                        <a href="/services" class="header-item <?php echo is_page('services') ? 'active' : ''; ?>">Услуги</a>
+                        <a href="/career" class="header-item <?php echo is_page('career') ? 'active' : ''; ?>">Карьера</a>
+                        <a href="/contacts" class="header-item <?php echo is_page('contacts') ? 'active' : ''; ?>">Контакты</a>
+                        <a href="/fabric" class="header-item <?php echo is_page('fabric') ? 'active' : ''; ?>">Наша фабрика</a>
                     </div>
                 </div>
             </div>
