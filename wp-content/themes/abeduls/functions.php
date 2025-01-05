@@ -30,7 +30,7 @@ add_action('after_setup_theme', function () {
 add_action('carbon_fields_register_fields', function () {
     Container::make('post_meta', 'Настройки страницы')
         ->where('post_type', '=', 'page') // Применяем только к страницам
-        ->where('post_id', '=', 10) // Замените 10 на ID вашей страницы "Услуги"
+        ->where('post_template', '=', 'page-services.php')
         ->add_fields([
             Field::make('text', 'services_page_title', 'Заголовок страницы'),
             Field::make('complex', 'service_items', 'Список услуг')
@@ -48,6 +48,52 @@ add_action('carbon_fields_register_fields', function () {
                 ->add_fields([
                     Field::make('text', 'question', 'Вопрос'),
                     Field::make('textarea', 'answer', 'Ответ'),
+                ]),
+        ]);
+});
+
+
+add_action('carbon_fields_register_fields', function () {
+    Container::make('post_meta', 'Карьера - содержимое страницы')
+        ->where('post_type', '=', 'page')
+        ->where('post_template', '=', 'page-career.php') // Указываем шаблон
+        ->add_fields([
+            Field::make('text', 'career_page_title', 'Заголовок страницы'),
+            // Поле для подзаголовка
+            Field::make('text', 'career_subtitle', 'Подзаголовок'),
+
+            // Поле для текста кнопки
+            Field::make('text', 'career_button_text', 'Текст кнопки "Отправить резюме"'),
+
+            // Поле для списка вакансий
+            Field::make('complex', 'career_items', 'Список вакансий')
+                ->set_layout('tabbed-horizontal') // Удобный интерфейс
+                ->add_fields([
+                    Field::make('text', 'title', 'Заголовок вакансии'),
+                    Field::make('text', 'subtitle', 'Подзаголовок'),
+                    Field::make('text', 'salary', 'Зарплата'),
+                    Field::make('textarea', 'description', 'Описание'),
+
+                    // Поля для подзаголовков списков
+                    Field::make('text', 'offers_title', 'Заголовок секции "Что мы предлагаем"')
+                        ->set_default_value('Что мы предлагаем:'),
+                    Field::make('text', 'responsibilities_title', 'Заголовок секции "Обязанности"')
+                        ->set_default_value('Обязанности:'),
+                    Field::make('text', 'requirements_title', 'Заголовок секции "Требования"')
+                        ->set_default_value('Требования:'),
+
+                    Field::make('complex', 'offers', 'Что мы предлагаем')
+                        ->add_fields([
+                            Field::make('text', 'offer', 'Предложение'),
+                        ]),
+                    Field::make('complex', 'responsibilities', 'Обязанности')
+                        ->add_fields([
+                            Field::make('text', 'responsibility', 'Обязанность'),
+                        ]),
+                    Field::make('complex', 'requirements', 'Требования')
+                        ->add_fields([
+                            Field::make('text', 'requirement', 'Требование'),
+                        ]),
                 ]),
         ]);
 });
