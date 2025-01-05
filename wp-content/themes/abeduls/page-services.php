@@ -9,79 +9,89 @@ get_header(); ?>
         <nav class="breadcrumbs">
             <ul class="breadcrumbs-list">
                 <li class="breadcrumbs-item"><a href="/" class="breadcrumbs-link">Главная / </a></li>
-                <li class="breadcrumbs-item breadcrumbs-current">Услуги</li>
+                <li class="breadcrumbs-item breadcrumbs-current"><?php echo esc_html(carbon_get_the_post_meta('services_page_title')); ?></li>
             </ul>
         </nav>
 
         <div class="block-title">
-            Услуги
+            <?php echo esc_html(carbon_get_the_post_meta('services_page_title')); ?>
         </div>
+
+        <?php
+        $service_items = carbon_get_the_post_meta('service_items');
+
+        if ($service_items) :
+        ?>
+            <div class="service-items">
+                <?php foreach ($service_items as $item) : ?>
+                    <div class="service-item <?php echo !empty($item['gallery']) ? 'service-item-with-images' : ''; ?>">
+                        <div class="service-item-texts">
+                            <div class="service-item__title">
+                                <span><?php echo esc_html($item['title']); ?></span>
+                                <div class="service-item__text-icon mob">
+                                    <?php if (!empty($item['icon'])) : ?>
+                                        <img src="<?php echo wp_get_attachment_image_url($item['icon'], 'full'); ?>" alt="service-icon">
+                                    <?php endif; ?>
+                                </div>
+                                <?php if (!empty($item['gallery'])) : ?>
+                                    <div class="service-item__text-icon pc">
+                                        <?php if (!empty($item['icon'])) : ?>
+                                            <img src="<?php echo wp_get_attachment_image_url($item['icon'], 'full'); ?>" alt="service-icon">
+                                        <?php endif; ?>
+                                    </div>
+                                <?php endif; ?>
+                            </div>
+                            <div class="service-item__text">
+                                <div class="service-item__text-icon pc <?php echo !empty($item['gallery']) ? 'hidden' : ''; ?>">
+                                    <?php if (!empty($item['icon'])) : ?>
+                                        <img src="<?php echo wp_get_attachment_image_url($item['icon'], 'full'); ?>" alt="service-icon">
+                                    <?php endif; ?>
+                                </div>
+                                <div class="service-item__text-text">
+                                    <?php echo wp_kses_post($item['description']); ?>
+                                </div>
+                            </div>
+                            <?php if (!empty($item['subtitle'])) : ?>
+                                <div class="service-item__suibtitle">
+                                    <?php echo esc_html($item['subtitle']); ?>
+                                </div>
+                            <?php endif; ?>
+                        </div>
+                        <?php if (!empty($item['gallery'])) : ?>
+                            <div class="service-item-images">
+                                <?php foreach ($item['gallery'] as $image_id) : ?>
+                                    <div class="service-item-image">
+                                        <img src="<?php echo wp_get_attachment_image_url($image_id, 'full'); ?>" alt="services-item-img">
+                                    </div>
+                                <?php endforeach; ?>
+                            </div>
+                        <?php endif; ?>
+                    </div>
+                <?php endforeach; ?>
+            </div>
+        <?php endif; ?>
 
 
         <div class="service-questions">
             <div class="block-title">
-                Часто задаваемые вопросы:
+                <?php echo esc_html(carbon_get_the_post_meta('service_questions_title')); ?>
             </div>
             <div class="service-questions-content">
-                <div class="service-question" data-spollers>
-                    <div class="service-question__title" data-spoller>
-                        <span>Сколько времени требуется на изготовление оборудования?</span>
-                        <span class="visual-plus"></span>
-                    </div>
-                    <div class="service-question__content">
-                        Производственный цикл менее чем из 50 стандартных единиц оборудования не превышает десяти дней
-                    </div>
-                </div>
-                <div class="service-question" data-spollers>
-                    <div class="service-question__title" data-spoller>
-                        <span>Взимается ли плата за предоставление специальных образцов по индивидуальному заказу?</span>
-                        <span class="visual-plus"></span>
-                    </div>
-                    <div class="service-question__content">
-                        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aperiam et vitae qui
-                        iure temporibus nihil ullam dolorem voluptates alias reiciendis!
-                    </div>
-                </div>
-                <div class="service-question" data-spollers>
-                    <div class="service-question__title" data-spoller>
-                        <span>Сколько времени занимает доставка с китайского завода в Москву?</span>
-                        <span class="visual-plus"></span>
-                    </div>
-                    <div class="service-question__content">
-                        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aperiam et vitae qui
-                        iure temporibus nihil ullam dolorem voluptates alias reiciendis!
-                    </div>
-                </div>
-                <div class="service-question" data-spollers>
-                    <div class="service-question__title" data-spoller>
-                        <span>Существуют ли какие-либо требования к количеству для индивидуального производства?</span>
-                        <span class="visual-plus"></span>
-                    </div>
-                    <div class="service-question__content">
-                        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aperiam et vitae qui
-                        iure temporibus nihil ullam dolorem voluptates alias reiciendis!
-                    </div>
-                </div>
-                <div class="service-question" data-spollers>
-                    <div class="service-question__title" data-spoller>
-                        <span>Каков маршрут движения?</span>
-                        <span class="visual-plus"></span>
-                    </div>
-                    <div class="service-question__content">
-                        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aperiam et vitae qui
-                        iure temporibus nihil ullam dolorem voluptates alias reiciendis!
-                    </div>
-                </div>
-                <div class="service-question" data-spollers>
-                    <div class="service-question__title" data-spoller>
-                        <span>Что включает в себя стоимость доставки до Москвы?</span>
-                        <span class="visual-plus"></span>
-                    </div>
-                    <div class="service-question__content">
-                        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aperiam et vitae qui
-                        iure temporibus nihil ullam dolorem voluptates alias reiciendis!
-                    </div>
-                </div>
+                <?php
+                $questions = carbon_get_the_post_meta('service_questions');
+                if (!empty($questions)):
+                    foreach ($questions as $question): ?>
+                        <div class="service-question" data-spollers>
+                            <div class="service-question__title" data-spoller>
+                                <span><?php echo esc_html($question['question']); ?></span>
+                                <span class="visual-plus"></span>
+                            </div>
+                            <div class="service-question__content">
+                                <?php echo wp_kses_post($question['answer']); ?>
+                            </div>
+                        </div>
+                <?php endforeach;
+                endif; ?>
             </div>
         </div>
 

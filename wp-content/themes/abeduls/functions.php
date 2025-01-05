@@ -18,3 +18,36 @@ function website_assets()
 add_action('wp_enqueue_scripts', 'website_assets');
 
 show_admin_bar(false);
+
+
+use Carbon_Fields\Container;
+use Carbon_Fields\Field;
+
+add_action('after_setup_theme', function () {
+    \Carbon_Fields\Carbon_Fields::boot();
+});
+
+add_action('carbon_fields_register_fields', function () {
+    Container::make('post_meta', 'Настройки страницы')
+        ->where('post_type', '=', 'page') // Применяем только к страницам
+        ->where('post_id', '=', 10) // Замените 10 на ID вашей страницы "Услуги"
+        ->add_fields([
+            Field::make('text', 'services_page_title', 'Заголовок страницы'),
+            Field::make('complex', 'service_items', 'Список услуг')
+                ->set_layout('tabbed-horizontal')
+                ->add_fields([
+                    Field::make('text', 'title', 'Заголовок'),
+                    Field::make('image', 'icon', 'Иконка'),
+                    Field::make('textarea', 'description', 'Описание'),
+                    Field::make('text', 'subtitle', 'Дополнительный текст'),
+                    Field::make('media_gallery', 'gallery', 'Галерея изображений')->set_type(['image']),
+                ]),
+            Field::make('text', 'service_questions_title', 'Заголовок блока "Часто задаваемые вопросы"'),
+            Field::make('complex', 'service_questions', 'Часто задаваемые вопросы')
+                ->set_layout('tabbed-horizontal') // Удобный вертикальный интерфейс
+                ->add_fields([
+                    Field::make('text', 'question', 'Вопрос'),
+                    Field::make('textarea', 'answer', 'Ответ'),
+                ]),
+        ]);
+});
