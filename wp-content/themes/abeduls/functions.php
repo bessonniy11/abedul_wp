@@ -29,6 +29,7 @@ add_action('after_setup_theme', function () {
 
 add_action('carbon_fields_register_fields', function () {
     Container::make('post_meta', 'Настройки страницы')
+
         ->where('post_type', '=', 'page') // Применяем только к страницам
         ->where('post_template', '=', 'page-services.php')
         ->add_fields([
@@ -50,10 +51,29 @@ add_action('carbon_fields_register_fields', function () {
                     Field::make('textarea', 'answer', 'Ответ'),
                 ]),
         ]);
-});
 
+    Container::make('post_meta', 'Настройки категории')
+    ->where('post_type', '=', 'category_group') // Применяем только к "Категории"
+    ->add_fields([
+        Field::make('image', 'category_icon', 'Иконка категории')
+            ->set_help_text('Загрузите иконку для отображения'),
+        
+        Field::make('text', 'category_slug', 'Slug категории')
+            ->set_help_text('Введите уникальный slug категории (например, "reklama").'),
+        
+        Field::make('complex', 'subcategories', 'Подкатегории')
+            ->add_fields([
+                Field::make('text', 'subcategory_title', 'Название подкатегории'),
+                Field::make('image', 'subcategory_icon', 'Иконка подкатегории'),
+                Field::make('text', 'subcategory_slug', 'Slug подкатегории')
+                    ->set_help_text('Введите уникальный slug подкатегории (например, "monitors").'),
+                Field::make('text', 'subcategory_extra', 'Дополнительное поле')
+                    ->set_help_text('Это поле можно оставить пустым'),
+            ])
+            ->set_layout('tabbed-horizontal')
+            ->set_help_text('Добавьте список подкатегорий и их атрибутов.'),
+    ]);
 
-add_action('carbon_fields_register_fields', function () {
     Container::make('post_meta', 'Карьера - содержимое страницы')
         ->where('post_type', '=', 'page')
         ->where('post_template', '=', 'page-career.php') // Указываем шаблон
@@ -97,3 +117,65 @@ add_action('carbon_fields_register_fields', function () {
                 ]),
         ]);
 });
+
+
+function abedul_register_product_post_type() {
+    $labels = array(
+        'name'               => 'Товары',
+        'singular_name'      => 'Товар',
+        'menu_name'          => 'Товары',
+        'name_admin_bar'     => 'Товар',
+        'add_new'            => 'Добавить новый',
+        'add_new_item'       => 'Добавить новый товар',
+        'new_item'           => 'Новый товар',
+        'edit_item'          => 'Редактировать товар',
+        'view_item'          => 'Просмотр товара',
+        'all_items'          => 'Все товары',
+        'search_items'       => 'Искать товары',
+        'not_found'          => 'Товары не найдены.',
+        'not_found_in_trash' => 'В корзине товаров не найдено.'
+    );
+
+    $args = array(
+        'labels'             => $labels,
+        'public'             => true,
+        'has_archive'        => true,
+        'menu_icon'          => 'dashicons-cart',
+        'supports'           => array('title', 'editor', 'thumbnail'), // Поля "Название", "Описание" и "Миниатюра"
+        'show_in_rest'       => true, // Для поддержки редактора Гутенберг
+    );
+
+    register_post_type('product', $args);
+}
+add_action('init', 'abedul_register_product_post_type');
+
+function abedul_register_category_post_type() {
+    $labels = array(
+        'name'               => 'Категории',
+        'singular_name'      => 'Категория',
+        'menu_name'          => 'Категории',
+        'name_admin_bar'     => 'Категория',
+        'add_new'            => 'Добавить новую',
+        'add_new_item'       => 'Добавить новую категорию',
+        'new_item'           => 'Новая категория',
+        'edit_item'          => 'Редактировать категорию',
+        'view_item'          => 'Просмотр категории',
+        'all_items'          => 'Все категории',
+        'search_items'       => 'Искать категории',
+        'not_found'          => 'Категории не найдены.',
+        'not_found_in_trash' => 'В корзине категорий не найдено.'
+    );
+
+    $args = array(
+        'labels'             => $labels,
+        'public'             => true,
+        'has_archive'        => false,
+        'menu_icon'          => 'dashicons-category',
+        'supports'           => array('title', 'editor', 'thumbnail'), // Поля "Название", "Описание" и "Миниатюра"
+        'hierarchical'       => true, // Для возможности вложенности (родитель/потомок)
+        'show_in_rest'       => true, // Для редактора Гутенберг
+    );
+
+    register_post_type('category_group', $args);
+}
+add_action('init', 'abedul_register_category_post_type');

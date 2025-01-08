@@ -100,7 +100,53 @@
                             <div class="catalog-mobile-trigger"></div>
 
                             <div class="catalog-container-wrapper" id="catalog-container-wrapper">
-                                <div id="catalog-container" class="catalog-container"></div>
+                                <?php
+                                $query = new WP_Query(array(
+                                    'post_type' => 'category_group',
+                                    'posts_per_page' => -1,
+                                    'orderby' => 'menu_order',
+                                    'order' => 'ASC',
+                                ));
+
+                                if ($query->have_posts()) : ?>
+                                    <div id="catalog-container" class="catalog-container">
+                                        <?php while ($query->have_posts()) : $query->the_post();
+                                            $icon = carbon_get_the_post_meta('category_icon');
+                                            $subcategories = carbon_get_the_post_meta('subcategories');
+                                        ?>
+                                        <div class="catalog-item-group">
+                                            <div class="catalog-item-group__title-wrapper">
+                                                <div class="catalog-item-group__title">
+                                                    <img src="<?php echo get_template_directory_uri(); ?>/layout/static/img/catalog-icons/01.svg" alt="">
+                                                </div>
+                                            </div>
+                                            <div class="catalog-item-group__content">
+                                                <div class="catalog-item-group-title">
+                                                    <?php the_title(); ?>
+                                                </div>
+                                                <?php if (!empty($subcategories)) : ?>
+                                                    <div class="catalog-item-group-elems">
+                                                        <?php foreach ($subcategories as $sub) : ?>
+                                                            <a href="" class="catalog-item-group-elem">
+                                                                <span><?php echo esc_html($sub['subcategory_title']); ?></span>
+                                                                <div ></div>
+                                                                <?php if (!empty($sub['subcategory_extra'])): ?>
+                                                                    <div class="catalog-item-group-elem-extra">
+                                                                        <?php echo esc_html($sub['subcategory_extra']); ?>
+                                                                    </div>
+                                                                <?php endif; ?>
+                                                            </a>
+                                                        <?php endforeach; ?>
+                                                    </div>
+                                                <?php endif; ?>
+                                            </div>
+                                        </div>
+                                        <?php endwhile; ?>
+                                    </div>
+                                <?php endif;
+
+                                wp_reset_postdata();
+                                ?>
                             </div>
                         </div>
                         <a href="/individual" class="header-item <?php echo is_page('individual') ? 'active' : ''; ?>">Индивидуальный заказ</a>
