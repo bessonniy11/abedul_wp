@@ -39,18 +39,18 @@ get_header(); ?>
 
         <div class="fabric-page__videos">
             <a data-fslightbox="fabric-video" href="img/fabric-video/01.mp4" class="fabric-video ibg">
-                <img loading="lazy" class="fabric-video-img" src="<?php echo get_template_directory_uri(); ?>/layout/static/img/fabric-video/01.png" alt="fabric-video">
-                <img loading="lazy" class="play" src="<?php echo get_template_directory_uri(); ?>/layout/static/img/icons/play.svg" alt="play">
+                <img loading="lazy" class="fabric-video-img" src="<?php echo get_template_directory_uri(); ?>/layout/img/fabric-video/01.png" alt="fabric-video">
+                <img loading="lazy" class="play" src="<?php echo get_template_directory_uri(); ?>/layout/img/icons/play.svg" alt="play">
                 <div class="fabric-video-title">Сборочный цех</div>
             </a>
             <a data-fslightbox="fabric-video" href="img/fabric-video/01.mp4" class="fabric-video ibg">
-                <img loading="lazy" class="fabric-video-img" src="<?php echo get_template_directory_uri(); ?>/layout/static/img/fabric-video/01.png" alt="fabric-video">
-                <img loading="lazy" class="play" src="<?php echo get_template_directory_uri(); ?>/layout/static/img/icons/play.svg" alt="play">
+                <img loading="lazy" class="fabric-video-img" src="<?php echo get_template_directory_uri(); ?>/layout/img/fabric-video/01.png" alt="fabric-video">
+                <img loading="lazy" class="play" src="<?php echo get_template_directory_uri(); ?>/layout/img/icons/play.svg" alt="play">
                 <div class="fabric-video-title">Сборочный цех</div>
             </a>
             <a data-fslightbox="fabric-video" href="img/fabric-video/01.mp4" class="fabric-video ibg">
-                <img loading="lazy" class="fabric-video-img" src="<?php echo get_template_directory_uri(); ?>/layout/static/img/fabric-video/01.png" alt="fabric-video">
-                <img loading="lazy" class="play" src="<?php echo get_template_directory_uri(); ?>/layout/static/img/icons/play.svg" alt="play">
+                <img loading="lazy" class="fabric-video-img" src="<?php echo get_template_directory_uri(); ?>/layout/img/fabric-video/01.png" alt="fabric-video">
+                <img loading="lazy" class="play" src="<?php echo get_template_directory_uri(); ?>/layout/img/icons/play.svg" alt="play">
                 <div class="fabric-video-title">Сборочный цех</div>
             </a>
         </div>
@@ -61,12 +61,12 @@ get_header(); ?>
             </div>
             <div class="fabric-page__info-content">
                 <div class="info-content-img ibg">
-                    <img src="<?php echo get_template_directory_uri(); ?>/layout/static/img/fabric-images/01.png" alt="fabric-image">
+                    <img src="<?php echo get_template_directory_uri(); ?>/layout/img/fabric-images/01.png" alt="fabric-image">
                 </div>
                 <div class="info-content-items">
                     <div class="info-content-item">
                         <div class="info-content-item__icon">
-                            <img src="<?php echo get_template_directory_uri(); ?>/layout/static/img/fabric-icons/01.svg" alt="fabric-icon">
+                            <img src="<?php echo get_template_directory_uri(); ?>/layout/img/fabric-icons/01.svg" alt="fabric-icon">
                         </div>
                         <div class="info-content-item__text">
                             Завод расположен в промышленном парке Дасинсинмэй, район Гуанмин, город Шэньчжэнь.
@@ -74,7 +74,7 @@ get_header(); ?>
                     </div>
                     <div class="info-content-item">
                         <div class="info-content-item__icon">
-                            <img src="<?php echo get_template_directory_uri(); ?>/layout/static/img/fabric-icons/02.svg" alt="fabric-icon">
+                            <img src="<?php echo get_template_directory_uri(); ?>/layout/img/fabric-icons/02.svg" alt="fabric-icon">
                         </div>
                         <div class="info-content-item__text">
                             Площадь завода составляет 4200 квадратных метров, включая офисные помещения,
@@ -83,7 +83,7 @@ get_header(); ?>
                     </div>
                     <div class="info-content-item">
                         <div class="info-content-item__icon">
-                            <img src="<?php echo get_template_directory_uri(); ?>/layout/static/img/fabric-icons/03.svg" alt="fabric-icon">
+                            <img src="<?php echo get_template_directory_uri(); ?>/layout/img/fabric-icons/03.svg" alt="fabric-icon">
                         </div>
                         <div class="info-content-item__text">
                             На заводе работает более 60 сотрудников, в том числе 18 человек руководящего и
@@ -92,7 +92,7 @@ get_header(); ?>
                     </div>
                     <div class="info-content-item">
                         <div class="info-content-item__icon">
-                            <img src="<?php echo get_template_directory_uri(); ?>/layout/static/img/fabric-icons/04.svg" alt="fabric-icon">
+                            <img src="<?php echo get_template_directory_uri(); ?>/layout/img/fabric-icons/04.svg" alt="fabric-icon">
                         </div>
                         <div class="info-content-item__text">
                             Завод имеет сертификацию системы ISO9000,   а продукция сертифицирована CE и CCC.
@@ -100,7 +100,7 @@ get_header(); ?>
                     </div>
                     <div class="info-content-item">
                         <div class="info-content-item__icon">
-                            <img src="<?php echo get_template_directory_uri(); ?>/layout/static/img/fabric-icons/05.svg" alt="fabric-icon">
+                            <img src="<?php echo get_template_directory_uri(); ?>/layout/img/fabric-icons/05.svg" alt="fabric-icon">
                         </div>
                         <div class="info-content-item__text">
                             В основном это экономичные интеллектуальные доски, интерактивные многофункциональные
@@ -109,7 +109,7 @@ get_header(); ?>
                     </div>
                     <div class="info-content-item">
                         <div class="info-content-item__icon">
-                            <img src="<?php echo get_template_directory_uri(); ?>/layout/static/img/fabric-icons/06.svg" alt="fabric-icon">
+                            <img src="<?php echo get_template_directory_uri(); ?>/layout/img/fabric-icons/06.svg" alt="fabric-icon">
                         </div>
                         <div class="info-content-item__text">
                             Годовая мощность производства и поставок составляет 12 000 единиц.
@@ -122,7 +122,7 @@ get_header(); ?>
         <div class="fabric-page__images">
             <a data-fslightbox="fabric-img" href="img/fabric-images/02.png" class="fabric-page-image">
                 <div class="fabric-page-image__img ibg">
-                    <img loading="lazy" src="<?php echo get_template_directory_uri(); ?>/layout/static/img/fabric-images/02.png" alt="fabric-image">
+                    <img loading="lazy" src="<?php echo get_template_directory_uri(); ?>/layout/img/fabric-images/02.png" alt="fabric-image">
                 </div>
                 <div class="fabric-page-image__title">
                     Коллектив управления производством завода Разработка продукта
@@ -130,14 +130,14 @@ get_header(); ?>
             </a>
             <a data-fslightbox="fabric-img" href="img/fabric-images/03.png" class="fabric-page-image">
                 <div class="fabric-page-image__img ibg">
-                    <img loading="lazy" src="<?php echo get_template_directory_uri(); ?>/layout/static/img/fabric-images/03.png" alt="fabric-image">
+                    <img loading="lazy" src="<?php echo get_template_directory_uri(); ?>/layout/img/fabric-images/03.png" alt="fabric-image">
                 </div>
                 <div class="fabric-page-image__title">
                 </div>
             </a>
             <a data-fslightbox="fabric-img" href="img/fabric-images/04.png" class="fabric-page-image">
                 <div class="fabric-page-image__img ibg">
-                    <img loading="lazy" src="<?php echo get_template_directory_uri(); ?>/layout/static/img/fabric-images/04.png" alt="fabric-image">
+                    <img loading="lazy" src="<?php echo get_template_directory_uri(); ?>/layout/img/fabric-images/04.png" alt="fabric-image">
                 </div>
                 <div class="fabric-page-image__title">
                     Коллектив управления производством завода Разработка продукта
@@ -145,14 +145,14 @@ get_header(); ?>
             </a>
             <a data-fslightbox="fabric-img" href="img/fabric-images/05.png" class="fabric-page-image">
                 <div class="fabric-page-image__img ibg">
-                    <img loading="lazy" src="<?php echo get_template_directory_uri(); ?>/layout/static/img/fabric-images/05.png" alt="fabric-image">
+                    <img loading="lazy" src="<?php echo get_template_directory_uri(); ?>/layout/img/fabric-images/05.png" alt="fabric-image">
                 </div>
                 <div class="fabric-page-image__title">
                 </div>
             </a>
             <a data-fslightbox="fabric-img" href="img/fabric-images/06.png" class="fabric-page-image">
                 <div class="fabric-page-image__img ibg">
-                    <img loading="lazy" src="<?php echo get_template_directory_uri(); ?>/layout/static/img/fabric-images/06.png" alt="fabric-image">
+                    <img loading="lazy" src="<?php echo get_template_directory_uri(); ?>/layout/img/fabric-images/06.png" alt="fabric-image">
                 </div>
                 <div class="fabric-page-image__title">
                     Проверка малогабаритного оборудования
@@ -160,14 +160,14 @@ get_header(); ?>
             </a>
             <a data-fslightbox="fabric-img" href="img/fabric-images/07.png" class="fabric-page-image">
                 <div class="fabric-page-image__img ibg">
-                    <img loading="lazy" src="<?php echo get_template_directory_uri(); ?>/layout/static/img/fabric-images/07.png" alt="fabric-image">
+                    <img loading="lazy" src="<?php echo get_template_directory_uri(); ?>/layout/img/fabric-images/07.png" alt="fabric-image">
                 </div>
                 <div class="fabric-page-image__title">
                 </div>
             </a>
             <a data-fslightbox="fabric-img" href="img/fabric-images/08.png" class="fabric-page-image">
                 <div class="fabric-page-image__img ibg">
-                    <img loading="lazy" src="<?php echo get_template_directory_uri(); ?>/layout/static/img/fabric-images/08.png" alt="fabric-image">
+                    <img loading="lazy" src="<?php echo get_template_directory_uri(); ?>/layout/img/fabric-images/08.png" alt="fabric-image">
                 </div>
                 <div class="fabric-page-image__title">
                     Тест на устаревание
@@ -175,7 +175,7 @@ get_header(); ?>
             </a>
             <a data-fslightbox="fabric-img" href="img/fabric-images/05.png" class="fabric-page-image">
                 <div class="fabric-page-image__img ibg">
-                    <img loading="lazy" src="<?php echo get_template_directory_uri(); ?>/layout/static/img/fabric-images/05.png" alt="fabric-image">
+                    <img loading="lazy" src="<?php echo get_template_directory_uri(); ?>/layout/img/fabric-images/05.png" alt="fabric-image">
                 </div>
                 <div class="fabric-page-image__title">
                 </div>
@@ -213,7 +213,7 @@ get_header(); ?>
 
             <div class="loader"></div>
             <div class="form-sending">
-                <img loading="lazy" loading="lazy" src="<?php echo get_template_directory_uri(); ?>/layout/static/img/icons/check.svg" alt="check">
+                <img loading="lazy" loading="lazy" src="<?php echo get_template_directory_uri(); ?>/layout/img/icons/check.svg" alt="check">
                 <div class="form-sending__title">
                     Спасибо за обращение!
                 </div>
@@ -224,7 +224,7 @@ get_header(); ?>
         </div>
 
         <div class="helper-form">
-            <img loading="lazy" class="happy" src="<?php echo get_template_directory_uri(); ?>/layout/static/img/happy-women.png" alt="happy">
+            <img loading="lazy" class="happy" src="<?php echo get_template_directory_uri(); ?>/layout/img/happy-women.png" alt="happy">
 
             <div class="helper-form__content form-wrapper">
                 <div class="block-title">Поможем подобрать</div>
@@ -253,7 +253,7 @@ get_header(); ?>
 
                 <div class="loader"></div>
                 <div class="form-sending">
-                    <img loading="lazy" loading="lazy" src="<?php echo get_template_directory_uri(); ?>/layout/static/img/icons/check.svg" alt="check">
+                    <img loading="lazy" loading="lazy" src="<?php echo get_template_directory_uri(); ?>/layout/img/icons/check.svg" alt="check">
                     <div class="form-sending__title">
                         Спасибо за обращение!
                     </div>

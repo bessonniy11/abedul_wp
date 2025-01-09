@@ -3,16 +3,16 @@
 
 function website_assets()
 {
-    wp_enqueue_style('swiper-bundle', get_template_directory_uri() . '/layout/static/css/swiper-bundle.min.css');
-    wp_enqueue_style('intlTelInput', get_template_directory_uri() . '/layout/static/css/intlTelInput.css');
-    wp_enqueue_style('maincss', get_template_directory_uri() . '/layout/static/css/style.css');
+    wp_enqueue_style('swiper-bundle', get_template_directory_uri() . '/layout/css/swiper-bundle.min.css');
+    wp_enqueue_style('intlTelInput', get_template_directory_uri() . '/layout/css/intlTelInput.css');
+    wp_enqueue_style('maincss', get_template_directory_uri() . '/layout/css/style.css');
 
-    wp_enqueue_script('forms-validator', get_template_directory_uri() . '/layout/static/js/forms-validator.js', array(), null, true);
-    wp_enqueue_script('popup', get_template_directory_uri() . '/layout/static/js/popup.js', array(), null, true);
-    wp_enqueue_script('swiper-bundle', get_template_directory_uri() . '/layout/static/js/swiper-bundle.min.js', array(), null, true);
-    wp_enqueue_script('fslightbox', get_template_directory_uri() . '/layout/static/js/fslightbox.js', array(), null, true);
-    wp_enqueue_script('intlTelInput', get_template_directory_uri() . '/layout/static/js/intlTelInput.min.js', array(), null, true);
-    wp_enqueue_script('app', get_template_directory_uri() . '/layout/static/js/app.js', array(), null, true);
+    wp_enqueue_script('forms-validator', get_template_directory_uri() . '/layout/js/forms-validator.js', array(), null, true);
+    wp_enqueue_script('popup', get_template_directory_uri() . '/layout/js/popup.js', array(), null, true);
+    wp_enqueue_script('swiper-bundle', get_template_directory_uri() . '/layout/js/swiper-bundle.min.js', array(), null, true);
+    wp_enqueue_script('fslightbox', get_template_directory_uri() . '/layout/js/fslightbox.js', array(), null, true);
+    wp_enqueue_script('intlTelInput', get_template_directory_uri() . '/layout/js/intlTelInput.min.js', array(), null, true);
+    wp_enqueue_script('app', get_template_directory_uri() . '/layout/js/app.js', array(), null, true);
 }
 
 add_action('wp_enqueue_scripts', 'website_assets');
@@ -28,52 +28,68 @@ add_action('after_setup_theme', function () {
 });
 
 add_action('carbon_fields_register_fields', function () {
-    Container::make('post_meta', 'Настройки страницы')
 
+    // данные для категорий и подкатегорий
+    Container::make('post_meta', 'Настройки категории')
+        ->where('post_type', '=', 'category_group') // Применяем только к "Категории"
+        ->add_fields([
+            Field::make('image', 'category_icon', 'Иконка категории')
+                ->set_help_text('Загрузите иконку для отображения'),
+
+            Field::make('text', 'category_slug', 'Slug категории')
+                ->set_help_text('Введите уникальный slug категории (например, "reklama").'),
+
+            Field::make('complex', 'subcategories', 'Подкатегории')
+                ->add_fields([
+                    Field::make('text', 'subcategory_title', 'Название подкатегории'),
+                    Field::make('image', 'subcategory_icon', 'Иконка подкатегории'),
+                    Field::make('text', 'subcategory_slug', 'Slug подкатегории')
+                        ->set_help_text('Введите уникальный slug подкатегории (например, "monitors").'),
+                    Field::make('text', 'subcategory_extra', 'Дополнительное поле')
+                        ->set_help_text('Это поле можно оставить пустым'),
+                ])
+                ->set_layout('tabbed-horizontal')
+                ->set_help_text('Добавьте список подкатегорий и их атрибутов.'),
+        ]);
+
+    // данные для страницы Услуги
+    Container::make('post_meta', 'Настройки страницы')
         ->where('post_type', '=', 'page') // Применяем только к страницам
         ->where('post_template', '=', 'page-services.php')
         ->add_fields([
             Field::make('text', 'services_page_title', 'Заголовок страницы'),
-            Field::make('complex', 'service_items', 'Список услуг')
+            Field::make(
+                'complex',
+                'service_items',
+                'Список услуг'
+            )
                 ->set_layout('tabbed-horizontal')
                 ->add_fields([
                     Field::make('text', 'title', 'Заголовок'),
                     Field::make('image', 'icon', 'Иконка'),
                     Field::make('textarea', 'description', 'Описание'),
-                    Field::make('text', 'subtitle', 'Дополнительный текст'),
+                    Field::make(
+                        'text',
+                        'subtitle',
+                        'Дополнительный текст'
+                    ),
                     Field::make('media_gallery', 'gallery', 'Галерея изображений')->set_type(['image']),
                 ]),
             Field::make('text', 'service_questions_title', 'Заголовок блока "Часто задаваемые вопросы"'),
             Field::make('complex', 'service_questions', 'Часто задаваемые вопросы')
                 ->set_layout('tabbed-horizontal') // Удобный вертикальный интерфейс
                 ->add_fields([
-                    Field::make('text', 'question', 'Вопрос'),
+                    Field::make(
+                        'text',
+                        'question',
+                        'Вопрос'
+                    ),
                     Field::make('textarea', 'answer', 'Ответ'),
                 ]),
         ]);
 
-    Container::make('post_meta', 'Настройки категории')
-    ->where('post_type', '=', 'category_group') // Применяем только к "Категории"
-    ->add_fields([
-        Field::make('image', 'category_icon', 'Иконка категории')
-            ->set_help_text('Загрузите иконку для отображения'),
-        
-        Field::make('text', 'category_slug', 'Slug категории')
-            ->set_help_text('Введите уникальный slug категории (например, "reklama").'),
-        
-        Field::make('complex', 'subcategories', 'Подкатегории')
-            ->add_fields([
-                Field::make('text', 'subcategory_title', 'Название подкатегории'),
-                Field::make('image', 'subcategory_icon', 'Иконка подкатегории'),
-                Field::make('text', 'subcategory_slug', 'Slug подкатегории')
-                    ->set_help_text('Введите уникальный slug подкатегории (например, "monitors").'),
-                Field::make('text', 'subcategory_extra', 'Дополнительное поле')
-                    ->set_help_text('Это поле можно оставить пустым'),
-            ])
-            ->set_layout('tabbed-horizontal')
-            ->set_help_text('Добавьте список подкатегорий и их атрибутов.'),
-    ]);
 
+    // данные для страницы Карьера
     Container::make('post_meta', 'Карьера - содержимое страницы')
         ->where('post_type', '=', 'page')
         ->where('post_template', '=', 'page-career.php') // Указываем шаблон
@@ -119,7 +135,8 @@ add_action('carbon_fields_register_fields', function () {
 });
 
 
-function abedul_register_product_post_type() {
+function abedul_register_product_post_type()
+{
     $labels = array(
         'name'               => 'Товары',
         'singular_name'      => 'Товар',
@@ -149,7 +166,8 @@ function abedul_register_product_post_type() {
 }
 add_action('init', 'abedul_register_product_post_type');
 
-function abedul_register_category_post_type() {
+function abedul_register_category_post_type()
+{
     $labels = array(
         'name'               => 'Категории',
         'singular_name'      => 'Категория',

@@ -1,0 +1,169 @@
+.fabric-page {
+    padding: 48px 0;
+
+    @media (max-width: 860px) {
+        padding-top: 90px;
+        padding-bottom: 35px;
+    }
+
+    .fabric-page__text {
+        font-weight: 400;
+        font-size: 18px;
+        line-height: 120%;
+        color: var(--black);
+        margin-top: 30px;
+
+        @media (max-width: 860px) {
+            font-size: 16px;
+        }
+
+        &.accent {
+            padding: 24px;
+            border-radius: 4px;
+            background: var(--light-gray);
+        }
+    }
+
+    .fabric-page__videos {
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr;
+        gap: 15px;
+
+        @media (max-width: 860px) {
+            grid-template-columns: 1fr;
+        }
+    
+        .fabric-video {
+            width: 100%;
+            height: 30vw;
+            display: flex;
+            align-items: flex-end;
+            padding: 32px;
+            border-radius: 4px;
+            overflow: hidden;
+            background: linear-gradient(180deg, rgba(0, 0, 0, 0) 0%, #000 100%);
+
+            @media (max-width: 860px) {
+                height: 320px;
+            }
+
+            &:hover {
+                .play {
+                    opacity: 1;
+                }
+            }
+
+            .fabric-video-img {
+                z-index: -1;
+            }
+
+            .fabric-video-title {
+                font-weight: 600;
+                font-size: 24px;
+                line-height: 120%;
+                color: var(--white);
+                z-index: 2;
+            }
+
+            .play {
+                position: absolute;
+                left: 50%;
+                top: 50%;
+                transform: translate(-50%, -50%);
+                width: 100px;
+                height: 100px;
+                opacity: .8;
+                transition: opacity 0.3s ease;
+            }
+        }
+    }
+
+    .fabric-page__info {
+        padding: 45px 0 20px;
+        .fabric-page__info-content {
+            margin-top: 25px;
+            display: flex;
+            align-items: stretch;
+            gap: 20px;
+            @media (max-width: 860px) {
+                flex-direction: column;
+            }
+            .info-content-img {
+                border-radius: 4px;
+                overflow: hidden;
+                width: 50%;
+                @media (max-width: 860px) {
+                    width: 100%;
+                    height: 320px;
+                }
+            }
+
+            .info-content-items {
+                width: 50%;
+                display: flex;
+                flex-direction: column;
+                gap: 12px;
+                @media (max-width: 860px) {
+                    width: 100%;
+                }
+                .info-content-item {
+                    padding: 24px;
+                    border-radius: 4px;
+                    background: var(--light-gray);
+                    display: flex;
+                    align-items: center;
+                    gap: 15px;
+                    .info-content-item__icon {
+                        img {
+                            width: 42px;
+                            height: 42px;
+                        }
+                    }
+                    .info-content-item__text {
+                        font-weight: 400;
+                        font-size: 18px;
+                        line-height: 120%;
+                        color: var(--black);
+                    }
+                }
+            }
+        }
+    }
+
+    .fabric-page__images {
+        padding: 25px 0 85px;
+        display: flex;
+        flex-wrap: wrap;
+        align-items: stretch;
+        gap: 45px 20px;
+
+        @media (max-width: 860px) {
+            flex-direction: column;
+        }
+
+        .fabric-page-image {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            width: calc(50% - 20px);
+            @media (max-width: 860px) {
+                width: 100%;
+            }
+            .fabric-page-image__img {
+                border-radius: 4px;
+                overflow: hidden;
+                height: 32vw;
+                width: 100%;
+                @media (max-width: 860px) {
+                    height: 320px;
+                }
+            }
+            .fabric-page-image__title {
+                font-weight: 400;
+                font-size: 18px;
+                line-height: 120%;
+                color: var(--black);
+            }
+        }
+    }
+}

@@ -66,7 +66,7 @@ $career_button_text = $career_button_text ?: 'Отправить резюме';
                                     <ul class="career-list">
                                         <?php foreach ($item['offers'] as $offer): ?>
                                             <li>
-                                                <img src="<?php echo esc_url(get_template_directory_uri() . '/layout/static/img/icons/minus.svg'); ?>" alt="minus">
+                                                <img src="<?php echo esc_url(get_template_directory_uri() . '/layout/img/icons/minus.svg'); ?>" alt="minus">
                                                 <span><?php echo esc_html($offer['offer']); ?></span>
                                             </li>
                                         <?php endforeach; ?>
@@ -82,7 +82,7 @@ $career_button_text = $career_button_text ?: 'Отправить резюме';
                                     <ul class="career-list">
                                         <?php foreach ($item['responsibilities'] as $responsibility): ?>
                                             <li>
-                                                <img src="<?php echo esc_url(get_template_directory_uri() . '/layout/static/img/icons/minus.svg'); ?>" alt="minus">
+                                                <img src="<?php echo esc_url(get_template_directory_uri() . '/layout/img/icons/minus.svg'); ?>" alt="minus">
                                                 <span><?php echo esc_html($responsibility['responsibility']); ?></span>
                                             </li>
                                         <?php endforeach; ?>
@@ -98,7 +98,7 @@ $career_button_text = $career_button_text ?: 'Отправить резюме';
                                     <ul class="career-list">
                                         <?php foreach ($item['requirements'] as $requirement): ?>
                                             <li>
-                                                <img src="<?php echo esc_url(get_template_directory_uri() . '/layout/static/img/icons/minus.svg'); ?>" alt="minus">
+                                                <img src="<?php echo esc_url(get_template_directory_uri() . '/layout/img/icons/minus.svg'); ?>" alt="minus">
                                                 <span><?php echo esc_html($requirement['requirement']); ?></span>
                                             </li>
                                         <?php endforeach; ?>

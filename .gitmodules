@@ -1,3 +1,6 @@
 [submodule "wp-content/themes/abeduls/layout/static"]
 	path = wp-content/themes/abeduls/layout/static
 	url = https://github.com/bessonniy11/abedul.git
+
+# git submodule update --init --recursive - вытягиваем сабмодуль
+# git submodule update --init --recursive - обновляем данные самбодуля

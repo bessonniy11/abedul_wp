@@ -126,7 +126,7 @@ get_header(); ?>
 
             <div class="loader"></div>
             <div class="form-sending">
-                <img loading="lazy" loading="lazy" src="<?php echo get_template_directory_uri(); ?>/layout/static/img/icons/check.svg" alt="check">
+                <img loading="lazy" loading="lazy" src="<?php echo get_template_directory_uri(); ?>/layout/img/icons/check.svg" alt="check">
                 <div class="form-sending__title">
                     Спасибо за обращение!
                 </div>
@@ -137,7 +137,7 @@ get_header(); ?>
         </div>
 
         <div class="helper-form">
-            <img loading="lazy" class="happy" src="<?php echo get_template_directory_uri(); ?>/layout/static/img/happy-women.png" alt="happy">
+            <img loading="lazy" class="happy" src="<?php echo get_template_directory_uri(); ?>/layout/img/happy-women.png" alt="happy">
 
             <div class="helper-form__content form-wrapper">
                 <div class="block-title">Поможем подобрать</div>
@@ -166,7 +166,7 @@ get_header(); ?>
 
                 <div class="loader"></div>
                 <div class="form-sending">
-                    <img loading="lazy" loading="lazy" src="<?php echo get_template_directory_uri(); ?>/layout/static/img/icons/check.svg" alt="check">
+                    <img loading="lazy" loading="lazy" src="<?php echo get_template_directory_uri(); ?>/layout/img/icons/check.svg" alt="check">
                     <div class="form-sending__title">
                         Спасибо за обращение!
                     </div>

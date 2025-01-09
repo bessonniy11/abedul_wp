@@ -20,13 +20,13 @@ get_header(); ?>
             <div class="individual-page__content">
                 <div class="individual-page-images">
                     <div class="individual-page-image ibg">
-                        <img src="<?php echo get_template_directory_uri(); ?>/layout/static/img/individual/01.png" alt="individual-img">
+                        <img src="<?php echo get_template_directory_uri(); ?>/layout/img/individual/01.png" alt="individual-img">
                     </div>
                     <div class="individual-page-image ibg">
-                        <img src="<?php echo get_template_directory_uri(); ?>/layout/static/img/individual/02.png" alt="individual-img">
+                        <img src="<?php echo get_template_directory_uri(); ?>/layout/img/individual/02.png" alt="individual-img">
                     </div>
                     <div class="individual-page-image ibg">
-                        <img src="<?php echo get_template_directory_uri(); ?>/layout/static/img/individual/03.png" alt="individual-img">
+                        <img src="<?php echo get_template_directory_uri(); ?>/layout/img/individual/03.png" alt="individual-img">
                     </div>
                 </div>
 
@@ -79,10 +79,10 @@ get_header(); ?>
                         </div>
                         <div class="individual-page-item__images">
                             <div class="individual-page-item__image ibg">
-                                <img src="<?php echo get_template_directory_uri(); ?>/layout/static/img/individual/04.png" alt="individual-img">
+                                <img src="<?php echo get_template_directory_uri(); ?>/layout/img/individual/04.png" alt="individual-img">
                             </div>
                             <div class="individual-page-item__image ibg">
-                                <img src="<?php echo get_template_directory_uri(); ?>/layout/static/img/individual/05.png" alt="individual-img">
+                                <img src="<?php echo get_template_directory_uri(); ?>/layout/img/individual/05.png" alt="individual-img">
                             </div>
                         </div>
                     </div>
@@ -144,7 +144,7 @@ get_header(); ?>
 
                     <div class="loader"></div>
                     <div class="form-sending">
-                        <img loading="lazy" loading="lazy" src="<?php echo get_template_directory_uri(); ?>/layout/static/img/icons/check.svg" alt="check">
+                        <img loading="lazy" loading="lazy" src="<?php echo get_template_directory_uri(); ?>/layout/img/icons/check.svg" alt="check">
                         <div class="form-sending__title">
                             Спасибо за обращение!
                         </div>

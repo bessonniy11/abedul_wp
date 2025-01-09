@@ -101,14 +101,14 @@
         </div>
 
         <a href="#order-a-call-popup" class="btn btn-blue btn-discuss-project popup-link">
-            <img loading="lazy" src="<?php echo get_template_directory_uri(); ?>/layout/static/img/icons/phone-white.svg" alt="phone">
+            <img loading="lazy" src="<?php echo get_template_directory_uri(); ?>/layout/img/icons/phone-white.svg" alt="phone">
             <span>Обсудить проект</span>
         </a>
 
         <div class="footer-bottom">
             <div class="footer-bottom-item">
                 <a href="" class="footer-bottom-item-logo">
-                    <img loading="lazy" src="<?php echo get_template_directory_uri(); ?>/layout/static/img/logo-0.svg" alt="logo">
+                    <img loading="lazy" src="<?php echo get_template_directory_uri(); ?>/layout/img/logo-0.svg" alt="logo">
                 </a>
             </div>
             <div class="footer-bottom-item">
@@ -127,7 +127,7 @@
     <div class="popup video-popup" id="video-popup">
         <div class="popup__content">
             <div class="popup-close-trigger">
-                <img loading="lazy" loading="lazy" src="<?php echo get_template_directory_uri(); ?>/layout/static/img/icons/close-white.svg" alt="close">
+                <img loading="lazy" loading="lazy" src="<?php echo get_template_directory_uri(); ?>/layout/img/icons/close-white.svg" alt="close">
             </div>
             <video id="videoPlayer" controls playsinline muted autoplay>
                 <source id="videoSource" src="" type="video/mp4">
@@ -135,13 +135,13 @@
             </video>
             <div class="video-controls">
                 <div class="prev" id="prevButton">
-                    <img loading="lazy" loading="lazy" src="<?php echo get_template_directory_uri(); ?>/layout/static/img/icons/player/prev.svg" alt="prev">
+                    <img loading="lazy" loading="lazy" src="<?php echo get_template_directory_uri(); ?>/layout/img/icons/player/prev.svg" alt="prev">
                 </div>
                 <div class="play" id="playButton">
-                    <img loading="lazy" loading="lazy" src="<?php echo get_template_directory_uri(); ?>/layout/static/img/icons/player/pause.svg" alt="play">
+                    <img loading="lazy" loading="lazy" src="<?php echo get_template_directory_uri(); ?>/layout/img/icons/player/pause.svg" alt="play">
                 </div>
                 <div class="next" id="nextButton">
-                    <img loading="lazy" loading="lazy" src="<?php echo get_template_directory_uri(); ?>/layout/static/img/icons/player/next.svg" alt="next">
+                    <img loading="lazy" loading="lazy" src="<?php echo get_template_directory_uri(); ?>/layout/img/icons/player/next.svg" alt="next">
                 </div>
             </div>
             <a href="" target="_blank" class="btn btn-orange video-tiktok-link">
@@ -153,7 +153,7 @@
     <div class="popup order-popup order-a-call-popup" id="order-a-call-popup">
         <div class="popup__content">
             <div class="popup-close popup-close-trigger">
-                <img loading="lazy" loading="lazy" src="<?php echo get_template_directory_uri(); ?>/layout/static/img/icons/close-blue.svg" alt="close">
+                <img loading="lazy" loading="lazy" src="<?php echo get_template_directory_uri(); ?>/layout/img/icons/close-blue.svg" alt="close">
             </div>
 
             <div class="popup-title">
@@ -200,7 +200,7 @@
     <div class="popup order-popup order-send-popup" id="order-send-popup">
         <div class="popup__content">
             <div class="popup-close popup-close-trigger">
-                <img loading="lazy" loading="lazy" src="<?php echo get_template_directory_uri(); ?>/layout/static/img/icons/close-blue.svg" alt="close">
+                <img loading="lazy" loading="lazy" src="<?php echo get_template_directory_uri(); ?>/layout/img/icons/close-blue.svg" alt="close">
             </div>
 
             <div class="popup-title">
@@ -251,10 +251,10 @@
     <div class="popup confirm-send-form" id="order-a-call-popup">
         <div class="popup__content">
             <div class="popup-close popup-close-trigger">
-                <img loading="lazy" loading="lazy" src="<?php echo get_template_directory_uri(); ?>/layout/static/img/icons/close-blue.svg" alt="close">
+                <img loading="lazy" loading="lazy" src="<?php echo get_template_directory_uri(); ?>/layout/img/icons/close-blue.svg" alt="close">
             </div>
 
-            <img loading="lazy" class="popup-check-icon" loading="lazy" src="<?php echo get_template_directory_uri(); ?>/layout/static/img/icons/check.svg" alt="check">
+            <img loading="lazy" class="popup-check-icon" loading="lazy" src="<?php echo get_template_directory_uri(); ?>/layout/img/icons/check.svg" alt="check">
 
             <div class="popup-title">
                 Спасибо за заявку
@@ -274,7 +274,7 @@
         <div class="popup__content">
             <div class="question-wrapper">
                 <div class="popup-close-trigger">
-                    <img loading="lazy" src="<?php echo get_template_directory_uri(); ?>/layout/static/img/icons/close.svg" alt="close">
+                    <img loading="lazy" src="<?php echo get_template_directory_uri(); ?>/layout/img/icons/close.svg" alt="close">
                 </div>
                 <div class="question-popup__title">
                     <div class="block-title">
@@ -284,7 +284,7 @@
                 <div class="question-items">
                     <div class="question-item">
                         <div class="question-item__title">
-                            <img loading="lazy" src="<?php echo get_template_directory_uri(); ?>/layout/static/img/icons/arrow-right-brief.svg" alt="arrow-right-brief">
+                            <img loading="lazy" src="<?php echo get_template_directory_uri(); ?>/layout/img/icons/arrow-right-brief.svg" alt="arrow-right-brief">
                             <span>What is Bossjob?</span>
                         </div>
                         <div class="question-item__subtitle">
@@ -295,7 +295,7 @@
                     </div>
                     <div class="question-item">
                         <div class="question-item__title">
-                            <img loading="lazy" src="<?php echo get_template_directory_uri(); ?>/layout/static/img/icons/arrow-right-brief.svg" alt="arrow-right-brief">
+                            <img loading="lazy" src="<?php echo get_template_directory_uri(); ?>/layout/img/icons/arrow-right-brief.svg" alt="arrow-right-brief">
                             <span>What is “Chat and Apply”?</span>
                         </div>
                         <div class="question-item__subtitle">
@@ -307,33 +307,33 @@
                     </div>
                     <div class="question-item">
                         <div class="question-item__title">
-                            <img loading="lazy" src="<?php echo get_template_directory_uri(); ?>/layout/static/img/icons/arrow-right-brief.svg" alt="arrow-right-brief">
+                            <img loading="lazy" src="<?php echo get_template_directory_uri(); ?>/layout/img/icons/arrow-right-brief.svg" alt="arrow-right-brief">
                             <span>How to Apply for a Job?</span>
                         </div>
                         <div class="question-item__images">
                             <div class="question-item-img">
                                 <span>Click <span class="bold">“Chat and Apply”.</span></span>
-                                <img loading="lazy" src="<?php echo get_template_directory_uri(); ?>/layout/static/img/q-1.png" alt="question-item-img">
+                                <img loading="lazy" src="<?php echo get_template_directory_uri(); ?>/layout/img/q-1.png" alt="question-item-img">
                             </div>
                             <div class="question-item-img">
                                 <span>
                                     <span class="bold">Sign Up</span> for a Bossjob account using an Email
                                     Address or Phone Number.
                                 </span>
-                                <img loading="lazy" src="<?php echo get_template_directory_uri(); ?>/layout/static/img/q-2.png" alt="question-item-img">
+                                <img loading="lazy" src="<?php echo get_template_directory_uri(); ?>/layout/img/q-2.png" alt="question-item-img">
                             </div>
                             <div class="question-item-img exeption-horizontal">
                                 <span>
                                     <span class="bold">Start a chat</span> with Origin’s Hiring Manager and
                                     secure an interview slot.
                                 </span>
-                                <img loading="lazy" src="<?php echo get_template_directory_uri(); ?>/layout/static/img/q-3.png" alt="question-item-img">
+                                <img loading="lazy" src="<?php echo get_template_directory_uri(); ?>/layout/img/q-3.png" alt="question-item-img">
                             </div>
                         </div>
                     </div>
                     <div class="question-item">
                         <div class="question-item__title">
-                            <img loading="lazy" src="<?php echo get_template_directory_uri(); ?>/layout/static/img/icons/arrow-right-brief.svg" alt="arrow-right-brief">
+                            <img loading="lazy" src="<?php echo get_template_directory_uri(); ?>/layout/img/icons/arrow-right-brief.svg" alt="arrow-right-brief">
                             <span>How to Sign Up?</span>
                         </div>
                         <div class="question-item__images">
@@ -343,27 +343,27 @@
                                     <span class="bold">Phone Number</span> to create
                                     an account.
                                 </span>
-                                <img loading="lazy" src="<?php echo get_template_directory_uri(); ?>/layout/static/img/q-4.png" alt="question-item-img">
+                                <img loading="lazy" src="<?php echo get_template_directory_uri(); ?>/layout/img/q-4.png" alt="question-item-img">
                             </div>
                             <div class="question-item-img">
                                 <span>
                                     Tell us your <span class="bold">Job Preferences</span> and desired <span
                                         class="bold">Work Arrangements.</span>
                                 </span>
-                                <img loading="lazy" src="<?php echo get_template_directory_uri(); ?>/layout/static/img/q-5.png" alt="question-item-img">
+                                <img loading="lazy" src="<?php echo get_template_directory_uri(); ?>/layout/img/q-5.png" alt="question-item-img">
                             </div>
                             <div class="question-item-img">
                                 <span>
                                     Update your relevant <span class="bold">Work Experience</span> and <span
                                         class="bold">start applying!</span>
                                 </span>
-                                <img loading="lazy" src="<?php echo get_template_directory_uri(); ?>/layout/static/img/q-6.png" alt="question-item-img">
+                                <img loading="lazy" src="<?php echo get_template_directory_uri(); ?>/layout/img/q-6.png" alt="question-item-img">
                             </div>
                         </div>
                     </div>
                     <div class="question-item">
                         <div class="question-item__title">
-                            <img loading="lazy" src="<?php echo get_template_directory_uri(); ?>/layout/static/img/icons/arrow-right-brief.svg" alt="arrow-right-brief">
+                            <img loading="lazy" src="<?php echo get_template_directory_uri(); ?>/layout/img/icons/arrow-right-brief.svg" alt="arrow-right-brief">
                             <span>How to secure an Interview with Origin Teahouse?</span>
                         </div>
                         <div class="question-item__images">
@@ -372,19 +372,19 @@
                                     Chat with the hiring manager to know more about the interview and hiring
                                     process.
                                 </span>
-                                <img loading="lazy" src="<?php echo get_template_directory_uri(); ?>/layout/static/img/q-7.png" alt="question-item-img">
+                                <img loading="lazy" src="<?php echo get_template_directory_uri(); ?>/layout/img/q-7.png" alt="question-item-img">
                             </div>
                             <div class="question-item-img">
                                 <span>
                                     Accept an interview invite from the hiring manager.
                                 </span>
-                                <img loading="lazy" src="<?php echo get_template_directory_uri(); ?>/layout/static/img/q-8.png" alt="question-item-img">
+                                <img loading="lazy" src="<?php echo get_template_directory_uri(); ?>/layout/img/q-8.png" alt="question-item-img">
                             </div>
                             <div class="question-item-img">
                                 <span>
                                     Show up virtually or in person (on-site) for an interview with Origin!
                                 </span>
-                                <img loading="lazy" src="<?php echo get_template_directory_uri(); ?>/layout/static/img/q-9.png" alt="question-item-img">
+                                <img loading="lazy" src="<?php echo get_template_directory_uri(); ?>/layout/img/q-9.png" alt="question-item-img">
                             </div>
                         </div>
                     </div>
