@@ -131,7 +131,10 @@ add_action('carbon_fields_register_fields', function () {
                 ]),
         ]);
 
-    Container::make('post_meta', 'Индивидуальный заказ - настройки страницы')
+    
+    
+    // Индивидуальный заказ - настройки страницы
+    Container::make('post_meta', 'Индивидуальный заказ - содержимое страницы')
         ->where('post_type', '=', 'page') 
         ->where('post_template', '=', 'page-individual.php') 
         ->add_fields([
@@ -161,8 +164,62 @@ add_action('carbon_fields_register_fields', function () {
                 ->set_help_text('Добавьте шаги индивидуального заказа'),
         ]);
 
-
-
+    // Фабрика
+    Container::make('post_meta', 'Фабрика - содержимое страницы')
+    ->where('post_type', '=', 'page') // Применяем только к страницам
+    ->where('post_template', '=', 'page-fabric.php') // Применяем только к шаблону "page-factory.php"
+    ->add_fields([
+        // Главный заголовок
+        Field::make('text', 'factory_main_title', 'Главный заголовок')
+            ->set_help_text('Введите главный заголовок для страницы фабрики'),
+        // Описание под заголовком
+        Field::make('textarea', 'factory_subtitle', 'Под заголовок')
+            ->set_help_text('Введите описание под заголовком'),
+        // описание над видео 
+        Field::make('textarea', 'video_section_description', 'Общее описание для всех блоков видео')
+            ->set_help_text('Введите общее описание, которое будет отображаться перед всеми блоками с видео'),
+        // видео с тайтелом
+        Field::make('complex', 'video_blocks', 'Блок с видео')
+            ->set_layout('tabbed-horizontal')
+            ->add_fields([
+                Field::make('text', 'video_block_title', 'Заголовок видео')
+                    ->set_help_text('Введите заголовок блока с видео'),
+                Field::make('file', 'video_file', 'Видео')
+                    ->set_type('video') // Ограничиваем загрузку только видеофайлом
+                    ->set_help_text('Загрузите видео для этого блока'),
+                Field::make('image', 'video_cover_url', 'Обложка видео')
+                    ->set_help_text('Загрузите обложку для видео'),
+            ]),
+        // Блок с изображениями и текстом
+        Field::make('complex', 'image_text_blocks', 'Блоки с заголовком, изображением, блоками иконок')
+            ->set_layout('tabbed-horizontal')
+            ->add_fields([
+                // заголовок 
+                Field::make('text', 'image_text_block_title', 'Заголовок блока с изображениями и текстом')
+                    ->set_help_text('Введите заголовок для блока'),
+                // изображение блока 
+                Field::make('image', 'image_text_block_image', 'Изображение блока')
+                    ->set_help_text('Загрузите изображение для этого блока'),
+                // блок с иконками 
+                Field::make('complex', 'icon_image_block', 'Иконки и изображения с описанием')
+                    ->add_fields([
+                        Field::make('image', 'icon', 'Иконка')
+                            ->set_help_text('Загрузите иконку для этого элемента'),
+                        Field::make('textarea', 'icon_image_description', 'Описание')
+                            ->set_help_text('Введите описание для этого элемента'),
+                    ])
+                    ->set_layout('tabbed-horizontal'),
+            ]),
+        // Дополнительные блоки с изображениями и текстом (фотки с описанием)
+        Field::make('complex', 'image_description_blocks', 'Блоки с изображениями и описанием')
+            ->set_layout('tabbed-horizontal')
+            ->add_fields([
+                Field::make('image', 'image', 'Изображение')
+                    ->set_help_text('Загрузите изображение для блока'),
+                Field::make('textarea', 'image_description', 'Описание изображения')
+                    ->set_help_text('Введите описание для изображения'),
+            ]),
+    ]);
 
 });
 
