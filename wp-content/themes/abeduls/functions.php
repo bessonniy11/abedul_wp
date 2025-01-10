@@ -51,6 +51,41 @@ add_action('carbon_fields_register_fields', function () {
                 ->set_layout('tabbed-horizontal')
                 ->set_help_text('Добавьте список подкатегорий и их атрибутов.'),
         ]);
+    // данные для страницы Главная
+    Container::make('post_meta', 'Настройки главной страницы')
+        ->where('post_type', '=', 'page')
+        ->where('post_template', '=', 'index.php') // Только для страницы с шаблоном Главная
+        ->add_fields([
+            Field::make('complex', 'main_slider', 'Слайдер')
+                ->set_layout('tabbed-horizontal')
+                ->add_fields([
+                    Field::make(
+                        'image',
+                        'slide_image',
+                        'Изображение слайда'
+                    )
+                        ->set_help_text('Загрузите изображение для слайда'),
+                    Field::make('textarea', 'slide_title', 'Заголовок слайда')
+                        ->set_rows(2)
+                        ->set_help_text('Введите заголовок для слайда'),
+                    Field::make('textarea', 'slide_subtitle', 'Подзаголовок слайда')
+                        ->set_rows(3)
+                        ->set_help_text('Введите подзаголовок для слайда'),
+                    Field::make('text', 'slide_button_text', 'Текст кнопки')
+                        ->set_default_value('Подробнее')
+                        ->set_help_text('Введите текст кнопки'),
+                    Field::make('text', 'slide_button_link', 'Ссылка кнопки')
+                        ->set_help_text('Укажите URL-адрес, на который будет вести кнопка'),
+                ]),
+            Field::make('complex', 'main_page_info_items', 'Информационные элементы')
+                ->set_layout('tabbed-horizontal') // Удобный интерфейс
+                ->add_fields([
+                    Field::make('image', 'info_icon', 'Иконка')
+                        ->set_help_text('Загрузите иконку для элемента'),
+                    Field::make('text', 'info_text', 'Текст элемента')
+                        ->set_help_text('Введите текст для информационного элемента'),
+                ]),
+        ]);
 
     // данные для страницы Услуги
     Container::make('post_meta', 'Настройки страницы')

@@ -1,4 +1,6 @@
-<?php get_header(); ?>
+<?php
+/* Template Name: Главная */
+get_header(); ?>
 
 <main class="page services-page">
 
@@ -54,41 +56,46 @@
             <div class="main-page-content-top">
                 <div class="main-top-slider swiper-container">
                     <div class="swiper-wrapper">
-                        <div class="swiper-slide">
-                            <div class="main-top-slider-item ibg">
-                                <img loading="lazy" src="<?php echo get_template_directory_uri(); ?>/layout/img/main-img-items/01.png" alt="">
-                            </div>
-                        </div>
-                        <div class="swiper-slide">
-                            <div class="main-top-slider-item ibg">
-                                <img loading="lazy" src="<?php echo get_template_directory_uri(); ?>/layout/img/main-img-items/02.png" alt="">
-                            </div>
-                        </div>
+                        <?php
+                        $slider_items = carbon_get_the_post_meta('main_slider');
+                        if (!empty($slider_items)) :
+                            foreach ($slider_items as $slide) :
+                                $slide_image = wp_get_attachment_image_url($slide['slide_image'], 'full');
+                                $slide_title = $slide['slide_title'];
+                                $slide_subtitle = $slide['slide_subtitle'];
+                                $slide_button_text = $slide['slide_button_text'];
+                                $slide_button_link = $slide['slide_button_link'];
+                        ?>
+                                <div class="swiper-slide">
+                                    <div class="main-top-slider-item ibg">
+                                        <?php if ($slide_image) : ?>
+                                            <img loading="lazy" src="<?php echo esc_url($slide_image); ?>" alt="">
+                                        <?php endif; ?>
+                                        <div class="main-top-slider-info">
+                                            <?php if ($slide_title) : ?>
+                                                <div class="main-top-slider-title"><?php echo esc_html($slide_title); ?></div>
+                                            <?php endif; ?>
+                                            <?php if ($slide_subtitle) : ?>
+                                                <div class="main-top-slider-subtitle">
+                                                    <span><?php echo esc_html($slide_subtitle); ?></span>
+                                                </div>
+                                            <?php endif; ?>
+                                            <?php if ($slide_button_text && $slide_button_link) : ?>
+                                                <a href="/<?php echo esc_html($slide_button_link); ?>" class="btn btn-white main-top-slider-btn">
+                                                    <?php echo esc_html($slide_button_text); ?>
+                                                </a>
+                                            <?php endif; ?>
+                                        </div>
+                                    </div>
+                                </div>
+                        <?php
+                            endforeach;
+                        endif;
+                        ?>
                     </div>
                     <div class="main-top-slider-pagination"></div>
-                    <!-- <div class="main-top-slider-l">влево</div>
-                    <div class="main-top-slider-r">вправо</div> -->
-
-                    <div class="main-top-slider-info">
-                        <div class="main-top-slider-title">
-                            Китайский завод-производитель <br class="mob"> интерактивного оборудования Abedul
-                        </div>
-                        <div class="main-top-slider-subtitle">
-                            <span class="pc">
-                                Независимый дизайн продукции, исследования и разработки, а также
-                                производственные мощности, профессиональную команду по исследованиям,
-                                разработкам и производству, систему управления качеством и полный процесс обслуживания.
-                            </span>
-                            <span class="mob">
-                                Независимый дизайн продукции, исследования и разработки
-                            </span>
-                        </div>
-
-                        <a href="" class="btn btn-white main-top-slider-btn">
-                            Подробнее
-                        </a>
-                    </div>
                 </div>
+
                 <div class="main-top-images">
                     <div class="main-top-image ibg">
                         <img loading="lazy" src="<?php echo get_template_directory_uri(); ?>/layout/img/products/04.png" alt="">
@@ -105,20 +112,31 @@
                 </div>
             </div>
 
-            <div class="main-page-info-items">
-                <div class="main-page-info-item">
-                    <img loading="lazy" src="<?php echo get_template_directory_uri(); ?>/layout/img/main-page-info-items/01.svg" alt="page-info-icon">
-                    <span>Поставка IT-оборудования под ключ</span>
+            <?php
+            $info_items = carbon_get_the_post_meta('main_page_info_items');
+            if (!empty($info_items)) :
+            ?>
+
+                <div class="main-page-info-items">
+                    <?php
+
+                    foreach ($info_items as $item) :
+                        $info_icon = wp_get_attachment_image_url($item['info_icon'], 'full');
+                        $info_text = $item['info_text'];
+                    ?>
+                        <div class="main-page-info-item">
+                            <?php if ($info_icon) : ?>
+                                <img loading="lazy" src="<?php echo esc_url($info_icon); ?>" alt="page-info-icon">
+                            <?php endif; ?>
+                            <span><?php echo esc_html($info_text); ?></span>
+                        </div>
+                    <?php
+                    endforeach;
+                    ?>
+
                 </div>
-                <div class="main-page-info-item">
-                    <img loading="lazy" src="<?php echo get_template_directory_uri(); ?>/layout/img/main-page-info-items/02.svg" alt="page-info-icon">
-                    <span>Оборудование для любой специфики деятельности</span>
-                </div>
-                <div class="main-page-info-item">
-                    <img loading="lazy" src="<?php echo get_template_directory_uri(); ?>/layout/img/main-page-info-items/03.svg" alt="page-info-icon">
-                    <span>Честное управление, взаимовыгодное сотрудничество, ориентация на клиента</span>
-                </div>
-            </div>
+
+            <?php endif; ?>
 
             <div class="products">
                 <div class="block-title">Популярные товары</div>

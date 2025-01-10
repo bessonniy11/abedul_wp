@@ -492,8 +492,6 @@
                                 </div>
                             </div>
                             <div class="main-top-slider-pagination"></div>
-                            <!-- <div class="main-top-slider-l">влево</div>
-                            <div class="main-top-slider-r">вправо</div> -->
 
                             <div class="main-top-slider-info">
                                 <div class="main-top-slider-title">

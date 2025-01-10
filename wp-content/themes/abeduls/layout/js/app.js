@@ -735,7 +735,7 @@ function initSwipers() {
 	mainTopSlider = new Swiper('.main-top-slider', {
 		slidesPerView: 1,
 		spaceBetween: 0,
-		loop: true,
+		loop: false,
 		effect: 'fade',
 		autoHeight: true,
 		centeredSlides: false,

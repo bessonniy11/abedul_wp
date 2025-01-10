@@ -471,7 +471,6 @@ const products = [
 window.addEventListener('DOMContentLoaded', ready);
 
 async function ready() {
-	await loadPage();
 	if (document.querySelector('.catalog-page')) {
 		initCatalog();
 		initViewType();
@@ -497,6 +496,10 @@ async function ready() {
 	// trackScroll();
 	initSwipers();
 	productSlider();
+	await loadPage();
+
+	console.log('slide_title', slide_title);
+
 	window.addEventListener('resize', resize);
 	window.addEventListener('scroll', scroll);
 }
@@ -577,26 +580,26 @@ async function catalogLogic() {
 
 	// 				// Создаем структуру: иконка, заголовок, элементы
 	// 				group.innerHTML = `
-    //                     <div class="catalog-item-group__title-wrapper">
-    //                         <div class="catalog-item-group__title">
-    //                             <img src="${item.catalogItemIcon}" alt="${item.catalogItemTitle}">
-    //                         </div>
-    //                     </div>
-    //                     <div class="catalog-item-group__content">
-    //                         <div class="catalog-item-group-title">${item.catalogItemTitle}</div>
-    //                         <div class="catalog-item-group-elems">
-    //                             ${item.catalogItemElements.map(elem => `
-    //                                 <a href="/catalog.php" class="catalog-item-group-elem">
+	//                     <div class="catalog-item-group__title-wrapper">
+	//                         <div class="catalog-item-group__title">
+	//                             <img src="${item.catalogItemIcon}" alt="${item.catalogItemTitle}">
+	//                         </div>
+	//                     </div>
+	//                     <div class="catalog-item-group__content">
+	//                         <div class="catalog-item-group-title">${item.catalogItemTitle}</div>
+	//                         <div class="catalog-item-group-elems">
+	//                             ${item.catalogItemElements.map(elem => `
+	//                                 <a href="/catalog.php" class="catalog-item-group-elem">
 	// 									<span>${elem.catalogItemElementName}</span>
 	// 									${elem.catalogItemElementExtra
 	// 						? `<span class="catalog-item-group-elem-extra">${elem.catalogItemElementExtra}</span>`
 	// 						: ''
 	// 					}
 	// 								</a>
-    //                             `).join('')}
-    //                         </div>
-    //                     </div>
-    //                 `;
+	//                             `).join('')}
+	//                         </div>
+	//                     </div>
+	//                 `;
 	// 				catalogContainer.appendChild(group);
 	// 			});
 	// 		});
