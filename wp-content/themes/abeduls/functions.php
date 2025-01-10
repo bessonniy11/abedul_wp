@@ -1,8 +1,7 @@
 <?php
 
 
-function website_assets()
-{
+function website_assets() {
     wp_enqueue_style('swiper-bundle', get_template_directory_uri() . '/layout/css/swiper-bundle.min.css');
     wp_enqueue_style('intlTelInput', get_template_directory_uri() . '/layout/css/intlTelInput.css');
     wp_enqueue_style('maincss', get_template_directory_uri() . '/layout/css/style.css');
@@ -31,7 +30,7 @@ add_action('carbon_fields_register_fields', function () {
 
     // данные для категорий и подкатегорий
     Container::make('post_meta', 'Настройки категории')
-        ->where('post_type', '=', 'category_group') // Применяем только к "Категории"
+        ->where('post_type', '=', 'category_group')
         ->add_fields([
             Field::make('image', 'category_icon', 'Иконка категории')
                 ->set_help_text('Загрузите иконку для отображения'),
@@ -54,7 +53,7 @@ add_action('carbon_fields_register_fields', function () {
 
     // данные для страницы Услуги
     Container::make('post_meta', 'Настройки страницы')
-        ->where('post_type', '=', 'page') // Применяем только к страницам
+        ->where('post_type', '=', 'page')
         ->where('post_template', '=', 'page-services.php')
         ->add_fields([
             Field::make('text', 'services_page_title', 'Заголовок страницы'),
@@ -88,11 +87,10 @@ add_action('carbon_fields_register_fields', function () {
                 ]),
         ]);
 
-
     // данные для страницы Карьера
     Container::make('post_meta', 'Карьера - содержимое страницы')
         ->where('post_type', '=', 'page')
-        ->where('post_template', '=', 'page-career.php') // Указываем шаблон
+        ->where('post_template', '=', 'page-career.php')
         ->add_fields([
             Field::make('text', 'career_page_title', 'Заголовок страницы'),
             // Поле для подзаголовка
@@ -132,11 +130,44 @@ add_action('carbon_fields_register_fields', function () {
                         ]),
                 ]),
         ]);
+
+    Container::make('post_meta', 'Индивидуальный заказ - настройки страницы')
+        ->where('post_type', '=', 'page') 
+        ->where('post_template', '=', 'page-individual.php') 
+        ->add_fields([
+            // Заголовок перед общей галереей
+            Field::make('text', 'general_title', 'Главный заголовок перед галереей')
+                ->set_help_text('Введите заголовок, который будет отображаться перед общей галереей'),
+
+            // Группа фотографий для общего раздела
+            Field::make('media_gallery', 'general_gallery', 'Общая галерея')
+                ->set_type(['image'])
+                ->set_help_text('Загрузите фотографии для общей галереи'),
+
+            // Комплексное поле для шагов
+            Field::make('complex', 'steps', 'Шаги индивидуального заказа')
+                ->set_layout('tabbed-horizontal')
+                ->add_fields([
+                    Field::make('text', 'step_title', 'Заголовок шага')
+                        ->set_help_text('Введите заголовок шага, например "Шаг 1"'),
+
+                    Field::make('textarea', 'step_description', 'Описание шага')
+                        ->set_help_text('Введите описание шага'),
+
+                    Field::make('media_gallery', 'step_gallery', 'Галерея для шага')
+                        ->set_type(['image'])
+                        ->set_help_text('Загрузите фотографии для данного шага'),
+                ])
+                ->set_help_text('Добавьте шаги индивидуального заказа'),
+        ]);
+
+
+
+
 });
 
 
-function abedul_register_product_post_type()
-{
+function abedul_register_product_post_type() {
     $labels = array(
         'name'               => 'Товары',
         'singular_name'      => 'Товар',
@@ -166,8 +197,7 @@ function abedul_register_product_post_type()
 }
 add_action('init', 'abedul_register_product_post_type');
 
-function abedul_register_category_post_type()
-{
+function abedul_register_category_post_type() {
     $labels = array(
         'name'               => 'Категории',
         'singular_name'      => 'Категория',
