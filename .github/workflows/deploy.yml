@@ -27,5 +27,7 @@ jobs:
       - name: Deploy files
         run: |
           rsync -e "ssh -p 22 -i $HOME/.ssh/authorized_keys -o StrictHostKeyChecking=no" \
-            --archive --compress --delete . \
+            --archive --compress --delete \
+            --exclude "wp-config.php" \
+            . \
             strizhki@185.137.235.119:/var/www/strizhki/data/www/abedul.stage.ibessonniy.ru
