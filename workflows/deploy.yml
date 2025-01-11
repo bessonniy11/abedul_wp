@@ -1,0 +1,31 @@
+name: Deploy
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      
+      # Setup SSH private key
+      - name: Create SSH private key
+        run: |
+          mkdir -p "$HOME/.ssh"
+          echo "${{ secrets.SSH_PRIVATE_KEY }}" > "$HOME/.ssh/authorized_keys"
+          chmod 600 "$HOME/.ssh/authorized_keys"
+
+      # Add the host to known_hosts
+      - name: Add remote host to known_hosts
+        run: |
+          ssh-keyscan -p 22 185.137.235.119 >> "$HOME/.ssh/known_hosts"
+
+      # Deploy using rsync
+      - name: Deploy files
+        run: |
+          rsync -e "ssh -p 22 -i $HOME/.ssh/authorized_keys -o StrictHostKeyChecking=no" \
+            --archive --compress --delete . \
+            strizhki@185.137.235.119:/var/www/strizhki/data/www/abedul.stage.ibessonniy.ru
