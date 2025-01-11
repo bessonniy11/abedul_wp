@@ -1,2 +1,4 @@
 wp-content/uploads/
 wp-content/themes/abeduls/layout/static
+# Исключить wp-config.php
+wp-config.php
