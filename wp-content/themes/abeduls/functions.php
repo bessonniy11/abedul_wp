@@ -167,8 +167,78 @@ add_action('carbon_fields_register_fields', function () {
                         ]),
                 ]),
         ]);
+    // данные для Настройки проекта
+    Container::make('post_meta', 'Настройки проекта')
+        ->where('post_type', '=', 'projects')
+        ->add_fields([
+            Field::make('text', 'project_slug', 'Slug проекта')
+                ->set_help_text('Введите уникальный slug для проекта (например, "burger-king").'),
+            Field::make('text', 'project_subtitle', 'Второй заголовок'),
+
+            Field::make('image', 'project_main_image', 'Главное фото')
+                ->set_help_text('Добавьте главное фото проекта'),
+
+            Field::make('complex', 'project_gallery', 'Галерея проекта')
+                ->add_fields([
+                    Field::make('image', 'gallery_image', 'Фото')
+                        ->set_help_text('Добавьте изображение'),
+                    Field::make('text', 'gallery_title', 'Заголовок фото'),
+                    Field::make('text', 'gallery_link', 'Cсылка на товар'),
+                ])
+                ->set_layout('tabbed-horizontal'),
+
+            Field::make('rich_text', 'project_text_block', 'Текстовый блок'),
+
+            Field::make('text', 'products_title', 'Заголовок блока продуктов')
+                ->set_help_text('Например: "В проекте использовали"'),
+        ]);
+    // данные для страницы Все проекты
+    Container::make('post_meta', 'Все проекты - содержимое страницы')
+        ->where('post_type', '=', 'page')
+        ->where('post_template', '=', 'page-projects.php') // Указываем шаблон
+        ->add_fields([
+            Field::make('text', 'all_projects_title', 'Заголовок страницы')
+                ->set_help_text('Заголовок для страницы со списком всех проектов'),
+        ]);
+
+    // // Поле для заголовка страницы "Все проекты"
+    // Container::make('theme_options', 'Настройки страницы проектов')
+    //     ->add_fields([
+    //         Field::make('text', 'all_projects_title', 'Заголовок страницы')
+    //             ->set_help_text('Заголовок для страницы со списком всех проектов'),
+    //     ]);
 });
 
+add_action('init', function () {
+    add_rewrite_rule(
+        '^all-projects/([^/]+)/?$',
+        'index.php?post_type=projects&name=$matches[1]',
+        'top'
+    );
+    register_post_type('projects', [
+        'labels' => [
+            'name' => 'Проекты',
+            'singular_name' => 'Проект',
+            'add_new' => 'Добавить новый проект',
+            'add_new_item' => 'Добавить новый проект',
+            'edit_item' => 'Редактировать проект',
+            'new_item' => 'Новый проект',
+            'view_item' => 'Просмотреть проект',
+            'search_items' => 'Найти проект',
+            'not_found' => 'Проекты не найдены',
+            'not_found_in_trash' => 'Проекты в корзине не найдены',
+        ],
+        'public' => true,
+        'rewrite' => [
+            'slug' => 'all-projects', // Здесь задаём slug
+            'with_front' => false,   // Убираем префикс /blog, если есть
+        ],
+        'supports' => ['title'],
+        'has_archive' => true,
+        'menu_position' => 5,
+        'menu_icon' => 'dashicons-portfolio',
+    ]);
+});
 
 function abedul_register_product_post_type()
 {
