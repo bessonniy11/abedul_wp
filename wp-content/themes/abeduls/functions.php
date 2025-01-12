@@ -211,7 +211,7 @@ add_action('carbon_fields_register_fields', function () {
 
 add_action('init', function () {
     add_rewrite_rule(
-        '^all-projects/([^/]+)/?$',
+        '^projects/([^/]+)/?$',
         'index.php?post_type=projects&name=$matches[1]',
         'top'
     );

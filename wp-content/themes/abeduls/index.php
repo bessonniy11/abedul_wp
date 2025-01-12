@@ -287,7 +287,7 @@ get_header(); ?>
             <div class="main-page-clients">
                 <div class="main-page-clients-top">
                     <div class="block-title">Нам доверяют</div>
-                    <a href="/all-projects" class="main-page-clients-top__link arrow-link">
+                    <a href="/projects" class="main-page-clients-top__link arrow-link">
                         <span>Все проекты</span>
                         <img loading="lazy" src="<?php echo get_template_directory_uri(); ?>/layout/img/icons/arrow-right-blue.svg" alt="arrow-right">
                     </a>

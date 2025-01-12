@@ -31,7 +31,7 @@ get_header(); ?>
                     $main_slug = carbon_get_post_meta(get_the_ID(), 'project_slug');
                     $main_image_url = $main_image ? wp_get_attachment_image_url($main_image, 'medium') : '';
             ?>
-                    <a href="/all-projects/<?php echo esc_html($main_slug); ?>" class="project-item ibg">
+                    <a href="/projects/<?php echo esc_html($main_slug); ?>" class="project-item ibg">
                         <?php if ($main_image_url): ?>
                             <img loading="lazy" class="project-img" src="<?php echo esc_url($main_image_url); ?>" alt="<?php the_title(); ?>">
                         <?php endif; ?>
