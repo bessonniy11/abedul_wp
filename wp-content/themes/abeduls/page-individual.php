@@ -8,107 +8,74 @@ get_header(); ?>
         <nav class="breadcrumbs">
             <ul class="breadcrumbs-list">
                 <li class="breadcrumbs-item"><a href="/" class="breadcrumbs-link">Главная / </a></li>
-                <li class="breadcrumbs-item breadcrumbs-current">Индивидуальный заказ</li>
+                <li class="breadcrumbs-item breadcrumbs-current"><?php echo esc_html(carbon_get_the_post_meta('individual_title')); ?></li>
             </ul>
         </nav>
 
         <div class="block-title">
-            Индивидуальный заказ
+            <?php echo esc_html(carbon_get_the_post_meta('individual_title')); ?>
         </div>
 
         <div class="individual-page__wrapper">
             <div class="individual-page__content">
+                <!-- Общая галерея -->
                 <div class="individual-page-images">
-                    <div class="individual-page-image ibg">
-                        <img src="<?php echo get_template_directory_uri(); ?>/layout/img/individual/01.png" alt="individual-img">
-                    </div>
-                    <div class="individual-page-image ibg">
-                        <img src="<?php echo get_template_directory_uri(); ?>/layout/img/individual/02.png" alt="individual-img">
-                    </div>
-                    <div class="individual-page-image ibg">
-                        <img src="<?php echo get_template_directory_uri(); ?>/layout/img/individual/03.png" alt="individual-img">
-                    </div>
+                    <?php
+                    $general_gallery = carbon_get_the_post_meta('general_gallery');
+                    if (!empty($general_gallery)) {
+                        foreach ($general_gallery as $image_id) {
+                            $image_url = wp_get_attachment_image_url($image_id, 'full');
+                            if ($image_url) {
+                                echo '<div class="individual-page-image ibg">';
+                                echo '<img src="' . esc_url($image_url) . '" alt="individual-img">';
+                                echo '</div>';
+                            }
+                        }
+                    }
+                    ?>
                 </div>
 
+                <!-- Шаги индивидуального заказа -->
                 <div class="individual-page-items">
-                    <!-- Структура элемента individual-page-item такая:
-                    1. тайтл (название шага)
-                    3. текст
-                    5. фотографии (необязательный блок)
-                -->
-                    <div class="individual-page-item">
-                        <div class="individual-page-item__texts">
-                            <div class="individual-page-item__title">
-                                Шаг 1: Формирование технического задания
-                            </div>
-                            <div class="individual-page-item__text">
-                                Наши инженеры проводят подробное обсуждение заказа, с целью детализации требований к оборудованию,
-                                его функциональному назначению, внешнему виду и соответствию среде.
-                                <br><br>
-                                Конкретизируют требования к программному обеспечению, технические стандарты и так далее.
-                                Перед началом проектирования, дискуссия может быть  организована один и более раз в различных
-                                форматах: личные встречи с инженерами, видеоконференции,  переписка по электронной почте.
-                            </div>
-                        </div>
-                    </div>
+                    <?php
+                    $steps = carbon_get_the_post_meta('steps');
+                    if (!empty($steps)) {
+                        foreach ($steps as $step) {
+                            $step_title = $step['step_title'] ?? '';
+                            $step_description = $step['step_description'] ?? '';
+                            $step_gallery = $step['step_gallery'] ?? [];
 
-                    <div class="individual-page-item">
-                        <div class="individual-page-item__texts">
-                            <div class="individual-page-item__title">
-                                Шаг 2: Проектирование
-                            </div>
-                            <div class="individual-page-item__text">
-                                Проектирование  включает в себя разработку чертежей, функциональный дизайн и  выбор брендов
-                                и моделей комплектующих. Мы предоставляем клиенту детальные чертежи и сопутствующие
-                                технические характеристики. После предоставления клиентом обратной связи, мы вносим
-                                изменения и запрашиваем окончательное подтверждение к реализации проекта.
-                            </div>
-                        </div>
-                    </div>
+                            echo '<div class="individual-page-item">';
 
-                    <div class="individual-page-item">
-                        <div class="individual-page-item__texts">
-                            <div class="individual-page-item__title">
-                                Шаг 3: Самплинг (изготовление образцов)
-                            </div>
-                            <div class="individual-page-item__text">
-                                Обычно производство образцов занимает 15-20 дней. По готовности образцов оборудования,
-                                завод производит их внутреннее тестирование. После достижения установленных стандартов
-                                образцы передаются клиенту.
-                            </div>
-                        </div>
-                        <div class="individual-page-item__images">
-                            <div class="individual-page-item__image ibg">
-                                <img src="<?php echo get_template_directory_uri(); ?>/layout/img/individual/04.png" alt="individual-img">
-                            </div>
-                            <div class="individual-page-item__image ibg">
-                                <img src="<?php echo get_template_directory_uri(); ?>/layout/img/individual/05.png" alt="individual-img">
-                            </div>
-                        </div>
-                    </div>
+                            // Тексты
+                            echo '<div class="individual-page-item__texts">';
+                            if (!empty($step_title)) {
+                                echo '<div class="individual-page-item__title">' . esc_html($step_title) . '</div>';
+                            }
+                            if (!empty($step_description)) {
+                                echo '<div class="individual-page-item__text">' . nl2br(esc_html($step_description)) . '</div>';
+                            }
+                            echo '</div>';
 
-                    <div class="individual-page-item">
-                        <div class="individual-page-item__texts">
-                            <div class="individual-page-item__title">
-                                Шаг 4: Доставка образцов клиенту и их тестирование
-                            </div>
-                            <div class="individual-page-item__text">
-                                Основываясь на требованиях клиента, наша компания подбирает наиболее быстрый способ доставки.
-                                После тестирования образцов, клиент может принять решение о производстве в данной вариации
-                                или запросить дополнительную модификацию.
-                            </div>
-                        </div>
-                    </div>
+                            // Галерея для шага
+                            if (!empty($step_gallery)) {
+                                echo '<div class="individual-page-item__images">';
+                                foreach ($step_gallery as $image_id) {
+                                    $image_url = wp_get_attachment_image_url($image_id, 'full');
+                                    if ($image_url) {
+                                        echo '<div class="individual-page-item__image ibg">';
+                                        echo '<img src="' . esc_url($image_url) . '" alt="step-image">';
+                                        echo '</div>';
+                                    }
+                                }
+                                echo '</div>';
+                            }
 
-                    <div class="individual-page-item">
-                        <div class="individual-page-item__texts">
-                            <div class="individual-page-item__title">
-                                Шаг 5: Реализация производства
-                            </div>
-                        </div>
-                    </div>
+                            echo '</div>'; // Закрываем individual-page-item
+                        }
+                    }
+                    ?>
                 </div>
-
             </div>
 
             <div class="individual-page__form">

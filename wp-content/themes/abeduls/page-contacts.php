@@ -1,7 +1,16 @@
 <?php
 /* Template Name: Контакты */
 
-get_header(); ?>
+get_header();
+$cordinateX = carbon_get_post_meta(get_the_ID(), 'coordinate_x');
+$cordinateY = carbon_get_post_meta(get_the_ID(), 'coordinate_y');
+$logo_map = carbon_get_post_meta(get_the_ID(), 'logo_map');
+echo '<script>
+    let cordinateX =' . $cordinateX . ';
+    let cordinateY =' . $cordinateY . ';
+    let logo_map ="' . esc_url(wp_get_attachment_url($logo_map)) . '";
+</script>';
+?>
 
 <main class="page contacts-page">
 
@@ -9,57 +18,39 @@ get_header(); ?>
         <nav class="breadcrumbs">
             <ul class="breadcrumbs-list">
                 <li class="breadcrumbs-item"><a href="/" class="breadcrumbs-link">Главная / </a></li>
-                <li class="breadcrumbs-item breadcrumbs-current">Контакты</li>
+                <li class="breadcrumbs-item breadcrumbs-current"><?php echo esc_html(carbon_get_the_post_meta('contacts_main_title')); ?></li>
             </ul>
         </nav>
 
         <div class="block-title">
-            Контакты
+            <?php echo esc_html(carbon_get_the_post_meta('contacts_main_title')); ?>
         </div>
 
         <div class="contacts-wrapper">
             <div class="contacts-content">
-                <div class="contacts-content__item">
-                    <div class="contacts-item">
-                        <div class="contacts-item__title">Адрес главного офиса в Москве</div>
-                        <a href="https://yandex.ru/maps/213/moscow/house/dubninskaya_ulitsa_83/Z04YcwJmSkYDQFtvfXR4cnhlZA==/?ll=37.556335%2C55.893460&z=17.06" target="_blank" class="contacts-item__text">
-                            г. Москва ул.Дубнинская д. 83, 8-й этаж №819-820-821
-                        </a>
-                    </div>
-                    <div class="contacts-item">
-                        <div class="contacts-item__title">Телефон менеджера в России</div>
-                        <a href="tel:+79999574589" target="_blank" class="contacts-item__text accent">
-                            +7 999-957-45-89
-                        </a>
-                    </div>
-                    <div class="contacts-item">
-                        <div class="contacts-item__title">Почта</div>
-                        <a href="mailto:info_abedul@mail.ru" target="_blank" class="contacts-item__text accent">
-                            info_abedul@mail.ru
-                        </a>
-                    </div>
-                </div>
+                <?php
+                $contacts = carbon_get_the_post_meta('contacts');
+                if (!empty($contacts)) {
+                    foreach ($contacts as $contact_group) {
+                        echo '<div class="contacts-content__item">';
+                        if (!empty($contact_group['contact_items'])) {
+                            foreach ($contact_group['contact_items'] as $contact_item) {
+                                $title = $contact_item['contact_title'] ?? '';
+                                $address = $contact_item['contact_address'] ?? '';
+                                $url = $contact_item['contact_url'] ?? '#';
 
-                <div class="contacts-content__item">
-                    <div class="contacts-item">
-                        <div class="contacts-item__title">Адрес фабрики в Китае</div>
-                        <a href="https://yandex.ru/maps/geo/5855684007/?ll=124.774477%2C48.275370&z=9.72" target="_blank" class="contacts-item__text">
-                            г. Шэньчжэнь Районы Гуанмин
-                        </a>
-                    </div>
-                    <div class="contacts-item">
-                        <div class="contacts-item__title">Телефон менеджера в Китае</div>
-                        <a href="tel:+8618645050994" target="_blank" class="contacts-item__text accent">
-                            +86-18645050994 (WeChat)
-                        </a>
-                    </div>
-                    <div class="contacts-item">
-                        <div class="contacts-item__title">Почта</div>
-                        <a href="mailto:info_abedul@mail.ru" target="_blank" class="contacts-item__text accent">
-                            whz_0309@163.com
-                        </a>
-                    </div>
-                </div>
+                                echo '<div class="contacts-item">';
+                                echo '<div class="contacts-item__title">' . esc_html($title) . '</div>';
+                                echo '<a href="' . esc_url($url) . '" target="_blank" class="contacts-item__text">';
+                                echo esc_html($address);
+                                echo '</a>';
+                                echo '</div>';
+                            }
+                        }
+                        echo '</div>';
+                    }
+                }
+                ?>
             </div>
             <div class="contacts-map" id="map"></div>
         </div>

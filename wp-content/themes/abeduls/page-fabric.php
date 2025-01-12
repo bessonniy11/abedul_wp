@@ -1,6 +1,12 @@
 <?php
 /* Template Name: Наша фабрика */
-
+// Получаем данные полей
+$factory_main_title = carbon_get_the_post_meta('factory_main_title');
+$factory_subtitle = carbon_get_the_post_meta('factory_subtitle');
+$video_section_description = carbon_get_the_post_meta('video_section_description');
+$video_blocks = carbon_get_the_post_meta('video_blocks');
+$image_text_blocks = carbon_get_the_post_meta('image_text_blocks');
+$image_description_blocks = carbon_get_the_post_meta('image_description_blocks');
 get_header(); ?>
 
 <main class="page fabric-page">
@@ -9,178 +15,96 @@ get_header(); ?>
         <nav class="breadcrumbs">
             <ul class="breadcrumbs-list">
                 <li class="breadcrumbs-item"><a href="/" class="breadcrumbs-link">Главная / </a></li>
-                <li class="breadcrumbs-item breadcrumbs-current">Наша фабрика</li>
+                <li class="breadcrumbs-item breadcrumbs-current"><?= esc_html($factory_main_title); ?></li>
             </ul>
         </nav>
 
         <div class="block-title">
-            Наша фабрика
+            <?= esc_html($factory_main_title); ?>
         </div>
 
-        <div class="fabric-page__text">
-            ООО «РУС МАСТЕР» — второе дочернее предприятие китайской « ABEDUL-корпорация» в Москве.
-            Заводы ABEDUL-корпорация расположены в районе Гуанмин города Шэньчжэнь и районе Паньюй города
-            Гуанчжоу и производят различные виды Интерактивный и коммерческий дисплей-продукции.
-            <br><br>
-            Каждая дочерняя фабрика имеет независимый дизайн продукции, исследования и разработки, а также
-            производственные мощности, профессиональную команду по исследованиям, разработкам и производству,
-            систему управления качеством и полный процесс обслуживания. ООО «РУС МАСТЕР» в основном осуществляет
-            продажу и сервисное обслуживание производственного оборудования группы на рынках России, Белоруссии
-            и Казахстана.
-        </div>
+        <?php
+        // описание под заголовком
+        $factory_subtitle = carbon_get_post_meta(get_the_ID(), 'factory_subtitle');
+        if (!empty($factory_subtitle)) {
+            echo '<div class="fabric-page__text">' . wp_kses_post($factory_subtitle) . '</div>';
+        }
+        // описание для блока (вилео + описание)
+        $video_section_description = carbon_get_post_meta(get_the_ID(), 'video_section_description');
+        if (!empty($video_section_description)) {
+            echo '<div class="fabric-page__text accent">' . wp_kses_post($video_section_description) . '</div>';
+        }
+        // видео для блока (вилео + описание)
+        $video_blocks = carbon_get_post_meta(get_the_ID(), 'video_blocks');
+        if (!empty($video_blocks)) {
+            echo '<div class="fabric-page__videos">';
+            foreach ($video_blocks as $block) {
+                $video_url = $block['video_file'];
+                $video_cover_url = $block['video_cover_url'];
+                echo '<a data-fslightbox="fabric-video" href="' . esc_url(wp_get_attachment_url($video_url)) . '" class="fabric-video ibg">';
+                echo '<img loading="lazy" class="fabric-video-img" src="' . esc_url(wp_get_attachment_url($video_cover_url)) . '" alt="fabric-video">';
+                echo '<img loading="lazy" class="play" src="' . get_template_directory_uri() . '/layout/img/icons/play.svg" alt="play">';
+                echo '<div class="fabric-video-title">' . esc_html($block['video_block_title']) . '</div>';
+                echo '</a>';
+            }
+            echo '</div>';
+        }
+        // второй блок (заголовок + изображение + блок иконок (иконка + описание))
+        $image_text_blocks = carbon_get_post_meta(get_the_ID(), 'image_text_blocks');
+        if (!empty($image_text_blocks)) {
+            foreach ($image_text_blocks as $image_text_block) {
+                $title = $image_text_block['image_text_block_title'];
+                echo '<div class="fabric-page__info">';
+                // заголовок 
+                if (!empty($title)) {
+                    echo '<div class="block-title">' . $title . '</div>';
+                }
+                // блок изображение + иконки с описанием 
+                echo '<div class="fabric-page__info-content">';
+                $img = $image_text_block['image_text_block_image'];
+                if (!empty($img)) {
+                    echo '<img src="' . esc_url(wp_get_attachment_url($img))  . '" alt="fabric-image">';
+                }
+                // блок иконки с описанием
+                $icon_image_block = $image_text_block['icon_image_block'];
+                if (!empty($icon_image_block)) {
+                    echo '<div class="info-content-items">';
+                    foreach ($icon_image_block as $icon_block) {
+                        echo '<div class="info-content-item">';
+                        $icon = $icon_block['icon'];
+                        if (!empty($icon)) {
+                            echo '<div class="info-content-item__icon">';
+                            echo '<img src="' . esc_url(wp_get_attachment_url($icon)) . '" alt="fabric-icon">';
+                            echo '</div>';
+                        }
+                        $icon_image_description = $icon_block['icon_image_description'];
+                        if (!empty($icon_image_description)) {
+                            echo '<div class="info-content-item__text">' . wp_kses_post($icon_image_description) . '</div>';
+                        }
+                        echo '</div>';
+                    }
+                    echo '</div>';
+                }
+                echo '</div>';
+                echo '</div>';
+            }
+        }
+        ?>
 
-        <div class="fabric-page__text accent">
-            Основная продукция: интерактивное многофункциональное оборудование (коммерческое и учебное),
-            многофункциональные интеллектуальные доски, ЖК-экраны, различные типы внутреннего и наружного
-            ЖК-рекламного оборудования, сенсорное оборудование и техническая поддержка  различного
-            интеллектуального терминального оборудования. В то же время большинство дистрибьюторских компаний и
-            клиентов предоставляют услуги ODM и OEM.
-        </div>
-
-        <div class="fabric-page__videos">
-            <a data-fslightbox="fabric-video" href="img/fabric-video/01.mp4" class="fabric-video ibg">
-                <img loading="lazy" class="fabric-video-img" src="<?php echo get_template_directory_uri(); ?>/layout/img/fabric-video/01.png" alt="fabric-video">
-                <img loading="lazy" class="play" src="<?php echo get_template_directory_uri(); ?>/layout/img/icons/play.svg" alt="play">
-                <div class="fabric-video-title">Сборочный цех</div>
-            </a>
-            <a data-fslightbox="fabric-video" href="img/fabric-video/01.mp4" class="fabric-video ibg">
-                <img loading="lazy" class="fabric-video-img" src="<?php echo get_template_directory_uri(); ?>/layout/img/fabric-video/01.png" alt="fabric-video">
-                <img loading="lazy" class="play" src="<?php echo get_template_directory_uri(); ?>/layout/img/icons/play.svg" alt="play">
-                <div class="fabric-video-title">Сборочный цех</div>
-            </a>
-            <a data-fslightbox="fabric-video" href="img/fabric-video/01.mp4" class="fabric-video ibg">
-                <img loading="lazy" class="fabric-video-img" src="<?php echo get_template_directory_uri(); ?>/layout/img/fabric-video/01.png" alt="fabric-video">
-                <img loading="lazy" class="play" src="<?php echo get_template_directory_uri(); ?>/layout/img/icons/play.svg" alt="play">
-                <div class="fabric-video-title">Сборочный цех</div>
-            </a>
-        </div>
-
-        <div class="fabric-page__info">
-            <div class="block-title">
-                Знакомство с фабрикой в ​​районе Гуанмин, Шэньчжэнь
+        <?php if (!empty($image_description_blocks)): ?>
+            <div class="fabric-page__images">
+                <?php foreach ($image_description_blocks as $desc_block): ?>
+                    <a data-fslightbox="fabric-img" href="<?= esc_url(wp_get_attachment_url($desc_block['image'])); ?>" class="fabric-page-image">
+                        <div class="fabric-page-image__img ibg">
+                            <img loading="lazy" src="<?= esc_url(wp_get_attachment_url($desc_block['image'])); ?>" alt="fabric-image">
+                        </div>
+                        <div class="fabric-page-image__title">
+                            <?= esc_html($desc_block['image_description']); ?>
+                        </div>
+                    </a>
+                <?php endforeach; ?>
             </div>
-            <div class="fabric-page__info-content">
-                <div class="info-content-img ibg">
-                    <img src="<?php echo get_template_directory_uri(); ?>/layout/img/fabric-images/01.png" alt="fabric-image">
-                </div>
-                <div class="info-content-items">
-                    <div class="info-content-item">
-                        <div class="info-content-item__icon">
-                            <img src="<?php echo get_template_directory_uri(); ?>/layout/img/fabric-icons/01.svg" alt="fabric-icon">
-                        </div>
-                        <div class="info-content-item__text">
-                            Завод расположен в промышленном парке Дасинсинмэй, район Гуанмин, город Шэньчжэнь.
-                        </div>
-                    </div>
-                    <div class="info-content-item">
-                        <div class="info-content-item__icon">
-                            <img src="<?php echo get_template_directory_uri(); ?>/layout/img/fabric-icons/02.svg" alt="fabric-icon">
-                        </div>
-                        <div class="info-content-item__text">
-                            Площадь завода составляет 4200 квадратных метров, включая офисные помещения,
-                            производственные помещения и складские помещения.
-                        </div>
-                    </div>
-                    <div class="info-content-item">
-                        <div class="info-content-item__icon">
-                            <img src="<?php echo get_template_directory_uri(); ?>/layout/img/fabric-icons/03.svg" alt="fabric-icon">
-                        </div>
-                        <div class="info-content-item__text">
-                            На заводе работает более 60 сотрудников, в том числе 18 человек руководящего и
-                            технического персонала и более 40 производственно-технических работников.
-                        </div>
-                    </div>
-                    <div class="info-content-item">
-                        <div class="info-content-item__icon">
-                            <img src="<?php echo get_template_directory_uri(); ?>/layout/img/fabric-icons/04.svg" alt="fabric-icon">
-                        </div>
-                        <div class="info-content-item__text">
-                            Завод имеет сертификацию системы ISO9000,   а продукция сертифицирована CE и CCC.
-                        </div>
-                    </div>
-                    <div class="info-content-item">
-                        <div class="info-content-item__icon">
-                            <img src="<?php echo get_template_directory_uri(); ?>/layout/img/fabric-icons/05.svg" alt="fabric-icon">
-                        </div>
-                        <div class="info-content-item__text">
-                            В основном это экономичные интеллектуальные доски, интерактивные многофункциональные
-                            устройства, рекламные машины и небольшие интерактивные терминалы.
-                        </div>
-                    </div>
-                    <div class="info-content-item">
-                        <div class="info-content-item__icon">
-                            <img src="<?php echo get_template_directory_uri(); ?>/layout/img/fabric-icons/06.svg" alt="fabric-icon">
-                        </div>
-                        <div class="info-content-item__text">
-                            Годовая мощность производства и поставок составляет 12 000 единиц.
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="fabric-page__images">
-            <a data-fslightbox="fabric-img" href="img/fabric-images/02.png" class="fabric-page-image">
-                <div class="fabric-page-image__img ibg">
-                    <img loading="lazy" src="<?php echo get_template_directory_uri(); ?>/layout/img/fabric-images/02.png" alt="fabric-image">
-                </div>
-                <div class="fabric-page-image__title">
-                    Коллектив управления производством завода Разработка продукта
-                </div>
-            </a>
-            <a data-fslightbox="fabric-img" href="img/fabric-images/03.png" class="fabric-page-image">
-                <div class="fabric-page-image__img ibg">
-                    <img loading="lazy" src="<?php echo get_template_directory_uri(); ?>/layout/img/fabric-images/03.png" alt="fabric-image">
-                </div>
-                <div class="fabric-page-image__title">
-                </div>
-            </a>
-            <a data-fslightbox="fabric-img" href="img/fabric-images/04.png" class="fabric-page-image">
-                <div class="fabric-page-image__img ibg">
-                    <img loading="lazy" src="<?php echo get_template_directory_uri(); ?>/layout/img/fabric-images/04.png" alt="fabric-image">
-                </div>
-                <div class="fabric-page-image__title">
-                    Коллектив управления производством завода Разработка продукта
-                </div>
-            </a>
-            <a data-fslightbox="fabric-img" href="img/fabric-images/05.png" class="fabric-page-image">
-                <div class="fabric-page-image__img ibg">
-                    <img loading="lazy" src="<?php echo get_template_directory_uri(); ?>/layout/img/fabric-images/05.png" alt="fabric-image">
-                </div>
-                <div class="fabric-page-image__title">
-                </div>
-            </a>
-            <a data-fslightbox="fabric-img" href="img/fabric-images/06.png" class="fabric-page-image">
-                <div class="fabric-page-image__img ibg">
-                    <img loading="lazy" src="<?php echo get_template_directory_uri(); ?>/layout/img/fabric-images/06.png" alt="fabric-image">
-                </div>
-                <div class="fabric-page-image__title">
-                    Проверка малогабаритного оборудования
-                </div>
-            </a>
-            <a data-fslightbox="fabric-img" href="img/fabric-images/07.png" class="fabric-page-image">
-                <div class="fabric-page-image__img ibg">
-                    <img loading="lazy" src="<?php echo get_template_directory_uri(); ?>/layout/img/fabric-images/07.png" alt="fabric-image">
-                </div>
-                <div class="fabric-page-image__title">
-                </div>
-            </a>
-            <a data-fslightbox="fabric-img" href="img/fabric-images/08.png" class="fabric-page-image">
-                <div class="fabric-page-image__img ibg">
-                    <img loading="lazy" src="<?php echo get_template_directory_uri(); ?>/layout/img/fabric-images/08.png" alt="fabric-image">
-                </div>
-                <div class="fabric-page-image__title">
-                    Тест на устаревание
-                </div>
-            </a>
-            <a data-fslightbox="fabric-img" href="img/fabric-images/05.png" class="fabric-page-image">
-                <div class="fabric-page-image__img ibg">
-                    <img loading="lazy" src="<?php echo get_template_directory_uri(); ?>/layout/img/fabric-images/05.png" alt="fabric-image">
-                </div>
-                <div class="fabric-page-image__title">
-                </div>
-            </a>
-        </div>
+        <?php endif; ?>
 
         <div class="main-page-form form-wrapper">
 

@@ -4728,6 +4728,7 @@ h6 {
 }
 .contacts-page .contacts-wrapper .contacts-content {
   width: calc(50% - 6px);
+  min-height: 300px;
   display: flex;
   flex-direction: column;
   gap: 45px;

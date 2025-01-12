@@ -1925,14 +1925,14 @@ function catalogFlterMobile() {
 function initMap() {
 	// Создаем карту
 	var myMap = new ymaps.Map("map", {
-		center: [55.893460, 37.556334], // Координаты центра карты
+		center: [cordinateX, cordinateY], // Координаты центра карты
 		zoom: 16, // Масштаб карты
 		controls: ['zoomControl'] // Убираем все стандартные элементы управления
 	});
 
 	// Создаем кастомную метку
 	var myPlacemark = new ymaps.Placemark(
-		[55.893460, 37.556334], // Координаты метки
+		[cordinateX, cordinateY], // Координаты метки
 		{
 			// Контент балуна
 			balloonContent: `
@@ -1945,7 +1945,7 @@ function initMap() {
 		{
 			// Настройки метки
 			iconLayout: 'default#image',
-			iconImageHref: 'img/logo.png', // Путь к кастомному изображению метки
+			iconImageHref: logo_map, // Путь к кастомному изображению метки
 			iconImageSize: [90, 40], // Размер иконки
 			iconImageOffset: [-20, -40] // Смещение иконки
 		}
@@ -1953,4 +1953,5 @@ function initMap() {
 
 	// Добавляем метку на карту
 	myMap.geoObjects.add(myPlacemark);
+
 }
