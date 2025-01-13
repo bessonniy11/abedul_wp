@@ -776,9 +776,10 @@ function initSwipers() {
 	// 1. Основной слайдер
 	const mainClientsItems = document.querySelectorAll('.main-page-clients-item');
 	const mainClientsContainer = document.querySelector('.main-page-clients-items');
+	console.log('mainClientsItems', mainClientsItems);
 
 
-	if (mainClientsItems.length > 2) {
+	if (mainClientsItems.length >= 2) {
 		new Swiper(mainClientsContainer, {
 			spaceBetween: 12,
 			loop: false,
@@ -811,7 +812,7 @@ function initSwipers() {
 			new Swiper(slider, {
 				slidesPerView: 1,
 				spaceBetween: 10,
-				loop: true,
+				loop: false,
 				autoHeight: true,
 				dynamicBullets: true,
 				navigation: {
