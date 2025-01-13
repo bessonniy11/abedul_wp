@@ -85,6 +85,10 @@ add_action('carbon_fields_register_fields', function () {
                     Field::make('text', 'info_text', 'Текст элемента')
                         ->set_help_text('Введите текст для информационного элемента'),
                 ]),
+            Field::make('text', 'popular_products_title', 'Заголовок блока "Популярные товары"'),
+            Field::make('text', 'we_are_trusted_title', 'Заголовок блока "Нам доверяют"'),
+            Field::make('text', 'all_projects_link_text', 'Текст ссылки (все проекты)'),
+            Field::make('text', 'all_projects_link', 'Ссылка (все проекты)'),
         ]);
 
     // данные для страницы Услуги
@@ -191,6 +195,8 @@ add_action('carbon_fields_register_fields', function () {
 
             Field::make('text', 'products_title', 'Заголовок блока продуктов')
                 ->set_help_text('Например: "В проекте использовали"'),
+            Field::make('text', 'project_see_more_btn', 'Текст ссылки смотреть всю подборку')
+                ->set_help_text('Например: "Смотреть всю подборку"'),
         ]);
     // данные для страницы Все проекты
     Container::make('post_meta', 'Все проекты - содержимое страницы')

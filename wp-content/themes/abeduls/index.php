@@ -139,7 +139,9 @@ get_header(); ?>
             <?php endif; ?>
 
             <div class="products">
-                <div class="block-title">Популярные товары</div>
+                <div class="block-title">
+                    <?php echo esc_html(carbon_get_the_post_meta('popular_products_title')); ?>
+                </div>
 
                 <div class="products-items">
                     <!-- Карточка товара -->
@@ -286,13 +288,90 @@ get_header(); ?>
 
             <div class="main-page-clients">
                 <div class="main-page-clients-top">
-                    <div class="block-title">Нам доверяют</div>
-                    <a href="/projects" class="main-page-clients-top__link arrow-link">
-                        <span>Все проекты</span>
+                    <div class="block-title">
+                        <?php echo esc_html(carbon_get_the_post_meta('we_are_trusted_title')); ?>
+                    </div>
+                    <a href="/<?php echo esc_html(carbon_get_the_post_meta('all_projects_link')); ?>" class="main-page-clients-top__link arrow-link">
+                        <span><?php echo esc_html(carbon_get_the_post_meta('all_projects_link_text')); ?></span>
                         <img loading="lazy" src="<?php echo get_template_directory_uri(); ?>/layout/img/icons/arrow-right-blue.svg" alt="arrow-right">
                     </a>
                 </div>
-                <div class="main-page-clients-items swiper-container">
+                <?php
+                // Получаем проекты
+                $projects = new WP_Query([
+                    'post_type' => 'projects',
+                    'posts_per_page' => -1, // Все проекты
+                ]);
+
+                if ($projects->have_posts()) : ?>
+                    <div class="main-page-clients-items swiper-container">
+                        <div class="swiper-wrapper">
+                            <?php
+                            while ($projects->have_posts()) : $projects->the_post();
+                                $main_image = carbon_get_post_meta(get_the_ID(), 'project_main_image');
+                                $main_slug = carbon_get_post_meta(get_the_ID(), 'project_slug');
+                                $project_subtitle = carbon_get_post_meta(get_the_ID(), 'project_subtitle');
+                                $main_image_url = $main_image ? wp_get_attachment_image_url($main_image, 'medium') : '';
+                                $project_gallery = carbon_get_post_meta(get_the_ID(), 'project_gallery');
+                                $project_see_more_btn = carbon_get_post_meta(get_the_ID(), 'project_see_more_btn');
+                            ?>
+                                <div class="swiper-slide">
+                                    <div class="main-page-clients-item">
+                                        <div class="main-page-clients-item__slider swiper-container">
+                                            <div class="swiper-wrapper">
+                                                <div class="swiper-slide">
+                                                    <div class="main-page-clients-item-slide ibg">
+                                                        <img loading="lazy" src="<?php echo esc_url($main_image_url); ?>" alt="">
+                                                    </div>
+                                                </div>
+                                                <?php if (!empty($project_gallery)): ?>
+                                                    <?php foreach ($project_gallery as $item): ?>
+                                                        <?php $img_url = wp_get_attachment_image_url($item['gallery_image'], 'full'); ?>
+                                                        <div class="swiper-slide">
+                                                            <div class="main-page-clients-item-slide ibg">
+                                                                <img loading="lazy" src="<?php echo $img_url; ?>" alt="">
+                                                            </div>
+                                                        </div>
+                                                    <?php endforeach; ?>
+                                                <?php endif; ?>
+                                            </div>
+                                            <?php if (count($project_gallery) > 1): ?>
+                                                <div class="main-page-clients-item__slider-controls">
+                                                    <div class="control-left">
+                                                        <img loading="lazy" src="<?php echo get_template_directory_uri(); ?>/layout/img/icons/arrow-left-blue.svg" alt="arrow-left">
+                                                    </div>
+                                                    <div class="control-right">
+                                                        <img loading="lazy" src="<?php echo get_template_directory_uri(); ?>/layout/img/icons/arrow-right-blue.svg" alt="arrow-right">
+                                                    </div>
+                                                </div>
+                                            <?php endif; ?>
+                                        </div>
+                                        <div class="main-page-clients-item__content">
+                                            <div class="main-page-clients-item__title"><?php the_title(); ?></div>
+                                            <div class="main-page-clients-item__subtitle">
+                                                <?php echo $project_subtitle; ?>
+                                            </div>
+                                            <div class="main-page-clients-item__elems">
+                                                <div class="main-page-clients-item__elem">Киоск типа INGSCREEN K x6</div>
+                                                <div class="main-page-clients-item__elem">Телевизор большого размера x2</div>
+                                                <div class="main-page-clients-item__elem">ЖК-ВИДЕОСТЕНА x34</div>
+                                            </div>
+                                            <a href="/projects/<?php echo esc_html($main_slug); ?>" class="main-page-clients-item__link arrow-link">
+                                                <span><?php echo esc_html($project_see_more_btn); ?></span>
+                                                <img loading="lazy" src="<?php echo get_template_directory_uri(); ?>/layout/img/icons/arrow-right-blue.svg" alt="arrow-right">
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            <?php endwhile; ?>
+                        </div>
+                    </div>
+                <?php else: ?>
+                    <p>Проекты не найдены.</p>
+                <?php endif;
+                wp_reset_postdata(); ?>
+                <!-- <div class="main-page-clients-items swiper-container">
                     <div class="swiper-wrapper">
                         <div class="swiper-slide">
                             <div class="main-page-clients-item">
@@ -413,7 +492,7 @@ get_header(); ?>
                             </div>
                         </div>
                     </div>
-                </div>
+                </div> -->
             </div>
         </div>
     </div>

@@ -2960,6 +2960,10 @@ h6 {
   z-index: 2;
   transition: all 0.3s ease 0s;
 }
+.main-page .main-page-content .main-page-clients .main-page-clients-items .main-page-clients-item .main-page-clients-item__slider .main-page-clients-item__slider-controls .control-left.swiper-button-disabled,
+.main-page .main-page-content .main-page-clients .main-page-clients-items .main-page-clients-item .main-page-clients-item__slider .main-page-clients-item__slider-controls .control-right.swiper-button-disabled {
+  opacity: 0.2;
+}
 .main-page .main-page-content .main-page-clients .main-page-clients-items .main-page-clients-item .main-page-clients-item__slider .main-page-clients-item__slider-controls .control-left img,
 .main-page .main-page-content .main-page-clients .main-page-clients-items .main-page-clients-item .main-page-clients-item__slider .main-page-clients-item__slider-controls .control-right img {
   width: 16px;
@@ -3002,6 +3006,7 @@ h6 {
 }
 .main-page .main-page-content .main-page-clients .main-page-clients-items .main-page-clients-item .main-page-clients-item__content .main-page-clients-item__link {
   margin-top: auto;
+  text-align: start !important;
 }
 
 .products .block-title {
