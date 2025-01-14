@@ -27,7 +27,7 @@ define('DB_NAME', 'abedul_new');
 define('DB_USER', 'root');
 
 /** Database password */
-define('DB_PASSWORD', '');
+define('DB_PASSWORD', 'root');
 
 /** Database hostname */
 define('DB_HOST', 'localhost');
