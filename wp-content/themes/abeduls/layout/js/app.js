@@ -776,7 +776,6 @@ function initSwipers() {
 	// 1. Основной слайдер
 	const mainClientsItems = document.querySelectorAll('.main-page-clients-item');
 	const mainClientsContainer = document.querySelector('.main-page-clients-items');
-	console.log('mainClientsItems', mainClientsItems);
 
 
 	if (mainClientsItems.length >= 2) {
@@ -1743,28 +1742,28 @@ function productSlider() {
 }
 
 function renderProducts(products, container) {
-	container.innerHTML = products.map(product => `
-        <div class="product-item">
-            <div class="product-slider swiper">
-				<div class="swiper-wrapper">
-					${product.images.map(image => `<div class="swiper-slide"><img src="${image}" alt="${product.name}"></div>`).join("")}
-				</div>
-				<div class="swiper-pagination"></div>
-            </div>
-            <div class="product-info">
-                <h3 class="product-title">${product.name}</h3>
-                <p class="product-description">${product.description}</p>
-                <p class="product-article">Артикул: ${product.article}</p>
-				<p class="product-description product-description-text">${product.descriptionText}</p>
-                <div class="product-buttons">
-                    <a href="product.php?id=${product.id}" class="btn btn-blue">Подробнее</a>
-					<a href="#order-send-popup" class="btn btn-white order-product-btn popup-link">Заказать</a>
-                </div>
-            </div>
-        </div>
-    `).join("");
-	popupLinks = document.querySelectorAll('.popup-link');
-	updatePopupLinks();
+	// container.innerHTML = products.map(product => `
+	//     <div class="product-item">
+	//         <div class="product-slider swiper">
+	// 			<div class="swiper-wrapper">
+	// 				${product.images.map(image => `<div class="swiper-slide"><img src="${image}" alt="${product.name}"></div>`).join("")}
+	// 			</div>
+	// 			<div class="swiper-pagination"></div>
+	//         </div>
+	//         <div class="product-info">
+	//             <h3 class="product-title">${product.name}</h3>
+	//             <p class="product-description">${product.description}</p>
+	//             <p class="product-article">Артикул: ${product.article}</p>
+	// 			<p class="product-description product-description-text">${product.descriptionText}</p>
+	//             <div class="product-buttons">
+	//                 <a href="product.php?id=${product.id}" class="btn btn-blue">Подробнее</a>
+	// 				<a href="#order-send-popup" class="btn btn-white order-product-btn popup-link">Заказать</a>
+	//             </div>
+	//         </div>
+	//     </div>
+	// `).join("");
+	// popupLinks = document.querySelectorAll('.popup-link');
+	// updatePopupLinks();
 };
 
 function initCatalog() {
@@ -1789,79 +1788,82 @@ function initCatalog() {
 		initFilters(filteredProducts);
 	}
 
-	// Дебаунс функция для задержки поиска
-	function debounceSearch() {
-		const query = searchInput.value.trim();
-
-		// Очистить предыдущий таймаут
-		clearTimeout(debounceTimeout);
-
-		// Установить новый таймаут
-		debounceTimeout = setTimeout(() => {
-			filterProductsBySearch(query);
-		}, 500); // 500ms задержка перед выполнением поиска
-	}
-
-	searchInput.addEventListener('input', debounceSearch);
 
 	initFilters();
 }
 
 function initFilters(filteredProducts = null) {
-	const extractNumericPart = (value) => {
-		// Извлекает числовую часть из строки (например, "1920x1080" -> 1920)
-		const numericMatch = value.match(/\d+/g);
-		return numericMatch ? numericMatch.map(Number) : [];
-	};
+	let debounceTimeout;
+	// Находим поле ввода для поиска
+	const searchInput = document.querySelector('.catalog-search-input');
+	// Находим все чекбоксы внутри формы фильтров
+	const filterForm = document.querySelector('.filter-form');
+	const filterClearButton = document.querySelector('.btn-clear-filter');
+	filterClearButton.addEventListener('click', (e) => {
+		e.preventDefault(); // Предотвращаем переход по ссылке или стандартное поведение кнопки
 
-	const sortNumericValues = (values) => {
-		return [...values].sort((a, b) => {
-			const [aMain, aSecondary] = extractNumericPart(a);
-			const [bMain, bSecondary] = extractNumericPart(b);
-			return aMain - bMain || (aSecondary || 0) - (bSecondary || 0);
-		});
-	};
+		// Сбрасываем значения всех фильтров внутри формы
+		filterForm.reset();
 
-	const getUniqueValues = (products, key, isNumeric = false) => {
-		const uniqueValues = [...new Set(products.map(product => product[key]))];
-		return isNumeric ? sortNumericValues(uniqueValues) : uniqueValues.sort();
-	};
+		// Отправляем обновлённые данные фильтрации
+		sendFilterData();
+	})
 
-	const filters = {
-		resolutions: getUniqueValues(filteredProducts ? filteredProducts : products, "resolution", true),
-		os: getUniqueValues(filteredProducts ? filteredProducts : products, "os"),
-		diagonals: getUniqueValues(filteredProducts ? filteredProducts : products, "diagonal", true),
-		brightness: getUniqueValues(filteredProducts ? filteredProducts : products, "brightness", true),
-		displayTechnologies: getUniqueValues(filteredProducts ? filteredProducts : products, "displayTechnology"),
-	};
+	// Дебаунс функция для задержки поиска
+	function debounceSearch() {
+		// Очистить предыдущий таймаут
+		clearTimeout(debounceTimeout);
 
-	// console.log(filters);
+		// Установить новый таймаут
+		debounceTimeout = setTimeout(() => {
+			sendFilterData(); // Отправляем данные фильтрации при каждом изменении текста
+		}, 500); // 500ms задержка перед выполнением поиска
+	}
 
-	const renderCheckboxOptions = (containerId, options) => {
-		const container = document.getElementById(containerId);
-		container.innerHTML = options
-			.map(
-				option => `
-                <div class="form-item form-item-checkbox blue-checkbox transparent" aria-required="true">
-                    <label class="custom-checkbox">
-                        <input type="checkbox" class="">
-                        <span class="checkmark blue-checkbox">
-                            <span class="checkmark-check"></span>
-                        </span>
-                        <div class="custom-checkbox-label blue-checkbox">${option}</div>
-                    </label>
-                </div>
-            `
-			)
-			.join("");
-	};
+	searchInput.addEventListener('input', debounceSearch);
+
+	filterForm.addEventListener('change', function (e) {
+		e.preventDefault();
+		sendFilterData();
+	});
+
+	function sendFilterData() {
+		body.classList.add('loading');
+
+		const formData = new FormData(filterForm);
+
+		// Добавляем значение поля поиска
+		const searchValue = searchInput.value.trim();
+		if (searchValue) {
+			formData.append('product_name', searchValue);
+		}
+
+		// Добавляем action для AJAX-обработчика
+		formData.append('action', 'my_filter_products');
+
+		// Отправляем AJAX-запрос
+		fetch('/wp-admin/admin-ajax.php', {
+			method: 'POST',
+			body: formData,
+		})
+			.then(response => response.json())
+			.then(data => {
+				const productsContainer = document.querySelector('.products-items');
+				productsContainer.innerHTML = data.html; // Обновляем список товаров
+				body.classList.remove('loading');
+			})
+			.catch(error => {
+				console.error('Ошибка:', error);
+				body.classList.remove('loading');
+			});
+	}
 
 	// Рендеринг фильтров
-	renderCheckboxOptions("resolution", filters.resolutions);
-	renderCheckboxOptions("os", filters.os);
-	renderCheckboxOptions("diagonal", filters.diagonals);
-	renderCheckboxOptions("brightness", filters.brightness);
-	renderCheckboxOptions("displayTechnology", filters.displayTechnologies);
+	// renderCheckboxOptions("resolution", filters.resolutions);
+	// renderCheckboxOptions("os", filters.os);
+	// renderCheckboxOptions("diagonal", filters.diagonals);
+	// renderCheckboxOptions("brightness", filters.brightness);
+	// renderCheckboxOptions("displayTechnology", filters.displayTechnologies);
 }
 
 function initViewType() {
