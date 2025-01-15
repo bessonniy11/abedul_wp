@@ -24,8 +24,6 @@ function updatePopupLinks() {
 
                 // Получаем название товара из data-атрибута
                 const productName = popupLink.getAttribute('data-product-name');
-                console.log('productName', productName);
-
 
                 // Обновляем подзаголовок в попапе
                 const popupSubtitle = curentPopup.querySelector('.popup-subtitle');
