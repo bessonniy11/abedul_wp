@@ -29,7 +29,6 @@ add_action('after_setup_theme', function () {
 });
 
 add_action('carbon_fields_register_fields', function () {
-
     // данные для категорий и подкатегорий
     Container::make('post_meta', 'Настройки категории')
         ->where('post_type', '=', 'category_group') // Применяем только к "Категории"
@@ -671,6 +670,249 @@ add_action('carbon_fields_register_fields', function () {
                 ->set_help_text('Введите текст кнопки "Заказать"'),
 
         ]);
+    // Настройки хедера
+    Container::make('theme_options', 'Настройки хедера - RU')
+        ->add_fields([
+
+            Field::make('separator', 'data_address'),
+            // Блок "Адрес"
+            Field::make('image', 'header_address_icon', 'Иконка возле адреса')
+                ->set_help_text('Загрузите иконку для адреса.'),
+            Field::make('text', 'header_address_title', 'Адрес пердприятия')
+                ->set_help_text('Введите адреса, производства".'),
+            Field::make('text', 'header_address_link', 'Ссылка')
+                ->set_help_text('Введите URL, куда переведет человека после клика на адресс.'),
+
+
+            Field::make('separator', 'contacts'),
+            // Блок "Контакты"
+            Field::make('image', 'header_contact_icon', 'Иконка для контакта')
+                ->set_help_text('Загрузите иконку для контакта, например, для телефона или email.'),
+            Field::make('text', 'header_contact_text', 'Текст для контакта')
+                ->set_help_text('Введите текст для контакта, например, "Связаться".'),
+
+            Field::make('text', 'header_email', 'Email')
+                ->set_help_text('Введите email для отображения в хедере.'),
+            Field::make('text', 'header_phone', 'Номер телефона')
+                ->set_help_text('Введите номер телефона для отображения в хедере.'),
+
+
+            Field::make('separator', 'logo'),
+            // Логотип
+            Field::make('image', 'header_logo', 'Логотип')
+                ->set_help_text('Загрузите логотип для отображения в хедере.'),
+
+            // Текст рядом с логотипом
+            Field::make('textarea', 'header_logo_text', 'Текст возле логотипа')
+                ->set_help_text('Введите текст, который будет отображаться рядом с логотипом.'),
+
+
+            Field::make('separator', 'input_search'),
+            // Строка ввода (текст внутри и иконка)
+            Field::make('text', 'header_input_text', 'Текст в строке ввода')
+                ->set_help_text('Введите текст, который будет отображаться в строке ввода (например, "Поиск").'),
+            Field::make('image', 'header_input_icon', 'Иконка для строки ввода')
+                ->set_help_text('Загрузите иконку для строки ввода (например, иконка поиска).'),
+
+            // Блок названий страниц с ссылками
+            Field::make('separator', 'individual_order'),
+            // Индивидуальный заказ
+            Field::make('text', 'header_individual_order_text', 'Индивидуальный заказ')
+                ->set_help_text('Введите текст для раздела "Индивидуальный заказ".'),
+            Field::make('text', 'header_individual_order_link', 'Ссылка на индивидуальный заказ')
+                ->set_help_text('Введите ссылку на страницу "Индивидуальный заказ".'),
+
+            Field::make('separator', 'services'),
+            //Услуги
+            Field::make('text', 'header_services_text', 'Услуги')
+                ->set_help_text('Введите текст для раздела "Услуги".'),
+            Field::make('text', 'header_services_link', 'Ссылка на услуги')
+                ->set_help_text('Введите ссылку на страницу "Услуги".'),
+
+            Field::make('separator', 'career'),
+            //Карьера
+            Field::make('text', 'header_career_text', 'Карьера')
+                ->set_help_text('Введите текст для раздела "Карьера".'),
+            Field::make('text', 'header_career_link', 'Ссылка на карьеру')
+                ->set_help_text('Введите ссылку на страницу "Карьера".'),
+
+            Field::make('separator', 'contacts_page'),
+            //Контакты
+            Field::make('text', 'header_contacts_text', 'Контакты')
+                ->set_help_text('Введите текст для раздела "Контакты".'),
+            Field::make('text', 'header_contacts_link', 'Ссылка на контакты')
+                ->set_help_text('Введите ссылку на страницу "Контакты".'),
+
+            Field::make('separator', 'our_factory'),
+            //Наша фабрика
+            Field::make('text', 'header_factory_text', 'Наша фабрика')
+                ->set_help_text('Введите текст для раздела "Наша фабрика".'),
+            Field::make('text', 'header_factory_link', 'Ссылка на нашу фабрику')
+                ->set_help_text('Введите ссылку на страницу "Наша фабрика".'),
+
+        ]);
+    // Настройки хедера - en
+    Container::make('theme_options', 'Настройки хедера - EN')
+        ->add_fields([
+
+            Field::make('separator', 'data_address_en'),
+            // Блок "Адрес"
+            Field::make('image', 'header_en_address_icon', 'Иконка возле адреса')
+                ->set_help_text('Загрузите иконку для адреса.'),
+            Field::make('text', 'header_en_address_title', 'Адрес пердприятия')
+                ->set_help_text('Введите адреса, производства".'),
+            Field::make('text', 'header_en_address_link', 'Ссылка')
+                ->set_help_text('Введите URL, куда переведет человека после клика на адресс.'),
+
+
+            Field::make('separator', 'contacts_en'),
+            // Блок "Контакты"
+            Field::make('image', 'header_en_contact_icon', 'Иконка для контакта')
+                ->set_help_text('Загрузите иконку для контакта, например, для телефона или email.'),
+            Field::make('text', 'header_en_contact_text', 'Текст для контакта')
+                ->set_help_text('Введите текст для контакта, например, "Связаться".'),
+
+            Field::make('text', 'header_en_email', 'Email')
+                ->set_help_text('Введите email для отображения в хедере.'),
+            Field::make('text', 'header_en_phone', 'Номер телефона')
+                ->set_help_text('Введите номер телефона для отображения в хедере.'),
+
+
+            Field::make('separator', 'logo_en'),
+            // Логотип
+            Field::make('image', 'header_en_logo', 'Логотип')
+                ->set_help_text('Загрузите логотип для отображения в хедере.'),
+
+            // Текст рядом с логотипом
+            Field::make('textarea', 'header_en_logo_text', 'Текст возле логотипа')
+                ->set_help_text('Введите текст, который будет отображаться рядом с логотипом.'),
+
+
+            Field::make('separator', 'input_search_en'),
+            // Строка ввода (текст внутри и иконка)
+            Field::make('text', 'header_en_input_text', 'Текст в строке ввода')
+                ->set_help_text('Введите текст, который будет отображаться в строке ввода (например, "Поиск").'),
+            Field::make('image', 'header_en_input_icon', 'Иконка для строки ввода')
+                ->set_help_text('Загрузите иконку для строки ввода (например, иконка поиска).'),
+
+            // Блок названий страниц с ссылками
+            Field::make('separator', 'individual_order_en'),
+            // Индивидуальный заказ
+            Field::make('text', 'header_en_individual_order_text', 'Индивидуальный заказ')
+                ->set_help_text('Введите текст для раздела "Индивидуальный заказ".'),
+            Field::make('text', 'header_en_individual_order_link', 'Ссылка на индивидуальный заказ')
+                ->set_help_text('Введите ссылку на страницу "Индивидуальный заказ".'),
+
+            Field::make('separator', 'services_en'),
+            //Услуги
+            Field::make('text', 'header_en_services_text', 'Услуги')
+                ->set_help_text('Введите текст для раздела "Услуги".'),
+            Field::make('text', 'header_en_services_link', 'Ссылка на услуги')
+                ->set_help_text('Введите ссылку на страницу "Услуги".'),
+
+            Field::make('separator', 'career_en'),
+            //Карьера
+            Field::make('text', 'header_en_career_text', 'Карьера')
+                ->set_help_text('Введите текст для раздела "Карьера".'),
+            Field::make('text', 'header_en_career_link', 'Ссылка на карьеру')
+                ->set_help_text('Введите ссылку на страницу "Карьера".'),
+
+            Field::make('separator', 'contacts_page_en'),
+            //Контакты
+            Field::make('text', 'header_en_contacts_text', 'Контакты')
+                ->set_help_text('Введите текст для раздела "Контакты".'),
+            Field::make('text', 'header_en_contacts_link', 'Ссылка на контакты')
+                ->set_help_text('Введите ссылку на страницу "Контакты".'),
+
+            Field::make('separator', 'our_factory_en'),
+            //Наша фабрика
+            Field::make('text', 'header_en_factory_text', 'Наша фабрика')
+                ->set_help_text('Введите текст для раздела "Наша фабрика".'),
+            Field::make('text', 'header_en_factory_link', 'Ссылка на нашу фабрику')
+                ->set_help_text('Введите ссылку на страницу "Наша фабрика".'),
+
+        ]);
+    // Настройки хедера - zh
+    Container::make('theme_options', 'Настройки хедера - ZH')
+        ->add_fields([
+
+            Field::make('separator', 'data_address_zh'),
+            // Блок "Адрес"
+            Field::make('image', 'header_zh_address_icon', 'Иконка возле адреса')
+                ->set_help_text('Загрузите иконку для адреса.'),
+            Field::make('text', 'header_zh_address_title', 'Адрес пердприятия')
+                ->set_help_text('Введите адреса, производства".'),
+            Field::make('text', 'header_zh_address_link', 'Ссылка')
+                ->set_help_text('Введите URL, куда переведет человека после клика на адресс.'),
+
+
+            Field::make('separator', 'contacts_zh'),
+            // Блок "Контакты"
+            Field::make('image', 'header_zh_contact_icon', 'Иконка для контакта')
+                ->set_help_text('Загрузите иконку для контакта, например, для телефона или email.'),
+            Field::make('text', 'header_zh_contact_text', 'Текст для контакта')
+                ->set_help_text('Введите текст для контакта, например, "Связаться".'),
+
+            Field::make('text', 'header_zh_email', 'Email')
+                ->set_help_text('Введите email для отображения в хедере.'),
+            Field::make('text', 'header_zh_phone', 'Номер телефона')
+                ->set_help_text('Введите номер телефона для отображения в хедере.'),
+
+
+            Field::make('separator', 'logo_zh'),
+            // Логотип
+            Field::make('image', 'header_zh_logo', 'Логотип')
+                ->set_help_text('Загрузите логотип для отображения в хедере.'),
+
+            // Текст рядом с логотипом
+            Field::make('rich_text', 'header_zh_logo_text', 'Текст возле логотипа')
+                ->set_help_text('Введите текст, который будет отображаться рядом с логотипом.'),
+
+
+            Field::make('separator', 'input_search_zh'),
+            // Строка ввода (текст внутри и иконка)
+            Field::make('text', 'header_zh_input_text', 'Текст в строке ввода')
+                ->set_help_text('Введите текст, который будет отображаться в строке ввода (например, "Поиск").'),
+            Field::make('image', 'header_zh_input_icon', 'Иконка для строки ввода')
+                ->set_help_text('Загрузите иконку для строки ввода (например, иконка поиска).'),
+
+            // Блок названий страниц с ссылками
+            Field::make('separator', 'individual_order_zh'),
+            // Индивидуальный заказ
+            Field::make('text', 'header_zh_individual_order_text', 'Индивидуальный заказ')
+                ->set_help_text('Введите текст для раздела "Индивидуальный заказ".'),
+            Field::make('text', 'header_zh_individual_order_link', 'Ссылка на индивидуальный заказ')
+                ->set_help_text('Введите ссылку на страницу "Индивидуальный заказ".'),
+
+            Field::make('separator', 'services_zh'),
+            //Услуги
+            Field::make('text', 'header_zh_services_text', 'Услуги')
+                ->set_help_text('Введите текст для раздела "Услуги".'),
+            Field::make('text', 'header_zh_services_link', 'Ссылка на услуги')
+                ->set_help_text('Введите ссылку на страницу "Услуги".'),
+
+            Field::make('separator', 'career_zh'),
+            //Карьера
+            Field::make('text', 'header_zh_career_text', 'Карьера')
+                ->set_help_text('Введите текст для раздела "Карьера".'),
+            Field::make('text', 'header_zh_career_link', 'Ссылка на карьеру')
+                ->set_help_text('Введите ссылку на страницу "Карьера".'),
+
+            Field::make('separator', 'contacts_page_zh'),
+            //Контакты
+            Field::make('text', 'header_zh_contacts_text', 'Контакты')
+                ->set_help_text('Введите текст для раздела "Контакты".'),
+            Field::make('text', 'header_zh_contacts_link', 'Ссылка на контакты')
+                ->set_help_text('Введите ссылку на страницу "Контакты".'),
+
+            Field::make('separator', 'our_factory_zh'),
+            //Наша фабрика
+            Field::make('text', 'header_zh_factory_text', 'Наша фабрика')
+                ->set_help_text('Введите текст для раздела "Наша фабрика".'),
+            Field::make('text', 'header_zh_factory_link', 'Ссылка на нашу фабрику')
+                ->set_help_text('Введите ссылку на страницу "Наша фабрика".'),
+
+        ]);
 });
 
 add_action('init', function () {
@@ -1272,3 +1514,19 @@ function my_filter_products()
 }
 add_action('wp_ajax_my_filter_products', 'my_filter_products');
 add_action('wp_ajax_nopriv_my_filter_products', 'my_filter_products');
+
+
+function register_theme_menus() {
+    register_nav_menus(array(
+        'main-menu' => __('Main Menu')
+    ));
+    // меню для английского языка
+    register_nav_menus(array(
+        'header-menu-en' => __('Header Menu for EN')
+    ));
+    // меню для китайского языка
+    register_nav_menus(array(
+        'header-menu-en' => __('Header Menu for ZH')
+    ));
+}
+add_action('init', 'register_theme_menus');
