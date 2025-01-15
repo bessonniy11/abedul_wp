@@ -55,7 +55,7 @@
             </div>
             <div class="header-center">
                 <div class="header-center__container">
-                    <a href="" class="header-logo">
+                    <a href="<?php echo esc_url(home_url('/')); ?>" class="header-logo">
                         <img loading="lazy" src="<?php echo get_template_directory_uri(); ?>/layout/img/logo-0.svg" alt="logo">
                     </a>
                     <div class="header-center-info">
@@ -111,25 +111,29 @@
                                 if ($query->have_posts()) : ?>
                                     <div id="catalog-container" class="catalog-container">
                                         <?php while ($query->have_posts()) : $query->the_post();
-                                            $icon = carbon_get_the_post_meta('category_icon');
+                                            $icon_id = carbon_get_the_post_meta('category_icon');
+                                            $category_slug = carbon_get_the_post_meta('category_slug');
+                                            $icon_url = $icon_id ? wp_get_attachment_image_url($icon_id, 'full') : ''; // Получаем URL изображения
                                             $subcategories = carbon_get_the_post_meta('subcategories');
                                         ?>
                                             <div class="catalog-item-group">
                                                 <div class="catalog-item-group__title-wrapper">
                                                     <div class="catalog-item-group__title">
-                                                        <img src="<?php echo get_template_directory_uri(); ?>/layout/img/catalog-icons/01.svg" alt="">
+                                                        <?php if ($icon_url): // Проверяем, существует ли изображение 
+                                                        ?>
+                                                            <img src="<?php echo esc_url($icon_url); ?>" alt="category-icon">
+                                                        <?php endif; ?>
                                                     </div>
                                                 </div>
                                                 <div class="catalog-item-group__content">
-                                                    <div class="catalog-item-group-title">
+                                                    <a href="/catalog/<?php echo esc_html($category_slug) ?>" class="catalog-item-group-title">
                                                         <?php the_title(); ?>
-                                                    </div>
+                                                    </a>
                                                     <?php if (!empty($subcategories)) : ?>
                                                         <div class="catalog-item-group-elems">
                                                             <?php foreach ($subcategories as $sub) : ?>
-                                                                <a href="" class="catalog-item-group-elem">
+                                                                <a href="/catalog/<?php echo esc_html($category_slug) ?>/<?php echo esc_html($sub['subcategory_slug']); ?>" class="catalog-item-group-elem">
                                                                     <span><?php echo esc_html($sub['subcategory_title']); ?></span>
-                                                                    <div></div>
                                                                     <?php if (!empty($sub['subcategory_extra'])): ?>
                                                                         <div class="catalog-item-group-elem-extra">
                                                                             <?php echo esc_html($sub['subcategory_extra']); ?>

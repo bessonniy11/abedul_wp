@@ -480,6 +480,9 @@ async function ready() {
 	if (document.querySelector('.contacts-page')) {
 		ymaps.ready(initMap);
 	}
+	if (document.querySelector('.product-page')) {
+		downloadLogic();
+	}
 	video();
 	form();
 	anchors();
@@ -776,7 +779,6 @@ function initSwipers() {
 	// 1. Основной слайдер
 	const mainClientsItems = document.querySelectorAll('.main-page-clients-item');
 	const mainClientsContainer = document.querySelector('.main-page-clients-items');
-	console.log('mainClientsItems', mainClientsItems);
 
 
 	if (mainClientsItems.length >= 2) {
@@ -1694,7 +1696,7 @@ function productSlider() {
 		slidesPerView: 1,
 		spaceBetween: 32,
 		mousewheel: true,
-		grabCursor: true,
+		grabCursor: false,
 		effect: 'fade',
 		thumbs: {
 			swiper: sliderThumbs,
@@ -1743,125 +1745,159 @@ function productSlider() {
 }
 
 function renderProducts(products, container) {
-	container.innerHTML = products.map(product => `
-        <div class="product-item">
-            <div class="product-slider swiper">
-				<div class="swiper-wrapper">
-					${product.images.map(image => `<div class="swiper-slide"><img src="${image}" alt="${product.name}"></div>`).join("")}
-				</div>
-				<div class="swiper-pagination"></div>
-            </div>
-            <div class="product-info">
-                <h3 class="product-title">${product.name}</h3>
-                <p class="product-description">${product.description}</p>
-                <p class="product-article">Артикул: ${product.article}</p>
-				<p class="product-description product-description-text">${product.descriptionText}</p>
-                <div class="product-buttons">
-                    <a href="product.php?id=${product.id}" class="btn btn-blue">Подробнее</a>
-					<a href="#order-send-popup" class="btn btn-white order-product-btn popup-link">Заказать</a>
-                </div>
-            </div>
-        </div>
-    `).join("");
-	popupLinks = document.querySelectorAll('.popup-link');
-	updatePopupLinks();
+	// container.innerHTML = products.map(product => `
+	//     <div class="product-item">
+	//         <div class="product-slider swiper">
+	// 			<div class="swiper-wrapper">
+	// 				${product.images.map(image => `<div class="swiper-slide"><img src="${image}" alt="${product.name}"></div>`).join("")}
+	// 			</div>
+	// 			<div class="swiper-pagination"></div>
+	//         </div>
+	//         <div class="product-info">
+	//             <h3 class="product-title">${product.name}</h3>
+	//             <p class="product-description">${product.description}</p>
+	//             <p class="product-article">Артикул: ${product.article}</p>
+	// 			<p class="product-description product-description-text">${product.descriptionText}</p>
+	//             <div class="product-buttons">
+	//                 <a href="product.php?id=${product.id}" class="btn btn-blue">Подробнее</a>
+	// 				<a href="#order-send-popup" class="btn btn-white order-product-btn popup-link">Заказать</a>
+	//             </div>
+	//         </div>
+	//     </div>
+	// `).join("");
+	// popupLinks = document.querySelectorAll('.popup-link');
+	// updatePopupLinks();
 };
 
 function initCatalog() {
+	initFilters();
+}
+
+function initFilters() {
 	let debounceTimeout;
-	const searchInput = document.querySelector('.catalog-search-input'); // Поисковое поле
-	const productsContainer = document.querySelector(".products-items");
-	renderProducts(products, productsContainer);
+	const searchInput = document.querySelector('.catalog-search-input');
+	const filterForm = document.querySelector('.filter-form');
+	const filterClearButton = document.querySelector('.btn-clear-filter');
+	const paginationButtons = document.querySelectorAll('.pagination-btn');
 
-	// Функция фильтрации продуктов по названию
-	function filterProductsBySearch(query) {
-		const filteredProducts = products.filter(product =>
-			product.name.toLowerCase().includes(query.toLowerCase())
-		);
+	// Очистка фильтров
+	filterClearButton.addEventListener('click', (e) => {
+		e.preventDefault();
+		filterForm.reset();
+		sendFilterData();
+	});
 
-		if (filteredProducts.length < 7) {
-			document.querySelector('.pagination').classList.add('hidden');
-		} else {
-			document.querySelector('.pagination').classList.remove('hidden');
-		}
-
-		renderProducts(filteredProducts, productsContainer);
-		initFilters(filteredProducts);
-	}
-
-	// Дебаунс функция для задержки поиска
+	// Дебаунс для поиска
 	function debounceSearch() {
-		const query = searchInput.value.trim();
-
-		// Очистить предыдущий таймаут
 		clearTimeout(debounceTimeout);
-
-		// Установить новый таймаут
 		debounceTimeout = setTimeout(() => {
-			filterProductsBySearch(query);
-		}, 500); // 500ms задержка перед выполнением поиска
+			sendFilterData();
+		}, 500);
 	}
 
 	searchInput.addEventListener('input', debounceSearch);
 
-	initFilters();
-}
+	filterForm.addEventListener('change', (e) => {
+		e.preventDefault();
+		sendFilterData();
+	});
 
-function initFilters(filteredProducts = null) {
-	const extractNumericPart = (value) => {
-		// Извлекает числовую часть из строки (например, "1920x1080" -> 1920)
-		const numericMatch = value.match(/\d+/g);
-		return numericMatch ? numericMatch.map(Number) : [];
-	};
+	// Обработка кликов по кнопкам пагинации
+	paginationButtons.forEach(button => {
+		button.addEventListener('click', (e) => {
+			const currentPage = e.target.getAttribute('data-page');
+			if (currentPage === 'prev' || currentPage === 'next') {
+				const activePage = document.querySelector('.pagination-btn.active');
+				const currentPageNum = parseInt(activePage.getAttribute('data-page'));
 
-	const sortNumericValues = (values) => {
-		return [...values].sort((a, b) => {
-			const [aMain, aSecondary] = extractNumericPart(a);
-			const [bMain, bSecondary] = extractNumericPart(b);
-			return aMain - bMain || (aSecondary || 0) - (bSecondary || 0);
+				if (currentPage === 'prev') {
+					sendFilterData(currentPageNum - 1);
+				} else if (currentPage === 'next') {
+					sendFilterData(currentPageNum + 1);
+				}
+			} else {
+				sendFilterData(currentPage);
+			}
 		});
-	};
+	});
 
-	const getUniqueValues = (products, key, isNumeric = false) => {
-		const uniqueValues = [...new Set(products.map(product => product[key]))];
-		return isNumeric ? sortNumericValues(uniqueValues) : uniqueValues.sort();
-	};
+	function sendFilterData(currentPage = 1) {
+		const formData = new FormData(filterForm);
+		const searchValue = searchInput.value.trim();
+		if (searchValue) {
+			formData.append('product_name', searchValue);
+		}
 
-	const filters = {
-		resolutions: getUniqueValues(filteredProducts ? filteredProducts : products, "resolution", true),
-		os: getUniqueValues(filteredProducts ? filteredProducts : products, "os"),
-		diagonals: getUniqueValues(filteredProducts ? filteredProducts : products, "diagonal", true),
-		brightness: getUniqueValues(filteredProducts ? filteredProducts : products, "brightness", true),
-		displayTechnologies: getUniqueValues(filteredProducts ? filteredProducts : products, "displayTechnology"),
-	};
+		formData.append('paged', currentPage);
+		formData.append('action', 'my_filter_products');
 
-	// console.log(filters);
+		body.classList.add('loading');
 
-	const renderCheckboxOptions = (containerId, options) => {
-		const container = document.getElementById(containerId);
-		container.innerHTML = options
-			.map(
-				option => `
-                <div class="form-item form-item-checkbox blue-checkbox transparent" aria-required="true">
-                    <label class="custom-checkbox">
-                        <input type="checkbox" class="">
-                        <span class="checkmark blue-checkbox">
-                            <span class="checkmark-check"></span>
-                        </span>
-                        <div class="custom-checkbox-label blue-checkbox">${option}</div>
-                    </label>
-                </div>
-            `
-			)
-			.join("");
-	};
+		fetch('/wp-admin/admin-ajax.php', {
+			method: 'POST',
+			body: formData,
+		})
+			.then(response => response.json())
+			.then(data => {
+				const productsContainer = document.querySelector('.products-items');
+				productsContainer.innerHTML = data.html;
+				body.classList.remove('loading');
 
-	// Рендеринг фильтров
-	renderCheckboxOptions("resolution", filters.resolutions);
-	renderCheckboxOptions("os", filters.os);
-	renderCheckboxOptions("diagonal", filters.diagonals);
-	renderCheckboxOptions("brightness", filters.brightness);
-	renderCheckboxOptions("displayTechnology", filters.displayTechnologies);
+				// Обновляем пагинацию
+				updatePagination(data.total_pages, currentPage);
+				updatePopupLinks();
+				initSwipers();
+
+				// Переинициализируем fslightbox
+				if (typeof refreshFsLightbox === 'function') {
+					refreshFsLightbox();
+				}
+			})
+			.catch(error => {
+				console.error('Ошибка:', error);
+				body.classList.remove('loading');
+				updatePopupLinks();
+				initSwipers();
+
+				// Переинициализируем fslightbox
+				if (typeof refreshFsLightbox === 'function') {
+					refreshFsLightbox();
+				}
+			});
+	}
+
+	// Обновление пагинации
+	function updatePagination(totalPages, currentPage) {
+		const pagination = document.querySelector('.pagination');
+		const buttons = pagination.querySelectorAll('.pagination-btn');
+
+		// Удаляем старые кнопки
+		buttons.forEach(button => button.remove());
+
+		// Оставляем кнопки для текущих страниц
+		for (let i = 1; i <= totalPages; i++) {
+			let pageButton = document.createElement('button');
+			pageButton.classList.add('pagination-btn');
+			pageButton.setAttribute('data-page', i);
+			pageButton.innerText = i;
+			pagination.insertBefore(pageButton, pagination.querySelector('.next'));
+			pageButton.addEventListener('click', (e) => {
+				const currentPage = e.target.getAttribute('data-page');
+				sendFilterData(currentPage);
+			});
+		}
+
+		// Убираем старые активные кнопки
+		buttons.forEach(button => button.classList.remove('active'));
+
+		// Устанавливаем активную кнопку
+		const pageButton = pagination.querySelector(`[data-page="${currentPage}"]`);
+		if (pageButton) {
+			pageButton.classList.add('active');
+		}
+	}
+
+	sendFilterData();
 }
 
 function initViewType() {
@@ -1955,4 +1991,37 @@ function initMap() {
 	// Добавляем метку на карту
 	myMap.geoObjects.add(myPlacemark);
 
+}
+
+function downloadLogic() {
+	const downloadButton = document.querySelector('.product-main-info__download');
+
+	if (downloadButton) {
+		downloadButton.addEventListener('click', function (e) {
+			e.preventDefault();
+
+			// Получаем данные товара
+			const productName = document.querySelector('.product-main-info__title')?.textContent.trim() || 'Без названия';
+			const productAttributes = document.querySelectorAll('.spec-list > li');
+
+			// Создаем массив данных для Excel
+			const excelData = [[productName], [], []];
+
+			productAttributes.forEach(item => {
+				const attributeName = item.querySelector('.spec-name')?.textContent.trim() || '';
+				const attributeValue = item.querySelector('.spec-value')?.textContent.trim() || '';
+				if (attributeName && attributeValue) {
+					excelData.push([attributeName, attributeValue]);
+				}
+			});
+
+			// Создаем книгу и лист Excel
+			const worksheet = XLSX.utils.aoa_to_sheet(excelData);
+			const workbook = XLSX.utils.book_new();
+			XLSX.utils.book_append_sheet(workbook, worksheet, 'Характеристики');
+
+			// Генерируем и скачиваем файл
+			XLSX.writeFile(workbook, `${productName}.xlsx`);
+		});
+	}
 }

@@ -107,13 +107,13 @@
 
         <div class="footer-bottom">
             <div class="footer-bottom-item">
-                <a href="" class="footer-bottom-item-logo">
+                <a href="<?php echo esc_url(home_url('/')); ?>" class="footer-bottom-item-logo">
                     <img loading="lazy" src="<?php echo get_template_directory_uri(); ?>/layout/img/logo-0.svg" alt="logo">
                 </a>
             </div>
             <div class="footer-bottom-item">
-                <a href="">Пользовательское соглашение</a>
-                <a href="">Политика конфиденциальности</a>
+                <a href="#">Пользовательское соглашение</a>
+                <a href="#confidenc-politic">Политика конфиденциальности</a>
             </div>
             <div class="footer-bottom-item">
                 <div>OOO «ЧЖУН МИ ПО ИНТЕЛЛЕКТУАЛЬНОМУ ОСНАЩЕНИЮ</div>
@@ -124,32 +124,6 @@
 </footer>
 
 <div class="popups">
-    <div class="popup video-popup" id="video-popup">
-        <div class="popup__content">
-            <div class="popup-close-trigger">
-                <img loading="lazy" loading="lazy" src="<?php echo get_template_directory_uri(); ?>/layout/img/icons/close-white.svg" alt="close">
-            </div>
-            <video id="videoPlayer" controls playsinline muted autoplay>
-                <source id="videoSource" src="" type="video/mp4">
-                Your browser does not support the video tag.
-            </video>
-            <div class="video-controls">
-                <div class="prev" id="prevButton">
-                    <img loading="lazy" loading="lazy" src="<?php echo get_template_directory_uri(); ?>/layout/img/icons/player/prev.svg" alt="prev">
-                </div>
-                <div class="play" id="playButton">
-                    <img loading="lazy" loading="lazy" src="<?php echo get_template_directory_uri(); ?>/layout/img/icons/player/pause.svg" alt="play">
-                </div>
-                <div class="next" id="nextButton">
-                    <img loading="lazy" loading="lazy" src="<?php echo get_template_directory_uri(); ?>/layout/img/icons/player/next.svg" alt="next">
-                </div>
-            </div>
-            <a href="" target="_blank" class="btn btn-orange video-tiktok-link">
-                View in tiktok
-            </a>
-        </div>
-    </div>
-
     <div class="popup order-popup order-a-call-popup" id="order-a-call-popup">
         <div class="popup__content">
             <div class="popup-close popup-close-trigger">
@@ -207,11 +181,17 @@
                 Оформить заявку
             </div>
 
-            <div class="popup-subtitle">
-                Киоск типа INGSCREEN K
-            </div>
+            <div class="popup-subtitle"></div>
 
             <form class="form form-popup">
+                <div style="display: none;" class="form-item" aria-required="true" field-name="nameProduct">
+                    <label class="form-item-label">
+                        <span class="form-item-label-value"></span>
+                        <span class="required-item">*</span>
+                    </label>
+                    <input placeholder="" type="text" name="name-product" class="form-item-input name-product">
+                    <span class="form-item-confirm-check"></span>
+                </div>
                 <div class="form-item" aria-required="true" field-name="firstName">
                     <label class="form-item-label">
                         <span class="form-item-label-value">Ваше имя</span>
@@ -270,139 +250,6 @@
         </div>
     </div>
 
-    <div class="popup question-popup" id="question-popup">
-        <div class="popup__content">
-            <div class="question-wrapper">
-                <div class="popup-close-trigger">
-                    <img loading="lazy" src="<?php echo get_template_directory_uri(); ?>/layout/img/icons/close.svg" alt="close">
-                </div>
-                <div class="question-popup__title">
-                    <div class="block-title">
-                        faQ
-                    </div>
-                </div>
-                <div class="question-items">
-                    <div class="question-item">
-                        <div class="question-item__title">
-                            <img loading="lazy" src="<?php echo get_template_directory_uri(); ?>/layout/img/icons/arrow-right-brief.svg" alt="arrow-right-brief">
-                            <span>What is Bossjob?</span>
-                        </div>
-                        <div class="question-item__subtitle">
-                            Bossjob is a chat-first, AI-powered hiring platform for professionals.
-                            We eliminate the lengthy hiring process by providing speedy communications between
-                            talents and bosses through precise talent matching and direct chat.
-                        </div>
-                    </div>
-                    <div class="question-item">
-                        <div class="question-item__title">
-                            <img loading="lazy" src="<?php echo get_template_directory_uri(); ?>/layout/img/icons/arrow-right-brief.svg" alt="arrow-right-brief">
-                            <span>What is “Chat and Apply”?</span>
-                        </div>
-                        <div class="question-item__subtitle">
-                            With Bossjob, applying for a job is as easy as starting a chat with an employer.
-                            By simply clicking <span class="bold">“Chat and Apply”.</span> you will be able to
-                            show interest in a
-                            job position and directly ask questions about the job offer and company information.
-                        </div>
-                    </div>
-                    <div class="question-item">
-                        <div class="question-item__title">
-                            <img loading="lazy" src="<?php echo get_template_directory_uri(); ?>/layout/img/icons/arrow-right-brief.svg" alt="arrow-right-brief">
-                            <span>How to Apply for a Job?</span>
-                        </div>
-                        <div class="question-item__images">
-                            <div class="question-item-img">
-                                <span>Click <span class="bold">“Chat and Apply”.</span></span>
-                                <img loading="lazy" src="<?php echo get_template_directory_uri(); ?>/layout/img/q-1.png" alt="question-item-img">
-                            </div>
-                            <div class="question-item-img">
-                                <span>
-                                    <span class="bold">Sign Up</span> for a Bossjob account using an Email
-                                    Address or Phone Number.
-                                </span>
-                                <img loading="lazy" src="<?php echo get_template_directory_uri(); ?>/layout/img/q-2.png" alt="question-item-img">
-                            </div>
-                            <div class="question-item-img exeption-horizontal">
-                                <span>
-                                    <span class="bold">Start a chat</span> with Origin’s Hiring Manager and
-                                    secure an interview slot.
-                                </span>
-                                <img loading="lazy" src="<?php echo get_template_directory_uri(); ?>/layout/img/q-3.png" alt="question-item-img">
-                            </div>
-                        </div>
-                    </div>
-                    <div class="question-item">
-                        <div class="question-item__title">
-                            <img loading="lazy" src="<?php echo get_template_directory_uri(); ?>/layout/img/icons/arrow-right-brief.svg" alt="arrow-right-brief">
-                            <span>How to Sign Up?</span>
-                        </div>
-                        <div class="question-item__images">
-                            <div class="question-item-img">
-                                <span>
-                                    Connect your <span class="bold">Email</span> or
-                                    <span class="bold">Phone Number</span> to create
-                                    an account.
-                                </span>
-                                <img loading="lazy" src="<?php echo get_template_directory_uri(); ?>/layout/img/q-4.png" alt="question-item-img">
-                            </div>
-                            <div class="question-item-img">
-                                <span>
-                                    Tell us your <span class="bold">Job Preferences</span> and desired <span
-                                        class="bold">Work Arrangements.</span>
-                                </span>
-                                <img loading="lazy" src="<?php echo get_template_directory_uri(); ?>/layout/img/q-5.png" alt="question-item-img">
-                            </div>
-                            <div class="question-item-img">
-                                <span>
-                                    Update your relevant <span class="bold">Work Experience</span> and <span
-                                        class="bold">start applying!</span>
-                                </span>
-                                <img loading="lazy" src="<?php echo get_template_directory_uri(); ?>/layout/img/q-6.png" alt="question-item-img">
-                            </div>
-                        </div>
-                    </div>
-                    <div class="question-item">
-                        <div class="question-item__title">
-                            <img loading="lazy" src="<?php echo get_template_directory_uri(); ?>/layout/img/icons/arrow-right-brief.svg" alt="arrow-right-brief">
-                            <span>How to secure an Interview with Origin Teahouse?</span>
-                        </div>
-                        <div class="question-item__images">
-                            <div class="question-item-img exeption-vertical">
-                                <span>
-                                    Chat with the hiring manager to know more about the interview and hiring
-                                    process.
-                                </span>
-                                <img loading="lazy" src="<?php echo get_template_directory_uri(); ?>/layout/img/q-7.png" alt="question-item-img">
-                            </div>
-                            <div class="question-item-img">
-                                <span>
-                                    Accept an interview invite from the hiring manager.
-                                </span>
-                                <img loading="lazy" src="<?php echo get_template_directory_uri(); ?>/layout/img/q-8.png" alt="question-item-img">
-                            </div>
-                            <div class="question-item-img">
-                                <span>
-                                    Show up virtually or in person (on-site) for an interview with Origin!
-                                </span>
-                                <img loading="lazy" src="<?php echo get_template_directory_uri(); ?>/layout/img/q-9.png" alt="question-item-img">
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="question-button--wrapper">
-                <a href="mailto:hello@bossjob.com?cc=aubrey@bossjob.com,bernie@bossjob.com&subject=I%20Have%20Some%20Questions%20about%20Hvala%20on%20Bossjob"
-                    target="_blank" class="question-button">
-                    <span class="question-button__title">
-                        Got More Questions?
-                    </span>
-                    <span class="question-button__info">
-                        Email us at <span class="bold">hello@bossjob.com</span> for more information.
-                    </span>
-                </a>
-            </div>
-        </div>
-    </div>
 </div>
 </div>
 

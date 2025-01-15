@@ -187,36 +187,6 @@
                                                 <img loading="lazy" class="play" src="img/icons/play.svg" alt="play">
                                             </div>
                                         </div>
-                                        <div class="swiper-slide">
-                                            <div class="thumb-img">
-                                                <img loading="lazy" src="img/products/04.png" alt="Thumbnail 4"
-                                                    class="product-slider__thumb">
-                                            </div>
-                                        </div>
-                                        <div class="swiper-slide">
-                                            <div class="thumb-img">
-                                                <img loading="lazy" src="img/products/01.png" alt="Thumbnail 1"
-                                                    class="product-slider__thumb">
-                                            </div>
-                                        </div>
-                                        <div class="swiper-slide">
-                                            <div class="thumb-img">
-                                                <img loading="lazy" src="img/products/02.png" alt="Thumbnail 2"
-                                                    class="product-slider__thumb">
-                                            </div>
-                                        </div>
-                                        <div class="swiper-slide">
-                                            <div class="thumb-img">
-                                                <img loading="lazy" src="img/products/03.png" alt="Thumbnail 3"
-                                                    class="product-slider__thumb">
-                                            </div>
-                                        </div>
-                                        <div class="swiper-slide">
-                                            <div class="thumb-img">
-                                                <img loading="lazy" src="img/products/04.png" alt="Thumbnail 4"
-                                                    class="product-slider__thumb">
-                                            </div>
-                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -245,42 +215,6 @@
                                             <img loading="lazy" class="product-img" src="img/products/07.png"
                                                 alt="Product 1">
                                             <img loading="lazy" class="play" src="img/icons/play.svg" alt="play">
-                                        </a>
-                                    </div>
-                                    <div class="swiper-slide">
-                                        <a data-fslightbox="product" href="img/products/04.png">
-                                            <img loading="lazy" class="product-img" src="img/products/04.png"
-                                                alt="Product 1">
-                                        </a>
-                                    </div>
-                                    <div class="swiper-slide">
-                                        <a data-fslightbox="product" href="img/products/01.png">
-                                            <img loading="lazy" class="product-img" src="img/products/01.png"
-                                                alt="Product 1">
-                                        </a>
-                                    </div>
-                                    <div class="swiper-slide">
-                                        <a data-fslightbox="product" href="img/products/02.png">
-                                            <img loading="lazy" class="product-img" src="img/products/02.png"
-                                                alt="Product 1">
-                                        </a>
-                                    </div>
-                                    <div class="swiper-slide">
-                                        <a data-fslightbox="product" href="img/products/03.png">
-                                            <img loading="lazy" class="product-img" src="img/products/03.png"
-                                                alt="Product 1">
-                                        </a>
-                                    </div>
-                                    <div class="swiper-slide">
-                                        <a data-fslightbox="product" href="img/products/04.png">
-                                            <img loading="lazy" class="product-img" src="img/products/04.png"
-                                                alt="Product 1">
-                                        </a>
-                                    </div>
-                                    <div class="swiper-slide">
-                                        <a data-fslightbox="product" href="img/products/05.png">
-                                            <img loading="lazy" class="product-img" src="img/products/05.png"
-                                                alt="Product 1">
                                         </a>
                                     </div>
                                 </div>
@@ -511,216 +445,191 @@
                                     </div>
                                     <div class="swiper-slide"><img src="img/products/04.png" alt="Product Image 1">
                                     </div>
-                                    <div class="swiper-slide"><img src="img/products/05.png" alt="Product Image 1">
-                                    </div>
-                                    <div class="swiper-slide"><img src="img/products/06.png" alt="Product Image 1">
-                                    </div>
-                                    <div class="swiper-slide"><img src="img/products/02.png" alt="Product Image 2">
-                                    </div>
-                                    <div class="swiper-slide"><img src="img/products/03.png" alt="Product Image 1">
-                                    </div>
-                                    <div class="swiper-slide"><img src="img/products/04.png" alt="Product Image 1">
-                                    </div>
-                                    <div class="swiper-slide"><img src="img/products/05.png" alt="Product Image 1">
-                                    </div>
-                                    <div class="swiper-slide"><img src="img/products/06.png" alt="Product Image 1">
-                                    </div>
-                                    <div class="swiper-slide"><img src="img/products/02.png" alt="Product Image 2">
-                                    </div>
-                                    <div class="swiper-slide"><img src="img/products/03.png" alt="Product Image 1">
-                                    </div>
-                                    <div class="swiper-slide"><img src="img/products/04.png" alt="Product Image 1">
-                                    </div>
-                                    <div class="swiper-slide"><img src="img/products/05.png" alt="Product Image 1">
-                                    </div>
-                                    <div class="swiper-slide"><img src="img/products/06.png" alt="Product Image 1">
+                                    <div class="swiper-pagination"></div>
+                                </div>
+                                <div class="product-info">
+                                    <h3 class="product-title">Киоск типа INGSCREEN K</h3>
+                                    <p class="product-description">Сенсорный стол</p>
+                                    <p class="product-article">Артикул 89776</p>
+                                    <div class="product-buttons">
+                                        <a href="product.php" class="btn btn-blue">Подробнее</a>
+                                        <a href="#order-send-popup"
+                                            class="btn btn-white order-product-btn popup-link">Заказать</a>
                                     </div>
                                 </div>
-                                <div class="swiper-pagination"></div>
                             </div>
-                            <div class="product-info">
-                                <h3 class="product-title">Киоск типа INGSCREEN K</h3>
-                                <p class="product-description">Сенсорный стол</p>
-                                <p class="product-article">Артикул 89776</p>
-                                <div class="product-buttons">
-                                    <a href="product.php" class="btn btn-blue">Подробнее</a>
-                                    <a href="#order-send-popup"
-                                        class="btn btn-white order-product-btn popup-link">Заказать</a>
+                            <!-- Повторяем карточку для остальных товаров -->
+                            <div class="product-item">
+                                <div class="product-slider swiper">
+                                    <div class="swiper-wrapper">
+                                        <div class="swiper-slide">
+                                            <img loading="lazy" src="img/products/05.png" alt="Product Image 1">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="product-info">
+                                    <h3 class="product-title">Киоск типа INGSCREEN K</h3>
+                                    <p class="product-description">Сенсорный стол</p>
+                                    <p class="product-article">Артикул 89776</p>
+                                    <div class="product-buttons">
+                                        <a href="product.php" class="btn btn-blue">Подробнее</a>
+                                        <a href="#order-send-popup"
+                                            class="btn btn-white order-product-btn popup-link">Заказать</a>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Карточка товара -->
+                            <div class="product-item">
+                                <div class="product-slider swiper">
+                                    <div class="swiper-wrapper">
+                                        <div class="swiper-slide"><img src="img/products/04.png" alt="Product Image 2">
+                                        </div>
+                                        <div class="swiper-slide"><img src="img/products/06.png" alt="Product Image 1">
+                                        </div>
+                                        <div class="swiper-slide"><img src="img/products/03.png" alt="Product Image 1">
+                                        </div>
+                                        <div class="swiper-slide"><img src="img/products/04.png" alt="Product Image 1">
+                                        </div>
+                                        <div class="swiper-slide"><img src="img/products/05.png" alt="Product Image 1">
+                                        </div>
+                                        <div class="swiper-slide"><img src="img/products/06.png" alt="Product Image 1">
+                                        </div>
+                                    </div>
+                                    <div class="swiper-pagination"></div>
+                                </div>
+                                <div class="product-info">
+                                    <h3 class="product-title">Киоск типа INGSCREEN K</h3>
+                                    <p class="product-description">Сенсорный стол</p>
+                                    <p class="product-article">Артикул 89776</p>
+                                    <div class="product-buttons">
+                                        <a href="product.php" class="btn btn-blue">Подробнее</a>
+                                        <a href="#order-send-popup"
+                                            class="btn btn-white order-product-btn popup-link">Заказать</a>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Карточка товара -->
+                            <div class="product-item">
+                                <div class="product-slider swiper">
+                                    <div class="swiper-wrapper">
+                                        <div class="swiper-slide"><img src="img/products/02.png" alt="Product Image 2">
+                                        </div>
+                                        <div class="swiper-slide"><img src="img/products/01.png" alt="Product Image 1">
+                                        </div>
+                                        <div class="swiper-slide"><img src="img/products/03.png" alt="Product Image 1">
+                                        </div>
+                                        <div class="swiper-slide"><img src="img/products/04.png" alt="Product Image 1">
+                                        </div>
+                                        <div class="swiper-slide"><img src="img/products/05.png" alt="Product Image 1">
+                                        </div>
+                                        <div class="swiper-slide"><img src="img/products/06.png" alt="Product Image 1">
+                                        </div>
+                                    </div>
+                                    <div class="swiper-pagination"></div>
+                                </div>
+                                <div class="product-info">
+                                    <h3 class="product-title">Киоск типа INGSCREEN K</h3>
+                                    <p class="product-description">Сенсорный стол</p>
+                                    <p class="product-article">Артикул 89776</p>
+                                    <div class="product-buttons">
+                                        <a href="product.php" class="btn btn-blue">Подробнее</a>
+                                        <a href="#order-send-popup"
+                                            class="btn btn-white order-product-btn popup-link">Заказать</a>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                        <!-- Повторяем карточку для остальных товаров -->
-                        <div class="product-item">
-                            <div class="product-slider swiper">
-                                <div class="swiper-wrapper">
-                                    <div class="swiper-slide">
-                                        <img loading="lazy" src="img/products/05.png" alt="Product Image 1">
-                                    </div>
-                                </div>
+                    </div>
+
+                    <div class="helper-form">
+                        <img loading="lazy" class="happy" src="img/happy-women.png" alt="happy">
+
+                        <div class="helper-form__content form-wrapper">
+                            <div class="block-title">Поможем подобрать</div>
+                            <div class="block-subtitle">
+                                Предложим варианты, подходящие под различные бюджеты,
+                                а также консультацию опытных специалистов для оптимизации затрат
                             </div>
-                            <div class="product-info">
-                                <h3 class="product-title">Киоск типа INGSCREEN K</h3>
-                                <p class="product-description">Сенсорный стол</p>
-                                <p class="product-article">Артикул 89776</p>
-                                <div class="product-buttons">
-                                    <a href="product.php" class="btn btn-blue">Подробнее</a>
-                                    <a href="#order-send-popup"
-                                        class="btn btn-white order-product-btn popup-link">Заказать</a>
+
+                            <form class="helper-form__form form" id="contact-form">
+                                <div class="form-item white" aria-required="true" field-name="firstName">
+                                    <input placeholder="Ваше имя" type="text" name="name" class="form-item-input">
+                                    <span class="form-item-confirm-check"></span>
                                 </div>
-                            </div>
-                        </div>
-                        <!-- Карточка товара -->
-                        <div class="product-item">
-                            <div class="product-slider swiper">
-                                <div class="swiper-wrapper">
-                                    <div class="swiper-slide"><img src="img/products/04.png" alt="Product Image 2">
-                                    </div>
-                                    <div class="swiper-slide"><img src="img/products/06.png" alt="Product Image 1">
-                                    </div>
-                                    <div class="swiper-slide"><img src="img/products/03.png" alt="Product Image 1">
-                                    </div>
-                                    <div class="swiper-slide"><img src="img/products/04.png" alt="Product Image 1">
-                                    </div>
-                                    <div class="swiper-slide"><img src="img/products/05.png" alt="Product Image 1">
-                                    </div>
-                                    <div class="swiper-slide"><img src="img/products/06.png" alt="Product Image 1">
-                                    </div>
+
+                                <div class="form-item white" aria-required="true" field-name="phone">
+                                    <input placeholder="(999) 999-99-99" name="phone" type="tel" data-tel-input
+                                        class="form-item-input form-item-input-phone">
+                                    <span class="form-item-confirm-check"></span>
                                 </div>
-                                <div class="swiper-pagination"></div>
-                            </div>
-                            <div class="product-info">
-                                <h3 class="product-title">Киоск типа INGSCREEN K</h3>
-                                <p class="product-description">Сенсорный стол</p>
-                                <p class="product-article">Артикул 89776</p>
-                                <div class="product-buttons">
-                                    <a href="product.php" class="btn btn-blue">Подробнее</a>
-                                    <a href="#order-send-popup"
-                                        class="btn btn-white order-product-btn popup-link">Заказать</a>
+
+                                <button class="btn btn-blue">
+                                    Получить консультацию
+                                </button>
+
+                            </form>
+
+                            <div class="loader"></div>
+                            <div class="form-sending">
+                                <img loading="lazy" loading="lazy" src="img/icons/check.svg" alt="check">
+                                <div class="form-sending__title">
+                                    Спасибо за обращение!
                                 </div>
-                            </div>
-                        </div>
-                        <!-- Карточка товара -->
-                        <div class="product-item">
-                            <div class="product-slider swiper">
-                                <div class="swiper-wrapper">
-                                    <div class="swiper-slide"><img src="img/products/02.png" alt="Product Image 2">
-                                    </div>
-                                    <div class="swiper-slide"><img src="img/products/01.png" alt="Product Image 1">
-                                    </div>
-                                    <div class="swiper-slide"><img src="img/products/03.png" alt="Product Image 1">
-                                    </div>
-                                    <div class="swiper-slide"><img src="img/products/04.png" alt="Product Image 1">
-                                    </div>
-                                    <div class="swiper-slide"><img src="img/products/05.png" alt="Product Image 1">
-                                    </div>
-                                    <div class="swiper-slide"><img src="img/products/06.png" alt="Product Image 1">
-                                    </div>
-                                </div>
-                                <div class="swiper-pagination"></div>
-                            </div>
-                            <div class="product-info">
-                                <h3 class="product-title">Киоск типа INGSCREEN K</h3>
-                                <p class="product-description">Сенсорный стол</p>
-                                <p class="product-article">Артикул 89776</p>
-                                <div class="product-buttons">
-                                    <a href="product.php" class="btn btn-blue">Подробнее</a>
-                                    <a href="#order-send-popup"
-                                        class="btn btn-white order-product-btn popup-link">Заказать</a>
+                                <div class="form-sending__subtitle">
+                                    Мы свяжемся с Вами в ближайшее время
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
 
-                <div class="helper-form">
-                    <img loading="lazy" class="happy" src="img/happy-women.png" alt="happy">
+                <div class="main-page-form form-wrapper">
 
-                    <div class="helper-form__content form-wrapper">
-                        <div class="block-title">Поможем подобрать</div>
-                        <div class="block-subtitle">
-                            Предложим варианты, подходящие под различные бюджеты,
-                            а также консультацию опытных специалистов для оптимизации затрат
-                        </div>
-
-                        <form class="helper-form__form form" id="contact-form">
-                            <div class="form-item white" aria-required="true" field-name="firstName">
-                                <input placeholder="Ваше имя" type="text" name="name" class="form-item-input">
-                                <span class="form-item-confirm-check"></span>
-                            </div>
-
-                            <div class="form-item white" aria-required="true" field-name="phone">
-                                <input placeholder="(999) 999-99-99" name="phone" type="tel" data-tel-input
-                                    class="form-item-input form-item-input-phone">
-                                <span class="form-item-confirm-check"></span>
-                            </div>
-
-                            <button class="btn btn-blue">
-                                Получить консультацию
-                            </button>
-
-                        </form>
-
-                        <div class="loader"></div>
-                        <div class="form-sending">
-                            <img loading="lazy" loading="lazy" src="img/icons/check.svg" alt="check">
-                            <div class="form-sending__title">
-                                Спасибо за обращение!
-                            </div>
-                            <div class="form-sending__subtitle">
-                                Мы свяжемся с Вами в ближайшее время
-                            </div>
-                        </div>
+                    <div class="main-page-form__title">
+                        Не нашли, что искали?
                     </div>
-                </div>
-            </div>
+                    <div class="main-page-form__subtitle">
+                        Предложим варианты, подходящие под различные бюджеты, а также консультацию опытных специалистов для
+                        оптимизации затрат
+                    </div>
 
-            <div class="main-page-form form-wrapper">
-
-                <div class="main-page-form__title">
-                    Не нашли, что искали?
-                </div>
-                <div class="main-page-form__subtitle">
-                    Предложим варианты, подходящие под различные бюджеты, а также консультацию опытных специалистов для
-                    оптимизации затрат
-                </div>
-
-                <form class="main-page-form__form form" id="contact-form">
-                    <div class="form-item white" aria-required="true" field-name="firstName">
-                        <!-- <label class="form-item-label">
+                    <form class="main-page-form__form form" id="contact-form">
+                        <div class="form-item white" aria-required="true" field-name="firstName">
+                            <!-- <label class="form-item-label">
                             <span class="form-item-label-value">Ваше имя</span>
                             <span class="required-item">*</span>
                         </label> -->
-                        <input placeholder="Ваше имя" type="text" name="name" class="form-item-input">
-                        <span class="form-item-confirm-check"></span>
-                    </div>
+                            <input placeholder="Ваше имя" type="text" name="name" class="form-item-input">
+                            <span class="form-item-confirm-check"></span>
+                        </div>
 
-                    <div class="form-item white" aria-required="true" field-name="phone">
-                        <!-- <label class="form-item-label">
+                        <div class="form-item white" aria-required="true" field-name="phone">
+                            <!-- <label class="form-item-label">
                             <span class="form-item-label-value">Телефон</span>
                             <span class="required-item">*</span>
                         </label> -->
-                        <input placeholder="(999) 999-99-99" name="phone" type="tel" data-tel-input
-                            class="form-item-input form-item-input-phone">
-                        <span class="form-item-confirm-check"></span>
-                    </div>
+                            <input placeholder="(999) 999-99-99" name="phone" type="tel" data-tel-input
+                                class="form-item-input form-item-input-phone">
+                            <span class="form-item-confirm-check"></span>
+                        </div>
 
-                    <button class="btn btn-form-white">
-                        Получить консультацию
-                    </button>
+                        <button class="btn btn-form-white">
+                            Получить консультацию
+                        </button>
 
-                </form>
+                    </form>
 
-                <div class="loader"></div>
-                <div class="form-sending">
-                    <img loading="lazy" loading="lazy" src="img/icons/check.svg" alt="check">
-                    <div class="form-sending__title">
-                        Спасибо за обращение!
-                    </div>
-                    <div class="form-sending__subtitle">
-                        Мы свяжемся с Вами в ближайшее время
+                    <div class="loader"></div>
+                    <div class="form-sending">
+                        <img loading="lazy" loading="lazy" src="img/icons/check.svg" alt="check">
+                        <div class="form-sending__title">
+                            Спасибо за обращение!
+                        </div>
+                        <div class="form-sending__subtitle">
+                            Мы свяжемся с Вами в ближайшее время
+                        </div>
                     </div>
                 </div>
-            </div>
 
 
         </main>

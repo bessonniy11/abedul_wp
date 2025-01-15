@@ -2,7 +2,7 @@
 /* Template Name: Главная */
 get_header(); ?>
 
-<main class="page services-page">
+<main class="page">
 
     <div class="main-page main-page__container">
         <?php
@@ -97,18 +97,56 @@ get_header(); ?>
                 </div>
 
                 <div class="main-top-images">
-                    <div class="main-top-image ibg">
-                        <img loading="lazy" src="<?php echo get_template_directory_uri(); ?>/layout/img/products/04.png" alt="">
-                        <div class="main-top-image-text">
-                            Киоск типа INGSCREEN K
-                        </div>
-                    </div>
-                    <div class="main-top-image ibg">
-                        <img loading="lazy" src="<?php echo get_template_directory_uri(); ?>/layout/img/products/05.png" alt="">
-                        <div class="main-top-image-text">
-                            Киоск типа INGSCREEN K
-                        </div>
-                    </div>
+                    <?php
+                    // Создаем WP_Query для популярных товаров
+                    $query = new WP_Query([
+                        'post_type'      => 'product',
+                        'posts_per_page' => -1, // Выводим все товары, можно ограничить, например, 8
+                        'meta_query'     => [
+                            [
+                                'key'     => 'product_in_main_slider', // Поле Carbon Fields
+                                'value'   => 'yes',             // Проверяем значение чекбокса
+                                'compare' => '=',
+                            ],
+                        ],
+                    ]);
+
+                    if ($query->have_posts()) :
+                        while ($query->have_posts()) : $query->the_post();
+                            // Получаем данные товара
+                            $product_name = carbon_get_the_post_meta('product_name');
+                            $product_sku = carbon_get_the_post_meta('product_sku');
+                            $product_main_description = carbon_get_the_post_meta('product_main_description');
+                            $product_gallery = carbon_get_the_post_meta('product_gallery');
+                            $product_read_more_btn = carbon_get_the_post_meta('product_read_more_btn') ?: 'Подробнее';
+                            $product_order_btn = carbon_get_the_post_meta('product_order_btn') ?: 'Заказать';
+                    ?>
+                            <?php if (!empty($product_gallery)) {
+                                // Ищем первое изображение
+                                foreach ($product_gallery as $gallery_item) {
+                                    if ($gallery_item['type'] === 'image' && !empty($gallery_item['image'])) {
+                                        $first_image_url = wp_get_attachment_image_url($gallery_item['image'], 'full'); // Получаем URL первого изображения
+                                        break; // Прерываем цикл после нахождения первого изображения
+                                    }
+                                }
+                            }
+                            ?>
+                            <!-- Карточка товара -->
+                            <a href="<?php the_permalink(); ?>" class="main-top-image ibg">
+                                <?php if (isset($first_image_url)) : ?>
+                                    <img loading="lazy" src="<?php echo esc_url($first_image_url); ?>" alt="<?php echo esc_attr($product_name); ?>">
+                                <?php endif; ?>
+                                <div class="main-top-image-text">
+                                    <?php echo esc_html($product_name); ?>
+                                </div>
+                            </a>
+                        <?php
+                        endwhile;
+                        wp_reset_postdata();
+                    else :
+                        ?>
+                        <p></p>
+                    <?php endif; ?>
                 </div>
             </div>
 
@@ -144,146 +182,82 @@ get_header(); ?>
                 </div>
 
                 <div class="products-items">
-                    <!-- Карточка товара -->
-                    <div class="product-item">
-                        <div class="product-slider swiper">
-                            <div class="swiper-wrapper">
-                                <div class="swiper-slide"><img src="<?php echo get_template_directory_uri(); ?>/layout/img/products/02.png" alt="Product Image 2"></div>
-                                <div class="swiper-slide"><img src="<?php echo get_template_directory_uri(); ?>/layout/img/products/03.png" alt="Product Image 1"></div>
-                                <div class="swiper-slide"><img src="<?php echo get_template_directory_uri(); ?>/layout/img/products/04.png" alt="Product Image 1"></div>
-                                <div class="swiper-slide"><img src="<?php echo get_template_directory_uri(); ?>/layout/img/products/05.png" alt="Product Image 1"></div>
-                                <div class="swiper-slide"><img src="<?php echo get_template_directory_uri(); ?>/layout/img/products/06.png" alt="Product Image 1"></div>
-                                <div class="swiper-slide"><img src="<?php echo get_template_directory_uri(); ?>/layout/img/products/02.png" alt="Product Image 2"></div>
-                                <div class="swiper-slide"><img src="<?php echo get_template_directory_uri(); ?>/layout/img/products/03.png" alt="Product Image 1"></div>
-                                <div class="swiper-slide"><img src="<?php echo get_template_directory_uri(); ?>/layout/img/products/04.png" alt="Product Image 1"></div>
-                                <div class="swiper-slide"><img src="<?php echo get_template_directory_uri(); ?>/layout/img/products/05.png" alt="Product Image 1"></div>
-                                <div class="swiper-slide"><img src="<?php echo get_template_directory_uri(); ?>/layout/img/products/06.png" alt="Product Image 1"></div>
-                                <div class="swiper-slide"><img src="<?php echo get_template_directory_uri(); ?>/layout/img/products/02.png" alt="Product Image 2"></div>
-                                <div class="swiper-slide"><img src="<?php echo get_template_directory_uri(); ?>/layout/img/products/03.png" alt="Product Image 1"></div>
-                                <div class="swiper-slide"><img src="<?php echo get_template_directory_uri(); ?>/layout/img/products/04.png" alt="Product Image 1"></div>
-                                <div class="swiper-slide"><img src="<?php echo get_template_directory_uri(); ?>/layout/img/products/05.png" alt="Product Image 1"></div>
-                                <div class="swiper-slide"><img src="<?php echo get_template_directory_uri(); ?>/layout/img/products/06.png" alt="Product Image 1"></div>
-                            </div>
-                            <div class="swiper-pagination"></div>
-                        </div>
-                        <div class="product-info">
-                            <h3 class="product-title">Киоск типа INGSCREEN K</h3>
-                            <p class="product-description">Сенсорный стол</p>
-                            <p class="product-article">Артикул 89776</p>
-                            <div class="product-buttons">
-                                <a href="product.php" class="btn btn-blue">Подробнее</a>
-                                <a href="#order-send-popup" class="btn btn-white order-product-btn popup-link">Заказать</a>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- Повторяем карточку для остальных товаров -->
-                    <div class="product-item">
-                        <div class="product-slider swiper">
-                            <div class="swiper-wrapper">
-                                <div class="swiper-slide">
-                                    <img loading="lazy" src="<?php echo get_template_directory_uri(); ?>/layout/img/products/05.png" alt="Product Image 1">
+                    <?php
+                    // Создаем WP_Query для популярных товаров
+                    $query = new WP_Query([
+                        'post_type'      => 'product',
+                        'posts_per_page' => -1, // Выводим все товары, можно ограничить, например, 8
+                        'meta_query'     => [
+                            [
+                                'key'     => 'product_featured', // Поле Carbon Fields
+                                'value'   => 'yes',             // Проверяем значение чекбокса
+                                'compare' => '=',
+                            ],
+                        ],
+                    ]);
+
+                    if ($query->have_posts()) :
+                        while ($query->have_posts()) : $query->the_post();
+                            // Получаем данные товара
+                            $product_name = carbon_get_the_post_meta('product_name');
+                            $product_sku = carbon_get_the_post_meta('product_sku');
+                            $product_screen_resolution = carbon_get_the_post_meta('product_screen_resolution');
+                            $product_artikul_name = carbon_get_the_post_meta('product_artikul_name');
+                            $product_main_description = carbon_get_the_post_meta('product_main_description');
+                            $product_shot_description = carbon_get_the_post_meta('product_shot_description');
+                            $product_gallery = carbon_get_the_post_meta('product_gallery');
+                            $product_read_more_btn = carbon_get_the_post_meta('product_read_more_btn') ?: 'Подробнее';
+                            $product_order_btn = carbon_get_the_post_meta('product_order_btn') ?: 'Заказать';
+                    ?>
+                            <!-- Карточка товара -->
+                            <div class="product-item">
+                                <div class="product-slider swiper">
+                                    <div class="swiper-wrapper">
+                                        <?php if (!empty($product_gallery)) : ?>
+                                            <?php foreach ($product_gallery as $gallery_item) : ?>
+                                                <?php if ($gallery_item['type'] === 'image') : ?>
+                                                    <a data-fslightbox="<?php echo esc_html($product_name); ?>" href="<?php echo wp_get_attachment_image_url($gallery_item['image'], 'full'); ?>" class="swiper-slide">
+                                                        <img src="<?php echo wp_get_attachment_image_url($gallery_item['image'], 'full'); ?>"
+                                                            alt="<?php echo esc_attr($gallery_item['alt_text']); ?>">
+                                                    </a>
+                                                <?php elseif ($gallery_item['type'] === 'video') : ?>
+                                                    <a data-fslightbox="<?php echo esc_html($product_name); ?>" href="<?php echo wp_get_attachment_url($gallery_item['video']); ?>" class="swiper-slide">
+                                                        <img src="<?php echo wp_get_attachment_image_url($gallery_item['video_preview'], 'full'); ?>"
+                                                            alt="<?php echo esc_attr($gallery_item['alt_text']); ?>">
+                                                        <img loading="lazy" class="play" src="<?php echo get_template_directory_uri(); ?>/layout/img/icons/play.svg" alt="play">
+                                                    </a>
+                                                <?php endif; ?>
+                                            <?php endforeach; ?>
+                                        <?php endif; ?>
+                                    </div>
+                                    <div class="swiper-pagination"></div>
+                                </div>
+                                <div class="product-info">
+                                    <h3 class="product-title"><?php echo esc_html($product_name); ?></h3>
+                                    <p class="product-description"><?php echo esc_html($product_shot_description); ?></p>
+                                    <?php if (!empty($product_sku)) : ?>
+                                        <p class="product-article"><?php echo esc_html($product_artikul_name); ?> <?php echo esc_html($product_sku); ?></p>
+                                    <?php endif; ?>
+                                    <?php if (!empty($product_main_description)) : ?>
+                                        <p class="product-description product-description-text"><?php echo esc_html($product_main_description); ?></p>
+                                    <?php endif; ?>
+                                    <div class="product-buttons">
+                                        <a href="<?php the_permalink(); ?>" class="btn btn-blue"><?php echo esc_html($product_read_more_btn); ?></a>
+                                        <a href="#order-send-popup" class="btn btn-white order-product-btn popup-link">
+                                            <?php echo esc_html($product_order_btn); ?>
+                                        </a>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="product-info">
-                            <h3 class="product-title">Киоск типа INGSCREEN K</h3>
-                            <p class="product-description">Сенсорный стол</p>
-                            <p class="product-article">Артикул 89776</p>
-                            <div class="product-buttons">
-                                <a href="product.php" class="btn btn-blue">Подробнее</a>
-                                <a href="#order-send-popup" class="btn btn-white order-product-btn popup-link">Заказать</a>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- Карточка товара -->
-                    <div class="product-item">
-                        <div class="product-slider swiper">
-                            <div class="swiper-wrapper">
-                                <div class="swiper-slide"><img src="<?php echo get_template_directory_uri(); ?>/layout/img/products/04.png" alt="Product Image 2"></div>
-                                <div class="swiper-slide"><img src="<?php echo get_template_directory_uri(); ?>/layout/img/products/06.png" alt="Product Image 1"></div>
-                                <div class="swiper-slide"><img src="<?php echo get_template_directory_uri(); ?>/layout/img/products/03.png" alt="Product Image 1"></div>
-                                <div class="swiper-slide"><img src="<?php echo get_template_directory_uri(); ?>/layout/img/products/04.png" alt="Product Image 1"></div>
-                                <div class="swiper-slide"><img src="<?php echo get_template_directory_uri(); ?>/layout/img/products/05.png" alt="Product Image 1"></div>
-                                <div class="swiper-slide"><img src="<?php echo get_template_directory_uri(); ?>/layout/img/products/06.png" alt="Product Image 1"></div>
-                            </div>
-                            <div class="swiper-pagination"></div>
-                        </div>
-                        <div class="product-info">
-                            <h3 class="product-title">Киоск типа INGSCREEN K</h3>
-                            <p class="product-description">Сенсорный стол</p>
-                            <p class="product-article">Артикул 89776</p>
-                            <div class="product-buttons">
-                                <a href="product.php" class="btn btn-blue">Подробнее</a>
-                                <a href="#order-send-popup" class="btn btn-white order-product-btn popup-link">Заказать</a>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- Карточка товара -->
-                    <div class="product-item">
-                        <div class="product-slider swiper">
-                            <div class="swiper-wrapper">
-                                <div class="swiper-slide"><img src="<?php echo get_template_directory_uri(); ?>/layout/img/products/02.png" alt="Product Image 2"></div>
-                                <div class="swiper-slide"><img src="<?php echo get_template_directory_uri(); ?>/layout/img/products/01.png" alt="Product Image 1"></div>
-                                <div class="swiper-slide"><img src="<?php echo get_template_directory_uri(); ?>/layout/img/products/03.png" alt="Product Image 1"></div>
-                                <div class="swiper-slide"><img src="<?php echo get_template_directory_uri(); ?>/layout/img/products/04.png" alt="Product Image 1"></div>
-                                <div class="swiper-slide"><img src="<?php echo get_template_directory_uri(); ?>/layout/img/products/05.png" alt="Product Image 1"></div>
-                                <div class="swiper-slide"><img src="<?php echo get_template_directory_uri(); ?>/layout/img/products/06.png" alt="Product Image 1"></div>
-                            </div>
-                            <div class="swiper-pagination"></div>
-                        </div>
-                        <div class="product-info">
-                            <h3 class="product-title">Киоск типа INGSCREEN K</h3>
-                            <p class="product-description">Сенсорный стол</p>
-                            <p class="product-article">Артикул 89776</p>
-                            <div class="product-buttons">
-                                <a href="product.php" class="btn btn-blue">Подробнее</a>
-                                <a href="#order-send-popup" class="btn btn-white order-product-btn popup-link">Заказать</a>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- Карточка товара -->
-                    <div class="product-item">
-                        <div class="product-slider swiper">
-                            <div class="swiper-wrapper">
-                                <div class="swiper-slide"><img src="<?php echo get_template_directory_uri(); ?>/layout/img/products/04.png" alt="Product Image 2"></div>
-                                <div class="swiper-slide"><img src="<?php echo get_template_directory_uri(); ?>/layout/img/products/01.png" alt="Product Image 1"></div>
-                            </div>
-                            <div class="swiper-pagination"></div>
-                        </div>
-                        <div class="product-info">
-                            <h3 class="product-title">Киоск типа INGSCREEN K</h3>
-                            <p class="product-description">Сенсорный стол</p>
-                            <p class="product-article">Артикул 89776</p>
-                            <div class="product-buttons">
-                                <a href="product.php" class="btn btn-blue">Подробнее</a>
-                                <a href="#order-send-popup" class="btn btn-white order-product-btn popup-link">Заказать</a>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- Карточка товара -->
-                    <div class="product-item">
-                        <div class="product-slider swiper">
-                            <div class="swiper-wrapper">
-                                <div class="swiper-slide"><img src="<?php echo get_template_directory_uri(); ?>/layout/img/products/03.png" alt="Product Image 2"></div>
-                                <div class="swiper-slide"><img src="<?php echo get_template_directory_uri(); ?>/layout/img/products/01.png" alt="Product Image 1"></div>
-                                <div class="swiper-slide"><img src="<?php echo get_template_directory_uri(); ?>/layout/img/products/03.png" alt="Product Image 1"></div>
-                                <div class="swiper-slide"><img src="<?php echo get_template_directory_uri(); ?>/layout/img/products/04.png" alt="Product Image 1"></div>
-                                <div class="swiper-slide"><img src="<?php echo get_template_directory_uri(); ?>/layout/img/products/05.png" alt="Product Image 1"></div>
-                                <div class="swiper-slide"><img src="<?php echo get_template_directory_uri(); ?>/layout/img/products/06.png" alt="Product Image 1"></div>
-                            </div>
-                            <div class="swiper-pagination"></div>
-                        </div>
-                        <div class="product-info">
-                            <h3 class="product-title">Киоск типа INGSCREEN K</h3>
-                            <p class="product-description">Сенсорный стол</p>
-                            <p class="product-article">Артикул 89776</p>
-                            <div class="product-buttons">
-                                <a href="product.php" class="btn btn-blue">Подробнее</a>
-                                <a href="#order-send-popup" class="btn btn-white order-product-btn popup-link">Заказать</a>
-                            </div>
-                        </div>
-                    </div>
+                        <?php
+                        endwhile;
+                        wp_reset_postdata();
+                    else :
+                        ?>
+                        <p><?php echo esc_html($products_empty_text); ?></p>
+                    <?php endif; ?>
                 </div>
+
             </div>
 
             <div class="main-page-clients">

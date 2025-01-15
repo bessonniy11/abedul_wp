@@ -76,6 +76,12 @@ body.load .loader-wrapper {
   background: rgba(0, 0, 0, 0.5);
 }
 
+body.loading .loader-wrapper {
+  visibility: visible;
+  opacity: 1;
+  background: rgba(0, 0, 0, 0.1);
+}
+
 /* Оверлей */
 .overlay {
   position: fixed;
@@ -2413,6 +2419,10 @@ h6 {
   font-weight: 500;
   color: var(--black);
   text-align: left;
+  transition: all 0.3s ease 0s;
+}
+.header .catalog-container .catalog-item-group .catalog-item-group__content .catalog-item-group-title:hover {
+  color: var(--accent-hover);
 }
 .header .catalog-container .catalog-item-group .catalog-item-group__content .catalog-item-group-elems {
   display: flex;
@@ -2425,6 +2435,9 @@ h6 {
 .header .catalog-container .catalog-item-group .catalog-item-group__content .catalog-item-group-elems .catalog-item-group-elem {
   padding: 5px 0;
   cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 5px;
   transition: all 0.3s ease 0s;
 }
 .header .catalog-container .catalog-item-group .catalog-item-group__content .catalog-item-group-elems .catalog-item-group-elem:hover {
@@ -2628,7 +2641,7 @@ h6 {
   font-family: var(--font-manrope);
   text-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.5);
 }
-@media (max-width: 1400px) {
+@media (max-width: 1600px) {
   .main-page .main-page-content .main-page-content-top .main-top-slider .main-top-slider-info .main-top-slider-title {
     font-size: 22px;
   }
@@ -2651,7 +2664,7 @@ h6 {
     margin-bottom: 10px;
   }
 }
-@media (max-width: 1400px) {
+@media (max-width: 1600px) {
   .main-page .main-page-content .main-page-content-top .main-top-slider .main-top-slider-info .main-top-slider-subtitle {
     font-size: 14px;
   }
@@ -3128,6 +3141,22 @@ h6 {
   -o-object-fit: cover;
      object-fit: cover;
 }
+
+.products .products-items .product-item .product-slider img.play {
+  position: absolute !important;
+  left: 50% !important;
+  top: 50% !important;
+  width: 50px !important;
+  height: 50px !important;
+  transform: translate(-50%, -50%) !important;
+  z-index: 5 !important;
+  opacity: 0.8 !important;
+  cursor: pointer !important;
+  transition: all 0.3s ease 0s !important;
+}
+.products .products-items .product-item .product-slider img.play:hover {
+  opacity: 1 !important;
+}
 .products .products-items .product-item .product-slider .swiper-pagination {
   text-align: center;
   z-index: 5;
@@ -3142,7 +3171,7 @@ h6 {
   background: var(--white);
 }
 .products .products-items .product-item .product-info {
-  padding: 12px 24px;
+  padding: 12px 12px;
 }
 @media (max-width: 650px) {
   .products .products-items .product-item .product-info {
@@ -3325,7 +3354,7 @@ h6 {
   }
 }
 .product-page .product-top {
-  margin-top: 20px;
+  margin-top: 65px;
   margin-bottom: 44px;
   display: flex;
   align-items: flex-start;
@@ -3334,6 +3363,7 @@ h6 {
 @media (max-width: 1300px) {
   .product-page .product-top {
     flex-direction: column;
+    margin-top: 20px;
     margin-bottom: 30px;
   }
 }
@@ -3383,6 +3413,11 @@ h6 {
   gap: 10px;
   height: calc(33vw - 100px);
   transition: transform 0.3s ease;
+}
+.product-page .product-top .product-slider__thumbnails .product-slider__thumb-container .product-slider__thumbs .swiper-wrapper.max5 {
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 @media (max-width: 1300px) {
   .product-page .product-top .product-slider__thumbnails .product-slider__thumb-container .product-slider__thumbs {
@@ -3879,7 +3914,6 @@ h6 {
   font-weight: 500;
   font-size: 18px;
   line-height: 120%;
-  color: var(--black-700);
   display: flex;
   flex-direction: column;
   gap: 10px;
@@ -3903,6 +3937,9 @@ h6 {
 .product-page .page__container .products {
   margin-top: 20px;
   margin-bottom: 44px;
+}
+.catalog-page .products .load-more-btn {
+  margin: 40px auto 0;
 }
 .product-page .page__container .products .products-items {
   grid-template-columns: 1fr 1fr 1fr 1fr;
@@ -4813,6 +4850,7 @@ h6 {
   padding: 48px 0;
   display: flex;
   gap: 20px;
+  width: 100%;
 }
 @media (max-width: 860px) {
   .catalog-page .catalog {
@@ -5089,6 +5127,7 @@ h6 {
 .catalog-page .catalog .products .pagination {
   display: flex;
   justify-content: center;
+  flex-wrap: wrap;
   gap: 8px;
   margin-top: 45px;
 }
