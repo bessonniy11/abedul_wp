@@ -2,6 +2,8 @@
 /* Template Name: Каталог */
 $category_slug = get_query_var('category_slug');
 $subcategory_slug = get_query_var('subcategory_slug');
+// echo 'Category Slug: ' . esc_html($category_slug) . '<br>';
+// echo 'Subcategory Slug: ' . esc_html($subcategory_slug) . '<br>';
 // Получаем ID страницы "Каталог" по её пути
 $catalog_page = get_page_by_path('catalog');
 $catalog_page_id = $catalog_page ? $catalog_page->ID : null;
@@ -133,7 +135,7 @@ get_header(); ?>
 
         <nav class="breadcrumbs">
             <ul class="breadcrumbs-list">
-                <li class="breadcrumbs-item"><a href="/" class="breadcrumbs-link"><?php echo esc_html($main_breadcrumb); ?> / </a></li>
+                <li class="breadcrumbs-item"><a href="<?php echo esc_url(home_url('/')); ?>" class="breadcrumbs-link"><?php echo esc_html($main_breadcrumb); ?> / </a></li>
                 <li class="breadcrumbs-item"><a href="/catalog" class="breadcrumbs-link"><?php echo esc_html($second_breadcrumb); ?> / </a></li>
                 <?php
                 // Получение названия категории
@@ -337,7 +339,7 @@ get_header(); ?>
                         </div>
                     </div>
                 </div>
-                <div class="products-items list">
+                <div class="products-items list" id="products-list">
                     <?php
                     if ($query->have_posts()) :
                         while ($query->have_posts()) : $query->the_post();
@@ -400,6 +402,14 @@ get_header(); ?>
                         ?>
                         <p><?php echo esc_html($products_empty_text); ?></p>
                     <?php endif; ?>
+                </div>
+                <!-- Пагинация -->
+                <div class="pagination">
+                    <button class="pagination-btn prev" data-page="prev">Предыдущая</button>
+                    <button class="pagination-btn active" data-page="1">1</button>
+                    <button class="pagination-btn" data-page="2">2</button>
+                    <button class="pagination-btn" data-page="3">3</button>
+                    <button class="pagination-btn next" data-page="next">Следующая</button>
                 </div>
             </section>
         </div>

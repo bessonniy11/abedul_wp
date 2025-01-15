@@ -107,7 +107,7 @@
 
         <div class="footer-bottom">
             <div class="footer-bottom-item">
-                <a href="" class="footer-bottom-item-logo">
+                <a href="<?php echo esc_url(home_url('/')); ?>" class="footer-bottom-item-logo">
                     <img loading="lazy" src="<?php echo get_template_directory_uri(); ?>/layout/img/logo-0.svg" alt="logo">
                 </a>
             </div>

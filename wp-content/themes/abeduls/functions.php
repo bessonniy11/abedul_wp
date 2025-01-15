@@ -12,6 +12,7 @@ function website_assets()
     wp_enqueue_script('swiper-bundle', get_template_directory_uri() . '/layout/js/swiper-bundle.min.js', array(), null, true);
     wp_enqueue_script('fslightbox', get_template_directory_uri() . '/layout/js/fslightbox.js', array(), null, true);
     wp_enqueue_script('intlTelInput', get_template_directory_uri() . '/layout/js/intlTelInput.min.js', array(), null, true);
+    wp_enqueue_script('xlsx', get_template_directory_uri() . '/layout/js/xlsx.min.js', array(), null, true);
     wp_enqueue_script('app', get_template_directory_uri() . '/layout/js/app.js', array(), null, true);
 }
 
@@ -522,6 +523,14 @@ add_action('carbon_fields_register_fields', function () {
             )
                 ->set_help_text('Введите заголовок блока "Характеристики"'),
 
+            Field::make(
+                'text',
+                'product_attributes_subtitle',
+                'Подзаголовок блока Общие параметры'
+            )
+                ->set_help_text('Введите подзаголовка блока "Общие параметры"'),
+
+
             Field::make('complex', 'product_attributes', 'Характеристики')
                 ->set_layout('tabbed-horizontal')
                 ->add_fields([
@@ -631,6 +640,22 @@ add_action('carbon_fields_register_fields', function () {
                 ->set_help_text('Если нужно добавьте дополнительные блоки товара с описанием и фото'),
             Field::make(
                 'text',
+                'product_related_products_title',
+                'Заголовок блока "Сопутствующие товары"'
+            )
+                ->set_help_text('Введите заголовок блока "Сопутствующие товары"'),
+
+            Field::make('association', 'product_related_products', 'Сопутствующие товары')
+                ->set_types([
+                    [
+                        'type'      => 'post',
+                        'post_type' => 'product', // Укажите тип записи для товаров
+                    ],
+                ])
+                ->set_help_text('Выберите сопутствующие товары для отображения на странице этого товара'),
+
+            Field::make(
+                'text',
                 'product_read_more_btn',
                 'Текст кнопки "Подробнее"'
             )
@@ -681,6 +706,11 @@ add_action('init', function () {
 
 // Регистрация кастомного типа записи "Товар"
 add_action('init', function () {
+    add_rewrite_rule(
+        '^products/([^/]+)/?$',
+        'index.php?post_type=product&name=$matches[1]',
+        'top'
+    );
     register_post_type('product', [
         'labels' => [
             'name' => 'Товары',
@@ -956,13 +986,13 @@ add_filter('query_vars', 'abedul_register_query_vars');
 function abedul_register_rewrite_rules()
 {
     add_rewrite_rule(
-        '^catalog/(.+)/?$',
+        '^catalog/([^/]+)/?$',
         'index.php?pagename=page-catalog&category_group=$matches[1]',
         'top'
     );
 
     add_rewrite_rule(
-        '^catalog/(.+)/(.+)/?$',
+        '^catalog/([^/]+)/([^/]+)/?$',
         'index.php?pagename=page-catalog&category_group=$matches[1]&subcategory_slug=$matches[2]',
         'top'
     );
@@ -1053,16 +1083,20 @@ function my_filter_products()
         exit;
     }
 
+    // Получаем текущую страницу из запроса
+    $paged = isset($_POST['paged']) ? intval($_POST['paged']) : 1;
+
     // Получаем данные из запроса
     $filters = $_POST;
 
     // Базовые параметры WP_Query
     $args = [
         'post_type'      => 'product',
-        'posts_per_page' => -1,
+        'posts_per_page' => 6, // Количество товаров на странице
+        'paged'          => $paged,
     ];
 
-    // Инициализируем meta_query
+    // Применяем фильтры
     $meta_query = [
         'relation' => 'AND',
     ];
@@ -1163,6 +1197,9 @@ function my_filter_products()
     // Создаем WP_Query
     $query = new WP_Query($args);
 
+    // Получаем общее количество страниц
+    $total_pages = $query->max_num_pages;
+
     // Генерируем HTML для ответа
     $html = '';
     if ($query->have_posts()) {
@@ -1216,7 +1253,9 @@ function my_filter_products()
 
             $html .= '<div class="product-buttons">';
             $html .= '<a href="' . get_the_permalink() . '" class="btn btn-blue">' . esc_html($product_read_more_btn) . '</a>';
-            $html .= '<a href="#order-send-popup" class="btn btn-white order-product-btn popup-link">' . esc_html($product_order_btn) . '</a>';
+            $html .= '<a href="#order-send-popup" class="btn btn-white order-product-btn popup-link" ' .
+                'data-product-name="' . esc_attr($product_name) . '">' .
+                esc_html($product_order_btn) . '</a>';
             $html .= '</div>';
             $html .= '</div>';
             $html .= '</div>';
@@ -1228,7 +1267,7 @@ function my_filter_products()
     wp_reset_postdata();
 
     // Отправляем ответ
-    wp_send_json(['html' => $html]);
+    wp_send_json(['html' => $html, 'total_pages' => $total_pages]);
     wp_die();
 }
 add_action('wp_ajax_my_filter_products', 'my_filter_products');

@@ -480,6 +480,9 @@ async function ready() {
 	if (document.querySelector('.contacts-page')) {
 		ymaps.ready(initMap);
 	}
+	if (document.querySelector('.product-page')) {
+		downloadLogic();
+	}
 	video();
 	form();
 	anchors();
@@ -1693,7 +1696,7 @@ function productSlider() {
 		slidesPerView: 1,
 		spaceBetween: 32,
 		mousewheel: true,
-		grabCursor: true,
+		grabCursor: false,
 		effect: 'fade',
 		thumbs: {
 			swiper: sliderThumbs,
@@ -1767,81 +1770,69 @@ function renderProducts(products, container) {
 };
 
 function initCatalog() {
-	let debounceTimeout;
-	const searchInput = document.querySelector('.catalog-search-input'); // Поисковое поле
-	const productsContainer = document.querySelector(".products-items");
-	renderProducts(products, productsContainer);
-
-	// Функция фильтрации продуктов по названию
-	function filterProductsBySearch(query) {
-		const filteredProducts = products.filter(product =>
-			product.name.toLowerCase().includes(query.toLowerCase())
-		);
-
-		if (filteredProducts.length < 7) {
-			document.querySelector('.pagination').classList.add('hidden');
-		} else {
-			document.querySelector('.pagination').classList.remove('hidden');
-		}
-
-		renderProducts(filteredProducts, productsContainer);
-		initFilters(filteredProducts);
-	}
-
-
 	initFilters();
 }
 
-function initFilters(filteredProducts = null) {
+function initFilters() {
 	let debounceTimeout;
-	// Находим поле ввода для поиска
 	const searchInput = document.querySelector('.catalog-search-input');
-	// Находим все чекбоксы внутри формы фильтров
 	const filterForm = document.querySelector('.filter-form');
 	const filterClearButton = document.querySelector('.btn-clear-filter');
+	const paginationButtons = document.querySelectorAll('.pagination-btn');
+
+	// Очистка фильтров
 	filterClearButton.addEventListener('click', (e) => {
-		e.preventDefault(); // Предотвращаем переход по ссылке или стандартное поведение кнопки
-
-		// Сбрасываем значения всех фильтров внутри формы
+		e.preventDefault();
 		filterForm.reset();
-
-		// Отправляем обновлённые данные фильтрации
 		sendFilterData();
-	})
+	});
 
-	// Дебаунс функция для задержки поиска
+	// Дебаунс для поиска
 	function debounceSearch() {
-		// Очистить предыдущий таймаут
 		clearTimeout(debounceTimeout);
-
-		// Установить новый таймаут
 		debounceTimeout = setTimeout(() => {
-			sendFilterData(); // Отправляем данные фильтрации при каждом изменении текста
-		}, 500); // 500ms задержка перед выполнением поиска
+			sendFilterData();
+		}, 500);
 	}
 
 	searchInput.addEventListener('input', debounceSearch);
 
-	filterForm.addEventListener('change', function (e) {
+	filterForm.addEventListener('change', (e) => {
 		e.preventDefault();
 		sendFilterData();
 	});
 
-	function sendFilterData() {
-		body.classList.add('loading');
+	// Обработка кликов по кнопкам пагинации
+	paginationButtons.forEach(button => {
+		button.addEventListener('click', (e) => {
+			const currentPage = e.target.getAttribute('data-page');
+			if (currentPage === 'prev' || currentPage === 'next') {
+				const activePage = document.querySelector('.pagination-btn.active');
+				const currentPageNum = parseInt(activePage.getAttribute('data-page'));
 
+				if (currentPage === 'prev') {
+					sendFilterData(currentPageNum - 1);
+				} else if (currentPage === 'next') {
+					sendFilterData(currentPageNum + 1);
+				}
+			} else {
+				sendFilterData(currentPage);
+			}
+		});
+	});
+
+	function sendFilterData(currentPage = 1) {
 		const formData = new FormData(filterForm);
-
-		// Добавляем значение поля поиска
 		const searchValue = searchInput.value.trim();
 		if (searchValue) {
 			formData.append('product_name', searchValue);
 		}
 
-		// Добавляем action для AJAX-обработчика
+		formData.append('paged', currentPage);
 		formData.append('action', 'my_filter_products');
 
-		// Отправляем AJAX-запрос
+		body.classList.add('loading');
+
 		fetch('/wp-admin/admin-ajax.php', {
 			method: 'POST',
 			body: formData,
@@ -1849,21 +1840,64 @@ function initFilters(filteredProducts = null) {
 			.then(response => response.json())
 			.then(data => {
 				const productsContainer = document.querySelector('.products-items');
-				productsContainer.innerHTML = data.html; // Обновляем список товаров
+				productsContainer.innerHTML = data.html;
 				body.classList.remove('loading');
+
+				// Обновляем пагинацию
+				updatePagination(data.total_pages, currentPage);
+				updatePopupLinks();
+				initSwipers();
+
+				// Переинициализируем fslightbox
+				if (typeof refreshFsLightbox === 'function') {
+					refreshFsLightbox();
+				}
 			})
 			.catch(error => {
 				console.error('Ошибка:', error);
 				body.classList.remove('loading');
+				updatePopupLinks();
+				initSwipers();
+
+				// Переинициализируем fslightbox
+				if (typeof refreshFsLightbox === 'function') {
+					refreshFsLightbox();
+				}
 			});
 	}
 
-	// Рендеринг фильтров
-	// renderCheckboxOptions("resolution", filters.resolutions);
-	// renderCheckboxOptions("os", filters.os);
-	// renderCheckboxOptions("diagonal", filters.diagonals);
-	// renderCheckboxOptions("brightness", filters.brightness);
-	// renderCheckboxOptions("displayTechnology", filters.displayTechnologies);
+	// Обновление пагинации
+	function updatePagination(totalPages, currentPage) {
+		const pagination = document.querySelector('.pagination');
+		const buttons = pagination.querySelectorAll('.pagination-btn');
+
+		// Удаляем старые кнопки
+		buttons.forEach(button => button.remove());
+
+		// Оставляем кнопки для текущих страниц
+		for (let i = 1; i <= totalPages; i++) {
+			let pageButton = document.createElement('button');
+			pageButton.classList.add('pagination-btn');
+			pageButton.setAttribute('data-page', i);
+			pageButton.innerText = i;
+			pagination.insertBefore(pageButton, pagination.querySelector('.next'));
+			pageButton.addEventListener('click', (e) => {
+				const currentPage = e.target.getAttribute('data-page');
+				sendFilterData(currentPage);
+			});
+		}
+
+		// Убираем старые активные кнопки
+		buttons.forEach(button => button.classList.remove('active'));
+
+		// Устанавливаем активную кнопку
+		const pageButton = pagination.querySelector(`[data-page="${currentPage}"]`);
+		if (pageButton) {
+			pageButton.classList.add('active');
+		}
+	}
+
+	sendFilterData();
 }
 
 function initViewType() {
@@ -1957,4 +1991,37 @@ function initMap() {
 	// Добавляем метку на карту
 	myMap.geoObjects.add(myPlacemark);
 
+}
+
+function downloadLogic() {
+	const downloadButton = document.querySelector('.product-main-info__download');
+
+	if (downloadButton) {
+		downloadButton.addEventListener('click', function (e) {
+			e.preventDefault();
+
+			// Получаем данные товара
+			const productName = document.querySelector('.product-main-info__title')?.textContent.trim() || 'Без названия';
+			const productAttributes = document.querySelectorAll('.spec-list > li');
+
+			// Создаем массив данных для Excel
+			const excelData = [[productName], [], []];
+
+			productAttributes.forEach(item => {
+				const attributeName = item.querySelector('.spec-name')?.textContent.trim() || '';
+				const attributeValue = item.querySelector('.spec-value')?.textContent.trim() || '';
+				if (attributeName && attributeValue) {
+					excelData.push([attributeName, attributeValue]);
+				}
+			});
+
+			// Создаем книгу и лист Excel
+			const worksheet = XLSX.utils.aoa_to_sheet(excelData);
+			const workbook = XLSX.utils.book_new();
+			XLSX.utils.book_append_sheet(workbook, worksheet, 'Характеристики');
+
+			// Генерируем и скачиваем файл
+			XLSX.writeFile(workbook, `${productName}.xlsx`);
+		});
+	}
 }

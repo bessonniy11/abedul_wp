@@ -14,6 +14,7 @@ function isWebPSupported(callback) {
 
 updatePopupLinks();
 function updatePopupLinks() {
+    popupLinks = document.querySelectorAll('.popup-link');
     if (popupLinks.length > 0) {
         for (let index = 0; index < popupLinks.length; index++) {
             const popupLink = popupLinks[index];
@@ -23,6 +24,8 @@ function updatePopupLinks() {
 
                 // Получаем название товара из data-атрибута
                 const productName = popupLink.getAttribute('data-product-name');
+                console.log('productName', productName);
+
 
                 // Обновляем подзаголовок в попапе
                 const popupSubtitle = curentPopup.querySelector('.popup-subtitle');
