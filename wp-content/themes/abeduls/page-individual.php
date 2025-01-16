@@ -1,5 +1,5 @@
 <?php
-/* Template Name: Индивидуальный  заказ */
+/* Template Name: Individual order */
 
 get_header(); ?>
 <main class="page individual-page">

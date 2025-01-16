@@ -1792,7 +1792,13 @@ h6 {
 }
 .header .header-language {
   position: relative;
-  cursor: pointer;
+  cursor: pointer !important;
+}
+@media (max-width: 960px) {
+  .header-language {
+    padding: 25px;
+    margin: 0 auto;
+  }
 }
 .header .header-language .custom-select {
   width: 80px;

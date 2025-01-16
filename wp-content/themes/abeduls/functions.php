@@ -197,6 +197,14 @@ add_action('carbon_fields_register_fields', function () {
                 ->set_help_text('Например: "В проекте использовали"'),
             Field::make('text', 'project_see_more_btn', 'Текст ссылки смотреть всю подборку')
                 ->set_help_text('Например: "Смотреть всю подборку"'),
+            Field::make('association', 'project_related_products', 'Товары которые использовались в этом проекте')
+                ->set_types([
+                    [
+                        'type'      => 'post',
+                        'post_type' => 'product', // Укажите тип записи для товаров
+                    ],
+                ])
+                ->set_help_text('Выберите товары которые использовались в этом проекте'),
         ]);
     // данные для страницы Все проекты
     Container::make('post_meta', 'Все проекты - содержимое страницы')
@@ -348,7 +356,7 @@ add_action('carbon_fields_register_fields', function () {
             // Главный заголовок
             Field::make('text', 'contacts_main_title', 'Главный заголовок')
                 ->set_help_text('Введите главный заголовок для страницы контактов'),
-            // Блок с контактами для России
+            // Блок с контактами
             Field::make('complex', 'contacts', 'Контакты')
                 ->set_layout('tabbed-horizontal')
                 ->add_fields([
@@ -670,247 +678,137 @@ add_action('carbon_fields_register_fields', function () {
                 ->set_help_text('Введите текст кнопки "Заказать"'),
 
         ]);
-    // Настройки хедера
-    Container::make('theme_options', 'Настройки хедера - RU')
+    // настройки хедера
+    Container::make('post_meta', 'Header')
+        ->where('post_type', '=', 'header')
         ->add_fields([
-
-            Field::make('separator', 'data_address'),
-            // Блок "Адрес"
-            Field::make('image', 'header_address_icon', 'Иконка возле адреса')
-                ->set_help_text('Загрузите иконку для адреса.'),
-            Field::make('text', 'header_address_title', 'Адрес пердприятия')
-                ->set_help_text('Введите адреса, производства".'),
-            Field::make('text', 'header_address_link', 'Ссылка')
-                ->set_help_text('Введите URL, куда переведет человека после клика на адресс.'),
-
-
-            Field::make('separator', 'contacts'),
-            // Блок "Контакты"
-            Field::make('image', 'header_contact_icon', 'Иконка для контакта')
-                ->set_help_text('Загрузите иконку для контакта, например, для телефона или email.'),
-            Field::make('text', 'header_contact_text', 'Текст для контакта')
-                ->set_help_text('Введите текст для контакта, например, "Связаться".'),
-
+            Field::make('text', 'header_location', 'Адрес')
+                ->set_default_value('г. Москва ул.Дубнинская д. 83, 8-й этаж №819-820-821'),
             Field::make('text', 'header_email', 'Email')
-                ->set_help_text('Введите email для отображения в хедере.'),
-            Field::make('text', 'header_phone', 'Номер телефона')
-                ->set_help_text('Введите номер телефона для отображения в хедере.'),
-
-
-            Field::make('separator', 'logo'),
-            // Логотип
+                ->set_default_value('info_abedul@mail.ru'),
+            Field::make('text', 'header_phone', 'Телефон')
+                ->set_default_value('+7 999-957-45-89'),
+            Field::make('text', 'header_project_button_text', 'Текст кнопки "Обсудить проект"')
+                ->set_default_value('Обсудить проект'),
+            Field::make('text', 'header_near_logo_text', 'Текст рядом с logo')
+                ->set_help_text(
+                    'Текст рядом с logo, например "Производитель интерактивного обрудования"". <br>
+                    Text next to the logo, e.g. “Manufacturer of interactive equipment”. <br>
+                    徽标旁的文字，如 “互动设备制造商”。'
+                ),
+            Field::make('text', 'header_search_text', 'Текст-подсказка для поиска')
+                ->set_help_text(
+                    'Текст-подсказка для поиска, например "Искать продукцию". <br>
+                    Search hint text, e.g. “Search for products”. <br>
+                    搜索提示文本，如 "搜索产品”'
+                ),
             Field::make('image', 'header_logo', 'Логотип')
-                ->set_help_text('Загрузите логотип для отображения в хедере.'),
+                ->set_value_type('url'),
+            Field::make('text', 'header_catalog_text', 'Текст для пункта меню "Каталог"')
+                ->set_help_text(
+                    'Текст для пункта меню "Каталог". <br>
+                    Text for the menu item “Catalog". <br>
+                    目录 "菜单项的文本'
+                ),
+            Field::make('complex', 'header_menu_items', 'Пункты меню')
+                ->add_fields([
+                    Field::make('text', 'menu_item_label', 'Название')
+                        ->set_required(true),
+                    Field::make('text', 'menu_item_link', 'Ссылка')
+                        ->set_required(true),
+                ])
+                ->set_default_value([
+                    ['menu_item_label' => 'Индивидуальный заказ', 'menu_item_link' => '/individual'],
+                    ['menu_item_label' => 'Услуги', 'menu_item_link' => '/services'],
+                    ['menu_item_label' => 'Карьера', 'menu_item_link' => '/career'],
+                    ['menu_item_label' => 'Контакты', 'menu_item_link' => '/contacts'],
+                    ['menu_item_label' => 'Наша фабрика', 'menu_item_link' => '/fabric'],
+                ]),
 
-            // Текст рядом с логотипом
-            Field::make('textarea', 'header_logo_text', 'Текст возле логотипа')
-                ->set_help_text('Введите текст, который будет отображаться рядом с логотипом.'),
-
-
-            Field::make('separator', 'input_search'),
-            // Строка ввода (текст внутри и иконка)
-            Field::make('text', 'header_input_text', 'Текст в строке ввода')
-                ->set_help_text('Введите текст, который будет отображаться в строке ввода (например, "Поиск").'),
-            Field::make('image', 'header_input_icon', 'Иконка для строки ввода')
-                ->set_help_text('Загрузите иконку для строки ввода (например, иконка поиска).'),
-
-            // Блок названий страниц с ссылками
-            Field::make('separator', 'individual_order'),
-            // Индивидуальный заказ
-            Field::make('text', 'header_individual_order_text', 'Индивидуальный заказ')
-                ->set_help_text('Введите текст для раздела "Индивидуальный заказ".'),
-            Field::make('text', 'header_individual_order_link', 'Ссылка на индивидуальный заказ')
-                ->set_help_text('Введите ссылку на страницу "Индивидуальный заказ".'),
-
-            Field::make('separator', 'services'),
-            //Услуги
-            Field::make('text', 'header_services_text', 'Услуги')
-                ->set_help_text('Введите текст для раздела "Услуги".'),
-            Field::make('text', 'header_services_link', 'Ссылка на услуги')
-                ->set_help_text('Введите ссылку на страницу "Услуги".'),
-
-            Field::make('separator', 'career'),
-            //Карьера
-            Field::make('text', 'header_career_text', 'Карьера')
-                ->set_help_text('Введите текст для раздела "Карьера".'),
-            Field::make('text', 'header_career_link', 'Ссылка на карьеру')
-                ->set_help_text('Введите ссылку на страницу "Карьера".'),
-
-            Field::make('separator', 'contacts_page'),
-            //Контакты
-            Field::make('text', 'header_contacts_text', 'Контакты')
-                ->set_help_text('Введите текст для раздела "Контакты".'),
-            Field::make('text', 'header_contacts_link', 'Ссылка на контакты')
-                ->set_help_text('Введите ссылку на страницу "Контакты".'),
-
-            Field::make('separator', 'our_factory'),
-            //Наша фабрика
-            Field::make('text', 'header_factory_text', 'Наша фабрика')
-                ->set_help_text('Введите текст для раздела "Наша фабрика".'),
-            Field::make('text', 'header_factory_link', 'Ссылка на нашу фабрику')
-                ->set_help_text('Введите ссылку на страницу "Наша фабрика".'),
-
-        ]);
-    // Настройки хедера - en
-    Container::make('theme_options', 'Настройки хедера - EN')
-        ->add_fields([
-
-            Field::make('separator', 'data_address_en'),
-            // Блок "Адрес"
-            Field::make('image', 'header_en_address_icon', 'Иконка возле адреса')
-                ->set_help_text('Загрузите иконку для адреса.'),
-            Field::make('text', 'header_en_address_title', 'Адрес пердприятия')
-                ->set_help_text('Введите адреса, производства".'),
-            Field::make('text', 'header_en_address_link', 'Ссылка')
-                ->set_help_text('Введите URL, куда переведет человека после клика на адресс.'),
-
-
-            Field::make('separator', 'contacts_en'),
-            // Блок "Контакты"
-            Field::make('image', 'header_en_contact_icon', 'Иконка для контакта')
-                ->set_help_text('Загрузите иконку для контакта, например, для телефона или email.'),
-            Field::make('text', 'header_en_contact_text', 'Текст для контакта')
-                ->set_help_text('Введите текст для контакта, например, "Связаться".'),
-
-            Field::make('text', 'header_en_email', 'Email')
-                ->set_help_text('Введите email для отображения в хедере.'),
-            Field::make('text', 'header_en_phone', 'Номер телефона')
-                ->set_help_text('Введите номер телефона для отображения в хедере.'),
-
-
-            Field::make('separator', 'logo_en'),
-            // Логотип
-            Field::make('image', 'header_en_logo', 'Логотип')
-                ->set_help_text('Загрузите логотип для отображения в хедере.'),
-
-            // Текст рядом с логотипом
-            Field::make('textarea', 'header_en_logo_text', 'Текст возле логотипа')
-                ->set_help_text('Введите текст, который будет отображаться рядом с логотипом.'),
-
-
-            Field::make('separator', 'input_search_en'),
-            // Строка ввода (текст внутри и иконка)
-            Field::make('text', 'header_en_input_text', 'Текст в строке ввода')
-                ->set_help_text('Введите текст, который будет отображаться в строке ввода (например, "Поиск").'),
-            Field::make('image', 'header_en_input_icon', 'Иконка для строки ввода')
-                ->set_help_text('Загрузите иконку для строки ввода (например, иконка поиска).'),
-
-            // Блок названий страниц с ссылками
-            Field::make('separator', 'individual_order_en'),
-            // Индивидуальный заказ
-            Field::make('text', 'header_en_individual_order_text', 'Индивидуальный заказ')
-                ->set_help_text('Введите текст для раздела "Индивидуальный заказ".'),
-            Field::make('text', 'header_en_individual_order_link', 'Ссылка на индивидуальный заказ')
-                ->set_help_text('Введите ссылку на страницу "Индивидуальный заказ".'),
-
-            Field::make('separator', 'services_en'),
-            //Услуги
-            Field::make('text', 'header_en_services_text', 'Услуги')
-                ->set_help_text('Введите текст для раздела "Услуги".'),
-            Field::make('text', 'header_en_services_link', 'Ссылка на услуги')
-                ->set_help_text('Введите ссылку на страницу "Услуги".'),
-
-            Field::make('separator', 'career_en'),
-            //Карьера
-            Field::make('text', 'header_en_career_text', 'Карьера')
-                ->set_help_text('Введите текст для раздела "Карьера".'),
-            Field::make('text', 'header_en_career_link', 'Ссылка на карьеру')
-                ->set_help_text('Введите ссылку на страницу "Карьера".'),
-
-            Field::make('separator', 'contacts_page_en'),
-            //Контакты
-            Field::make('text', 'header_en_contacts_text', 'Контакты')
-                ->set_help_text('Введите текст для раздела "Контакты".'),
-            Field::make('text', 'header_en_contacts_link', 'Ссылка на контакты')
-                ->set_help_text('Введите ссылку на страницу "Контакты".'),
-
-            Field::make('separator', 'our_factory_en'),
-            //Наша фабрика
-            Field::make('text', 'header_en_factory_text', 'Наша фабрика')
-                ->set_help_text('Введите текст для раздела "Наша фабрика".'),
-            Field::make('text', 'header_en_factory_link', 'Ссылка на нашу фабрику')
-                ->set_help_text('Введите ссылку на страницу "Наша фабрика".'),
-
-        ]);
-    // Настройки хедера - zh
-    Container::make('theme_options', 'Настройки хедера - ZH')
-        ->add_fields([
-
-            Field::make('separator', 'data_address_zh'),
-            // Блок "Адрес"
-            Field::make('image', 'header_zh_address_icon', 'Иконка возле адреса')
-                ->set_help_text('Загрузите иконку для адреса.'),
-            Field::make('text', 'header_zh_address_title', 'Адрес пердприятия')
-                ->set_help_text('Введите адреса, производства".'),
-            Field::make('text', 'header_zh_address_link', 'Ссылка')
-                ->set_help_text('Введите URL, куда переведет человека после клика на адресс.'),
-
-
-            Field::make('separator', 'contacts_zh'),
-            // Блок "Контакты"
-            Field::make('image', 'header_zh_contact_icon', 'Иконка для контакта')
-                ->set_help_text('Загрузите иконку для контакта, например, для телефона или email.'),
-            Field::make('text', 'header_zh_contact_text', 'Текст для контакта')
-                ->set_help_text('Введите текст для контакта, например, "Связаться".'),
-
-            Field::make('text', 'header_zh_email', 'Email')
-                ->set_help_text('Введите email для отображения в хедере.'),
-            Field::make('text', 'header_zh_phone', 'Номер телефона')
-                ->set_help_text('Введите номер телефона для отображения в хедере.'),
-
-
-            Field::make('separator', 'logo_zh'),
-            // Логотип
-            Field::make('image', 'header_zh_logo', 'Логотип')
-                ->set_help_text('Загрузите логотип для отображения в хедере.'),
-
-            // Текст рядом с логотипом
-            Field::make('rich_text', 'header_zh_logo_text', 'Текст возле логотипа')
-                ->set_help_text('Введите текст, который будет отображаться рядом с логотипом.'),
-
-
-            Field::make('separator', 'input_search_zh'),
-            // Строка ввода (текст внутри и иконка)
-            Field::make('text', 'header_zh_input_text', 'Текст в строке ввода')
-                ->set_help_text('Введите текст, который будет отображаться в строке ввода (например, "Поиск").'),
-            Field::make('image', 'header_zh_input_icon', 'Иконка для строки ввода')
-                ->set_help_text('Загрузите иконку для строки ввода (например, иконка поиска).'),
-
-            // Блок названий страниц с ссылками
-            Field::make('separator', 'individual_order_zh'),
-            // Индивидуальный заказ
-            Field::make('text', 'header_zh_individual_order_text', 'Индивидуальный заказ')
-                ->set_help_text('Введите текст для раздела "Индивидуальный заказ".'),
-            Field::make('text', 'header_zh_individual_order_link', 'Ссылка на индивидуальный заказ')
-                ->set_help_text('Введите ссылку на страницу "Индивидуальный заказ".'),
-
-            Field::make('separator', 'services_zh'),
-            //Услуги
-            Field::make('text', 'header_zh_services_text', 'Услуги')
-                ->set_help_text('Введите текст для раздела "Услуги".'),
-            Field::make('text', 'header_zh_services_link', 'Ссылка на услуги')
-                ->set_help_text('Введите ссылку на страницу "Услуги".'),
-
-            Field::make('separator', 'career_zh'),
-            //Карьера
-            Field::make('text', 'header_zh_career_text', 'Карьера')
-                ->set_help_text('Введите текст для раздела "Карьера".'),
-            Field::make('text', 'header_zh_career_link', 'Ссылка на карьеру')
-                ->set_help_text('Введите ссылку на страницу "Карьера".'),
-
-            Field::make('separator', 'contacts_page_zh'),
-            //Контакты
-            Field::make('text', 'header_zh_contacts_text', 'Контакты')
-                ->set_help_text('Введите текст для раздела "Контакты".'),
-            Field::make('text', 'header_zh_contacts_link', 'Ссылка на контакты')
-                ->set_help_text('Введите ссылку на страницу "Контакты".'),
-
-            Field::make('separator', 'our_factory_zh'),
-            //Наша фабрика
-            Field::make('text', 'header_zh_factory_text', 'Наша фабрика')
-                ->set_help_text('Введите текст для раздела "Наша фабрика".'),
-            Field::make('text', 'header_zh_factory_link', 'Ссылка на нашу фабрику')
-                ->set_help_text('Введите ссылку на страницу "Наша фабрика".'),
+            // Заголовок блока с контактами для footer
+            Field::make('text', 'footer_contacts_title', 'Заголовок блока с контактами для footer')
+                ->set_help_text(
+                    'Заголовок блока с контактами для footer, например "Контакты". <br>
+                    Header of a block with contacts for the footer, for example "Contacts". <br>
+                    帶有頁腳聯絡人的區塊的頁眉，例如“聯絡人”'
+                ),
+            // Заголовок блока с контактами для footer
+            Field::make('text', 'footer_catalog_title', 'Заголовок блока с контактами для footer')
+                ->set_help_text(
+                    'Заголовок блока с каталогом для footer, например "Каталог". <br>
+                    Title of the block with catalog for footer, e.g. “Catalog”. <br>
+                    页脚目录块的页眉，例如 "目录'
+                ),
+            // Заголовок блока с контактами для footer
+            Field::make('text', 'footer_pages_title', 'Заголовок блока со страницами для footer')
+                ->set_help_text(
+                    'Заголовок блока со страницами для footer, например "Информация". <br>
+                    Block header with pages for footer, e.g. “Information”. <br>
+                    块的页眉和页脚，如 “信息”。'
+                ),
+            // Блок с контактами
+            Field::make('complex', 'footer_contacts', 'Контакты для футера')
+                ->add_fields([
+                    Field::make('text', 'contact_title', 'Заголовок')
+                        ->set_help_text('Например, адрес, телефон или email.'),
+                    Field::make('text', 'contact_subtitle', 'Подзаголовок')
+                        ->set_help_text('Например, часы работы или описание.'),
+                    Field::make('text', 'contact_link', 'Ссылка')
+                        ->set_help_text('Если контакт является кликабельным (например, email или телефон).'),
+                ])
+                ->set_default_value([
+                    [
+                        'contact_title' => 'г. Москва ул.Дубнинская д. 83, 8-й этаж №819-820-821',
+                        'contact_subtitle' => 'Пн-Пт: 09:30 - 18:30',
+                        'contact_link' => '',
+                    ],
+                    [
+                        'contact_title' => '+7 999-579-91-89',
+                        'contact_subtitle' => 'Консультация',
+                        'contact_link' => 'tel:+79995799189',
+                    ],
+                    [
+                        'contact_title' => 'info_abedul@mail.ru',
+                        'contact_subtitle' => 'Консультация',
+                        'contact_link' => 'mailto:info_abedul@mail.ru',
+                    ],
+                    [
+                        'contact_title' => 'г. Шэньчжэнь Районы Гуанмин',
+                        'contact_subtitle' => 'Адрес фабрики в Китае',
+                        'contact_link' => '',
+                    ],
+                    [
+                        'contact_title' => '+86-18645050994',
+                        'contact_subtitle' => 'Менеджер Ван (WeChat)',
+                        'contact_link' => 'tel:+8618645050994',
+                    ],
+                    [
+                        'contact_title' => 'whz_0309@163.com',
+                        'contact_subtitle' => 'Консультация',
+                        'contact_link' => 'mailto:whz_0309@163.com',
+                    ],
+                ]),
+            // текст Пользовательское соглашение для footer
+            Field::make('text', 'footer_user_agreement', 'Текст "Пользовательское соглашение"')
+                ->set_help_text(
+                    'Текст ссылки пользовательское соглашения, например "Пользовательское соглашение". <br>
+                    User Agreement link text, e.g. “User Agreement”.. <br>
+                    用户协议链接的文本，如 “User Agreement（用户协议）”。'
+                ),
+            // текст Политика конфиденциальности для footer
+            Field::make('text', 'footer_privacy_policy', 'Текст "Политика конфиденциальности"')
+                ->set_help_text(
+                    'Текст ссылки политики конфиденциальности, например "Политика конфиденциальности". <br>
+                    The text of the privacy policy link, e.g., “Privacy Policy”. <br>
+                    隐私政策链接的文本，如 "隐私政策'
+                ),
+            // текст юридического названия компании
+            Field::make('text', 'footer_legal_entity', 'Название юридического лица')
+                ->set_help_text(
+                    'Текст Название юридического лица, например "OOO «ЧЖУН МИ ПО ИНТЕЛЛЕКТУАЛЬНОМУ ОСНАЩЕНИЮ". <br>
+                    Text Name of the legal entity, e.g. “OOO ‘ZHUN MI INTELLECTUAL ENVIRONMENT’.. <br>
+                    文本 法律实体名称，如 “ZHUN MI INTELLIGENCE OOO”。'
+                ),
 
         ]);
 });
@@ -943,6 +841,29 @@ add_action('init', function () {
         'has_archive' => true,
         'menu_position' => 5,
         'menu_icon' => 'dashicons-portfolio',
+    ]);
+});
+
+add_action('init', function () {
+    register_post_type('header', [
+        'labels' => [
+            'name' => 'Header & Footer',
+            'singular_name' => 'Header',
+            'add_new' => 'Add New Header',
+            'add_new_item' => 'Add New Header',
+            'edit_item' => 'Edit Header',
+            'new_item' => 'New Header',
+            'view_item' => 'View Header',
+            'search_items' => 'Search Headers',
+            'not_found' => 'No headers found',
+            'not_found_in_trash' => 'No headers found in trash',
+            'all_items' => 'All Headers',
+        ],
+        'public' => true,
+        'has_archive' => false,
+        'rewrite' => ['slug' => 'headers'], // ЧПУ для хедеров
+        'supports' => ['title'], // Включаем стандартные поля
+        'menu_icon' => 'dashicons-menu', // Иконка в админке
     ]);
 });
 
@@ -1516,7 +1437,8 @@ add_action('wp_ajax_my_filter_products', 'my_filter_products');
 add_action('wp_ajax_nopriv_my_filter_products', 'my_filter_products');
 
 
-function register_theme_menus() {
+function register_theme_menus()
+{
     register_nav_menus(array(
         'main-menu' => __('Main Menu')
     ));

@@ -1,160 +1,156 @@
 <?php
-$selected_language = isset($_COOKIE['selected_language']) ? $_COOKIE['selected_language'] : 'ru'; // По умолчанию 'ru'
-if ($selected_language == 'ru') {
+// Получение ID записи типа "header"
+$header_id = get_posts([
+    'post_type' => 'header',
+    'numberposts' => 1,
+    'fields' => 'ids', // Получаем только ID
+]);
 
-    $name_header_in_o_t = 'header_individual_order_text';
-    $name_header_se_t = 'header_services_text';
-    $name_header_ca_t = 'header_career_text';
-    $name_header_co_t = 'header_contacts_text';
-    $name_header_fa_t = 'header_factory_text';
-    
-
-} else if ($selected_language == 'en') {
-    $name_header_in_o_t = 'header_en_individual_order_text';
-    $name_header_se_t = 'header_en_services_text';
-    $name_header_ca_t = 'header_en_career_text';
-    $name_header_co_t = 'header_en_contacts_text';
-    $name_header_fa_t = 'header_en_factory_text';
-
-} 
-else if ($selected_language == 'zh') { 
-    $name_header_in_o_t = 'header_zh_individual_order_text';
-    $name_header_se_t = 'header_zh_services_text';
-    $name_header_ca_t = 'header_zh_career_text';
-    $name_header_co_t = 'header_zh_contacts_text';
-    $name_header_fa_t = 'header_zh_factory_text';
-
+if (!empty($header_id)) {
+    $header_id = $header_id[0]; // Берём ID первой записи
+    $header_menu_items = carbon_get_post_meta($header_id, 'header_menu_items');
+    $footer_contacts_title = carbon_get_post_meta($header_id, 'footer_contacts_title');
+    $footer_catalog_title = carbon_get_post_meta($header_id, 'footer_catalog_title');
+    $footer_pages_title = carbon_get_post_meta($header_id, 'footer_pages_title');
+    $header_project_button_text = carbon_get_post_meta($header_id, 'header_project_button_text');
+    $header_logo = carbon_get_post_meta($header_id, 'header_logo');
+    $footer_user_agreement = carbon_get_post_meta($header_id, 'footer_user_agreement');
+    $footer_privacy_policy = carbon_get_post_meta($header_id, 'footer_privacy_policy');
+    $footer_legal_entity = carbon_get_post_meta($header_id, 'footer_legal_entity');
+    $header_location = carbon_get_post_meta($header_id, 'header_location');
 }
-
-$text_1 = !empty(carbon_get_theme_option($name_header_in_o_t)) ? carbon_get_theme_option($name_header_in_o_t) : '';
-$text_2 = !empty(carbon_get_theme_option($name_header_se_t)) ? carbon_get_theme_option($name_header_se_t) : '';
-$text_3 = !empty(carbon_get_theme_option($name_header_ca_t)) ? carbon_get_theme_option($name_header_ca_t) : '';
-$text_4 = !empty(carbon_get_theme_option($name_header_co_t)) ? carbon_get_theme_option($name_header_co_t) : '';
-$text_5 = !empty(carbon_get_theme_option($name_header_fa_t)) ? carbon_get_theme_option($name_header_fa_t) : '';
-
-$texts =[$text_1, $text_2, $text_3, $text_4, $text_5]; 
-
 ?>
-
 
 <footer class="footer">
     <div class="footer__container">
         <div class="footer-top">
             <div class="footer-top-item" data-spollers="860,max">
                 <div class="footer-top-item__title" data-spoller>
-                    <span>
-                        <?php
-                            if ($selected_language == 'ru') { echo 'Контакты';} 
-                            else if ($selected_language == 'en') { echo 'Contacts'; } 
-                            else if ($selected_language == 'zh') { echo '联络人';}
-                        ?>
-                    </span>
-                    <span class="arrow-down"></span>
-                </div>
-
-                <div class="footer-top-wrapper">
-                    <?php
-                        // Получаем страницу с шаблоном 'page-contacts.php'
-                        $page_contacts = get_posts([
-                            'post_type' => 'page',
-                            'posts_per_page' => 1, // Получаем одну страницу
-                            'meta_key' => '_wp_page_template',
-                            'meta_value' => 'page-contacts.php' // Шаблон страницы контактов
-                        ]);
-                        if (!empty($page_contacts)) {
-                            $contacts_page = $page_contacts[0]; 
-                            $contact_items = carbon_get_post_meta($contacts_page->ID, 'contacts');
-                            foreach ($contact_items as $contacts) {
-                                if (!empty($contacts['contact_items'])) {
-                                    foreach ($contacts['contact_items'] as $contact) {
-                                        echo ' 
-                                            <a href="" class="footer-item">
-                                                <span class="footer-item-m">'. esc_html($contact['contact_address']) .'</span>
-                                                <span class="footer-item-s">'. esc_html($contact['contact_title']) .'</span>
-                                            </a> 
-                                        ';
-
-                                    }
-                                }
-                            }
-                        }
-                    ?>
-                </div>
-
-            </div>
-            <div class="footer-top-item" data-spollers="860,max">
-                <div class="footer-top-item__title" data-spoller>
-                    <span>
-                        <?php
-                            if ($selected_language == 'ru') { echo 'Каталог';} 
-                            else if ($selected_language == 'en') { echo 'Catalog'; } 
-                            else if ($selected_language == 'zh') { echo '目录';}
-                        ?>
-                    </span>
+                    <span><?php echo esc_html($footer_contacts_title); ?></span>
                     <span class="arrow-down"></span>
                 </div>
                 <div class="footer-top-wrapper">
-                    <?php
-                        // Получаем все записи категорий
-                        $categories = get_posts([
-                            'post_type' => 'category_group',
-                            'posts_per_page' => -1, // Все категории
-                        ]);
-                        // Проходим по всем категориям
-                        foreach ($categories as $category) {
-                            // Получаем значение поля category_slug для каждой категории
-                            $category_slug = get_the_title($category->ID);
-                            // Проверяем, есть ли значение в поле category_slug
-                            if ($category_slug) {
-                                echo '<a href="" class="footer-item">';
-                                    echo '<span class="footer-item-m">' . esc_html($category_slug) . '</span>';
-                                echo '</a>';
-                            }
-                        }
-                    ?>
+                    <?php if (!empty($header_id)): ?>
+                        <?php
+                        $footer_contacts = carbon_get_post_meta($header_id, 'footer_contacts');
+                        if (!empty($footer_contacts)):
+                        ?>
+                            <?php foreach ($footer_contacts as $contact): ?>
+                                <a href="<?php echo !empty($contact['contact_link']) ? esc_url($contact['contact_link']) : '#'; ?>" class="footer-item">
+                                    <span class="footer-item-m"><?php echo esc_html($contact['contact_title']); ?></span>
+                                    <span class="footer-item-s"><?php echo esc_html($contact['contact_subtitle']); ?></span>
+                                </a>
+                            <?php endforeach; ?>
+                        <?php endif; ?>
+                    <?php endif; ?>
                 </div>
             </div>
             <div class="footer-top-item" data-spollers="860,max">
                 <div class="footer-top-item__title" data-spoller>
-                    <span>
-                        <?php
-                            if ($selected_language == 'ru') { echo 'Информация';} 
-                            else if ($selected_language == 'en') { echo 'Information'; } 
-                            else if ($selected_language == 'zh') { echo '资料';}
+                    <span><?php echo esc_html($footer_catalog_title); ?></span>
+                    <span class="arrow-down"></span>
+                </div>
+
+                <?php
+                $query = new WP_Query(array(
+                    'post_type' => 'category_group',
+                    'posts_per_page' => -1,
+                    'orderby' => 'menu_order',
+                    'order' => 'ASC',
+                ));
+
+                if ($query->have_posts()) : ?>
+                    <div class="footer-top-wrapper">
+                        <?php while ($query->have_posts()) : $query->the_post();
+                            $icon_id = carbon_get_the_post_meta('category_icon');
+                            $category_slug = carbon_get_the_post_meta('category_slug');
+                            $icon_url = $icon_id ? wp_get_attachment_image_url($icon_id, 'full') : ''; // Получаем URL изображения
+                            $subcategories = carbon_get_the_post_meta('subcategories');
                         ?>
-                    </span>
+
+                            <a href="/catalog/<?php echo esc_html($category_slug) ?>" class="footer-item">
+                                <span class="footer-item-m"><?php the_title(); ?></span>
+                            </a>
+                        <?php endwhile; ?>
+                    </div>
+                <?php endif;
+
+                wp_reset_postdata();
+                ?>
+                <!-- <div class="footer-top-wrapper">
+                    <a href="" class="footer-item">
+                        <span class="footer-item-m">Реклама и бизнес</span>
+                    </a>
+                    <a href="" class="footer-item">
+                        <span class="footer-item-m">Образование</span>
+                    </a>
+                    <a href="" class="footer-item">
+                        <span class="footer-item-m">Интерактивный музей</span>
+                    </a>
+                    <a href="" class="footer-item">
+                        <span class="footer-item-m">Рестораны и общепит</span>
+                    </a>
+                    <a href="" class="footer-item">
+                        <span class="footer-item-m">Салоны красоты и парикмахерские</span>
+                    </a>
+                    <a href="" class="footer-item">
+                        <span class="footer-item-m">Вокзалы и аэропорты</span>
+                    </a>
+                    <a href="" class="footer-item">
+                        <span class="footer-item-m">Рестораны и общепит</span>
+                    </a>
+                    <a href="" class="footer-item">
+                        <span class="footer-item-m">Автосалоны</span>
+                    </a>
+                    <a href="" class="footer-item">
+                        <span class="footer-item-m">Медицина</span>
+                    </a>
+                    <a href="" class="footer-item">
+                        <span class="footer-item-m">Ритейл и сфера продаж</span>
+                    </a>
+                    <a href="" class="footer-item">
+                        <span class="footer-item-m">Производственные предприятия</span>
+                    </a>
+                    <a href="" class="footer-item">
+                        <span class="footer-item-m">Государственные компании</span>
+                    </a>
+                </div> -->
+            </div>
+            <div class="footer-top-item" data-spollers="860,max">
+                <div class="footer-top-item__title" data-spoller>
+                    <span><?php echo esc_html($footer_pages_title); ?></span>
                     <span class="arrow-down"></span>
                 </div>
                 <div class="footer-top-wrapper">
-                    <?php
-                        foreach ($texts as $text){
-                            echo '<a href="" class="footer-item"> 
-                                <span class="footer-item-m">'. esc_html($text) .'</span>
-                            </a>';
-                        }
-                    ?>
+                    <?php if (!empty($header_menu_items)): ?>
+                        <?php foreach ($header_menu_items as $menu_item): ?>
+                            <a href="<?php echo esc_url($menu_item['menu_item_link']); ?>" class="footer-item">
+                                <span class="footer-item-m"><?php echo esc_html($menu_item['menu_item_label']); ?></span>
+                            </a>
+                        <?php endforeach; ?>
+                    <?php endif; ?>
                 </div>
             </div>
         </div>
 
         <a href="#order-a-call-popup" class="btn btn-blue btn-discuss-project popup-link">
             <img loading="lazy" src="<?php echo get_template_directory_uri(); ?>/layout/img/icons/phone-white.svg" alt="phone">
-            <span>Обсудить проект</span>
+            <span><?php echo esc_html($header_project_button_text); ?></span>
         </a>
 
         <div class="footer-bottom">
             <div class="footer-bottom-item">
                 <a href="<?php echo esc_url(home_url('/')); ?>" class="footer-bottom-item-logo">
-                    <img loading="lazy" src="<?php echo get_template_directory_uri(); ?>/layout/img/logo-0.svg" alt="logo">
+                    <img loading="lazy" src="<?php echo esc_url($header_logo); ?>" alt="logo">
                 </a>
             </div>
             <div class="footer-bottom-item">
-                <a href="#">Пользовательское соглашение</a>
-                <a href="#confidenc-politic">Политика конфиденциальности</a>
+                <a href="#user-agreement" class="popup-link"><?php echo esc_html($footer_user_agreement); ?></a>
+                <a href="#privacy-policy" class="popup-link"><?php echo esc_html($footer_privacy_policy); ?></a>
             </div>
             <div class="footer-bottom-item">
-                <div>OOO «ЧЖУН МИ ПО ИНТЕЛЛЕКТУАЛЬНОМУ ОСНАЩЕНИЮ</div>
-                <div>г. Москва ул.Дубнинская д. 83, 8-й этаж  №819-820-821</div>
+                <div><?php echo esc_html($footer_legal_entity); ?></div>
+                <div><?php echo esc_html($header_location); ?></div>
             </div>
         </div>
     </div>
