@@ -1,11 +1,20 @@
 <?php
-/* Template Name: Каталог */
+/* Template Name: Catalog */
 $category_slug = get_query_var('category_slug');
 $subcategory_slug = get_query_var('subcategory_slug');
 // echo 'Category Slug: ' . esc_html($category_slug) . '<br>';
 // echo 'Subcategory Slug: ' . esc_html($subcategory_slug) . '<br>';
 // Получаем ID страницы "Каталог" по её пути
-$catalog_page = get_page_by_path('catalog');
+// Получаем текущий язык
+$current_language = pll_current_language();
+
+// Определяем slug для текущего языка
+$catalog_slug = ($current_language === 'ru') ? 'каталог' : 'catalog';
+
+// Получаем ID страницы "Каталог"
+$catalog_page = get_page_by_path($catalog_slug);
+
+// echo '$catalog_page: ' . $catalog_slug;
 $catalog_page_id = $catalog_page ? $catalog_page->ID : null;
 
 // Загружаем мета-поля с использованием ID страницы "Каталог"
@@ -136,7 +145,7 @@ get_header(); ?>
         <nav class="breadcrumbs">
             <ul class="breadcrumbs-list">
                 <li class="breadcrumbs-item"><a href="<?php echo esc_url(home_url('/')); ?>" class="breadcrumbs-link"><?php echo esc_html($main_breadcrumb); ?> / </a></li>
-                <li class="breadcrumbs-item"><a href="/catalog" class="breadcrumbs-link"><?php echo esc_html($second_breadcrumb); ?> / </a></li>
+                <li class="breadcrumbs-item"><a href="/<?php echo esc_html($catalog_slug); ?>" class="breadcrumbs-link"><?php echo esc_html($second_breadcrumb); ?> / </a></li>
                 <?php
                 // Получение названия категории
                 if (!empty($category_slug)) {
@@ -158,7 +167,7 @@ get_header(); ?>
                     }
                 ?>
                     <li class="breadcrumbs-item">
-                        <a href="/catalog/<?php echo esc_html($category_slug); ?>" class="breadcrumbs-link">
+                        <a href="/<?php echo esc_html($$catalog_slug); ?>/<?php echo esc_html($category_slug); ?>" class="breadcrumbs-link">
                             <?php echo esc_html($category_name); ?> /
                         </a>
                     </li>

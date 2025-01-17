@@ -37,14 +37,15 @@ add_action('carbon_fields_register_fields', function () {
                 ->set_help_text('Загрузите иконку для отображения'),
 
             Field::make('text', 'category_slug', 'Slug категории')
-                ->set_help_text('Введите уникальный slug категории (например, "reklama").'),
+                ->set_attribute('readonly', 'readonly')
+                ->set_help_text('Slug формируется автоматически на основе названия категории, но вы можете его изменить при необходимости.'),
 
             Field::make('complex', 'subcategories', 'Подкатегории')
                 ->add_fields([
                     Field::make('text', 'subcategory_title', 'Название подкатегории'),
                     Field::make('image', 'subcategory_icon', 'Иконка подкатегории'),
                     Field::make('text', 'subcategory_slug', 'Slug подкатегории')
-                        ->set_help_text('Введите уникальный slug подкатегории (например, "monitors").'),
+                        ->set_help_text('Slug формируется автоматически на основе названия категории, но вы можете его изменить при необходимости.'),
                     Field::make('text', 'subcategory_extra', 'Дополнительное поле')
                         ->set_help_text('Это поле можно оставить пустым'),
                 ])
@@ -922,8 +923,10 @@ add_action('carbon_fields_post_meta_container_saved', function ($post_id) {
     update_post_meta($post_id, '_product_subcategory_slug', $subcategory_slug);
 });
 
-add_action('save_post', function ($post_id) {
-    // Проверяем, что это тип записи "product"
+add_action('save_post', 'update_product_slug', 10, 1);
+
+function update_product_slug($post_id)
+{
     if (get_post_type($post_id) !== 'product') {
         return;
     }
@@ -934,174 +937,40 @@ add_action('save_post', function ($post_id) {
 
     // Проверяем, нужно ли обновлять slug
     if (!empty($post_slug) && strpos($post_slug, '%') === false) {
-        // Если slug уже существует, и он не содержит символов `%`, то оставляем его
         return;
     }
 
-    // Генерируем slug на основе названия
+    // Генерируем slug
     $new_slug = generate_slug_from_title($post_title);
-
-    // Проверяем уникальность slug
     $unique_slug = wp_unique_post_slug($new_slug, $post_id, 'publish', 'product', null);
 
-    // Обновляем slug в базе данных
+    // Удаляем хук, чтобы избежать бесконечного цикла
+    remove_action('save_post', 'update_product_slug');
+
+    // Обновляем slug
     wp_update_post([
         'ID'        => $post_id,
         'post_name' => $unique_slug,
     ]);
-});
+
+    // Восстанавливаем хук
+    add_action('save_post', 'update_product_slug');
+}
 
 // Функция для генерации slug из названия
 function generate_slug_from_title($title)
 {
-    // Транслитерация кириллицы в латиницу
-    $cyrillic = [
-        'а',
-        'б',
-        'в',
-        'г',
-        'д',
-        'е',
-        'ё',
-        'ж',
-        'з',
-        'и',
-        'й',
-        'к',
-        'л',
-        'м',
-        'н',
-        'о',
-        'п',
-        'р',
-        'с',
-        'т',
-        'у',
-        'ф',
-        'х',
-        'ц',
-        'ч',
-        'ш',
-        'щ',
-        'ъ',
-        'ы',
-        'ь',
-        'э',
-        'ю',
-        'я',
-        'А',
-        'Б',
-        'В',
-        'Г',
-        'Д',
-        'Е',
-        'Ё',
-        'Ж',
-        'З',
-        'И',
-        'Й',
-        'К',
-        'Л',
-        'М',
-        'Н',
-        'О',
-        'П',
-        'Р',
-        'С',
-        'Т',
-        'У',
-        'Ф',
-        'Х',
-        'Ц',
-        'Ч',
-        'Ш',
-        'Щ',
-        'Ъ',
-        'Ы',
-        'Ь',
-        'Э',
-        'Ю',
-        'Я'
-    ];
+    // Удаляем спецсимволы и оставляем буквы (кириллица, латиница), цифры и дефисы
+    $slug = preg_replace('/[^а-яА-ЯёЁa-zA-Z0-9\-]/u', '-', $title);
 
-    $latin = [
-        'a',
-        'b',
-        'v',
-        'g',
-        'd',
-        'e',
-        'e',
-        'zh',
-        'z',
-        'i',
-        'y',
-        'k',
-        'l',
-        'm',
-        'n',
-        'o',
-        'p',
-        'r',
-        's',
-        't',
-        'u',
-        'f',
-        'kh',
-        'ts',
-        'ch',
-        'sh',
-        'shch',
-        '',
-        'y',
-        '',
-        'e',
-        'yu',
-        'ya',
-        'A',
-        'B',
-        'V',
-        'G',
-        'D',
-        'E',
-        'E',
-        'Zh',
-        'Z',
-        'I',
-        'Y',
-        'K',
-        'L',
-        'M',
-        'N',
-        'O',
-        'P',
-        'R',
-        'S',
-        'T',
-        'U',
-        'F',
-        'Kh',
-        'Ts',
-        'Ch',
-        'Sh',
-        'Shch',
-        '',
-        'Y',
-        '',
-        'E',
-        'Yu',
-        'Ya'
-    ];
+    // Убираем множественные дефисы
+    $slug = preg_replace('/-+/', '-', $slug);
 
-    // Заменяем кириллицу на латиницу
-    $slug = str_replace($cyrillic, $latin, $title);
+    // Удаляем дефисы в начале и конце строки
+    $slug = trim($slug, '-');
 
-    // Удаляем спецсимволы, переводим в нижний регистр
-    $slug = strtolower($slug);
-    $slug = remove_accents($slug); // WordPress функция для обработки символов с диакритикой
-    $slug = preg_replace('/[^a-z0-9\-]/', '-', $slug); // Разрешаем только латиницу, цифры, дефисы
-    $slug = preg_replace('/-+/', '-', $slug); // Убираем множественные дефисы
-    $slug = trim($slug, '-'); // Убираем дефисы в начале и конце строки
+    // Приводим к нижнему регистру
+    $slug = mb_strtolower($slug, 'UTF-8');
 
     return $slug ?: 'product'; // Если slug пустой, возвращаем значение по умолчанию
 }
@@ -1148,17 +1017,22 @@ add_filter('query_vars', 'abedul_register_query_vars');
 
 function abedul_register_rewrite_rules()
 {
-    add_rewrite_rule(
-        '^catalog/([^/]+)/?$',
-        'index.php?pagename=page-catalog&category_group=$matches[1]',
-        'top'
-    );
+    $languages = ['ru', 'en']; // Список языков
+    foreach ($languages as $lang) {
+        $prefix = ($lang === 'ru') ? 'каталог' : 'catalog';
 
-    add_rewrite_rule(
-        '^catalog/([^/]+)/([^/]+)/?$',
-        'index.php?pagename=page-catalog&category_group=$matches[1]&subcategory_slug=$matches[2]',
-        'top'
-    );
+        add_rewrite_rule(
+            "^$prefix/([^/]+)/?$",
+            "index.php?pagename=page-catalog&category_group=\$matches[1]",
+            'top'
+        );
+
+        add_rewrite_rule(
+            "^$prefix/([^/]+)/([^/]+)/?$",
+            "index.php?pagename=page-catalog&category_group=\$matches[1]&subcategory_slug=\$matches[2]",
+            'top'
+        );
+    }
 }
 add_action('init', 'abedul_register_rewrite_rules');
 
@@ -1177,6 +1051,113 @@ function abedul_template_redirect()
 }
 add_action('template_redirect', 'abedul_template_redirect');
 
+add_action(
+    'carbon_fields_post_meta_container_saved',
+    function ($post_id, $container) {
+        // Убедимся, что это сохраняется для нужного типа записи
+        if (get_post_type($post_id) !== 'category_group') {
+            return;
+        }
+
+        // Получение текущего языка записи
+        if (function_exists('pll_get_post_language')) {
+            $language = pll_get_post_language($post_id); // Получаем язык записи
+        } else {
+            $language = 'en'; // Если полилинг не используется, по умолчанию английский
+        }
+
+        // Получение текущих данных
+        $category_title = get_the_title($post_id); // Название категории
+        $category_slug = carbon_get_post_meta($post_id, 'category_slug');
+        $subcategories = carbon_get_post_meta($post_id, 'subcategories');
+
+        // Генерация slug для категории
+        if (empty($category_slug)) {
+            $generated_slug = ($language === 'ru')
+                ? mb_strtolower(str_replace(' ', '-', $category_title)) // Простой slug для кириллицы
+                : sanitize_title($category_title); // Латиница
+            carbon_set_post_meta($post_id, 'category_slug', $generated_slug); // Сохранение slug
+        }
+
+        // Генерация slug для подкатегорий
+        if (!empty($subcategories)) {
+            foreach ($subcategories as $index => $subcategory) {
+                if (empty($subcategory['subcategory_slug'])) {
+                    $subcategory_title = $subcategory['subcategory_title'];
+                    if (!empty($subcategory_title)) {
+                        $generated_slug = ($language === 'ru')
+                            ? mb_strtolower(str_replace(' ', '-', $subcategory_title)) // Простой slug для кириллицы
+                            : sanitize_title($subcategory_title); // Латиница
+                        $subcategories[$index]['subcategory_slug'] = $generated_slug;
+                    }
+                }
+            }
+            carbon_set_post_meta($post_id, 'subcategories', $subcategories); // Сохранение обновленных подкатегорий
+        }
+    },
+    10,
+    2
+);
+
+function abedul_get_category_url_for_language()
+{
+    // Получаем текущий URL страницы
+    $current_url = $_SERVER['REQUEST_URI']; // Получаем текущий URL страницы
+
+    // Декодируем URL, чтобы проверка на /каталог или /catalog сработала
+    $current_url = urldecode($current_url);
+
+    echo 'Текущий URL: ' . $current_url . '<br>';
+
+    // Проверяем, является ли текущий URL страницей каталога
+    if (strpos($current_url, '/каталог') !== false) {
+        echo "Это страница каталога!<br>";
+
+        // Извлекаем категорию и подкатегорию из URL
+        $category_slug = get_query_var('category_group', ''); // Получаем слаг категории
+        $subcategory_slug = get_query_var('subcategory_slug', ''); // Получаем слаг подкатегории
+
+        // Выводим результаты для отладки
+        if (!empty($category_slug)) {
+            echo "Категория: $category_slug<br>";
+        } else {
+            echo "Категория не найдена!<br>";
+        }
+
+        if (!empty($subcategory_slug)) {
+            echo "Подкатегория: $subcategory_slug<br>";
+        } else {
+            echo "Подкатегория не найдена!<br>";
+        }
+
+        // Теперь формируем тестовую строку для английской версии
+        // Находим английский слаг для категории
+        $category = get_term_by('slug', $category_slug, 'category_group'); // Получаем категорию
+        $subcategory = get_term_by('slug', $subcategory_slug, 'category_group'); // Подкатегория
+
+        // Проверяем, что категория и подкатегория найдены
+        if ($category && $subcategory) {
+            // Получаем слаг категории и подкатегории на английском языке
+            $category_slug_en = pll_get_term($category->term_id, 'en'); // Получаем слаг категории на английском
+            $subcategory_slug_en = pll_get_term($subcategory->term_id, 'en'); // Получаем слаг подкатегории на английском
+
+            // Проверим, что слаги были найдены
+            if ($category_slug_en && $subcategory_slug_en) {
+                // Формируем URL для английской версии
+                $test_url = home_url("/catalog/{$category_slug_en}/{$subcategory_slug_en}");
+
+                echo "Тестовая строка для английской версии: " . esc_url($test_url) . "<br>";
+            } else {
+                echo "Не удалось найти английский слаг для категории или подкатегории.<br>";
+            }
+        } else {
+            echo "Не удалось найти категорию или подкатегорию.<br>";
+        }
+    } else {
+        echo "Это не страница каталога.<br>";
+    }
+}
+// add_action('wp', 'abedul_get_category_url_for_language');
 
 // Хук для генерации уникального SKU
 add_action('carbon_fields_post_meta_container_saved', function ($post_id) {

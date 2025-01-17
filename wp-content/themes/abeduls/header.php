@@ -55,12 +55,14 @@
                     </a>
                     <div class="header-top-l">
                         <div class="header-language" data-da=".header-scroll-items,960,9">
-                            <?php pll_the_languages(
-                                array(
+                            <?php
+                            if (function_exists('pll_the_languages')) {
+                                pll_the_languages(array(
                                     'dropdown' => 1,
-                                    'force_home' => 0
-                                )
-                            );  ?>
+                                    'force_home' => 0,  // Убираем принудительный переход на главную
+                                ));
+                            }
+                            ?>
                         </div>
 
                         <style>
@@ -141,6 +143,10 @@
                                             $category_slug = carbon_get_the_post_meta('category_slug');
                                             $icon_url = $icon_id ? wp_get_attachment_image_url($icon_id, 'full') : ''; // Получаем URL изображения
                                             $subcategories = carbon_get_the_post_meta('subcategories');
+                                            // Получаем текущий язык
+                                            $current_language = pll_current_language();
+                                            // Определяем slug для текущего языка
+                                            $catalog_slug = ($current_language === 'ru') ? 'каталог' : 'catalog';
                                         ?>
                                             <div class="catalog-item-group">
                                                 <div class="catalog-item-group__title-wrapper">
@@ -152,13 +158,13 @@
                                                     </div>
                                                 </div>
                                                 <div class="catalog-item-group__content">
-                                                    <a href="/catalog/<?php echo esc_html($category_slug) ?>" class="catalog-item-group-title">
+                                                    <a href="<?php echo esc_url('/' . $catalog_slug . '/' . esc_html($category_slug)); ?>" class="catalog-item-group-title">
                                                         <?php the_title(); ?>
                                                     </a>
                                                     <?php if (!empty($subcategories)) : ?>
                                                         <div class="catalog-item-group-elems">
                                                             <?php foreach ($subcategories as $sub) : ?>
-                                                                <a href="/catalog/<?php echo esc_html($category_slug) ?>/<?php echo esc_html($sub['subcategory_slug']); ?>" class="catalog-item-group-elem">
+                                                                <a href="<?php echo esc_url('/' . $catalog_slug . '/' . esc_html($category_slug) . '/' . esc_html($sub['subcategory_slug'])); ?>" class="catalog-item-group-elem">
                                                                     <span><?php echo esc_html($sub['subcategory_title']); ?></span>
                                                                     <?php if (!empty($sub['subcategory_extra'])): ?>
                                                                         <div class="catalog-item-group-elem-extra">
