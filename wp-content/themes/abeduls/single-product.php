@@ -1,5 +1,5 @@
 <?php
-/* Template Name: Продукт */
+/* Template Name: Product */
 
 $product_name = carbon_get_the_post_meta('product_name');
 $product_sku = carbon_get_the_post_meta('product_sku');
@@ -41,8 +41,13 @@ $breadcrumbs_catalog = carbon_get_post_meta(get_the_ID(), 'breadcrumbs_catalog')
 // Получаем текущий язык
 $current_language = pll_current_language();
 // Определяем slug для текущего языка
-$catalog_slug = ($current_language === 'ru') ? 'каталог' : 'catalog';
-
+if ($current_language === 'ru') {
+    $catalog_slug = 'каталог';
+} elseif ($current_language === 'zh') {
+    $catalog_slug = '目录'; // Пример перевода "каталог" на китайский (можете заменить на нужное слово)
+} else {
+    $catalog_slug = 'catalog'; // По умолчанию английский
+}
 get_header(); ?>
 
 <main class="page product-page">

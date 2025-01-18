@@ -1120,9 +1120,15 @@ add_filter('query_vars', 'abedul_register_query_vars');
 
 function abedul_register_rewrite_rules()
 {
-    $languages = ['ru', 'en']; // Список языков
+    $languages = ['ru', 'en', 'zh']; // Список языков
     foreach ($languages as $lang) {
-        $prefix = ($lang === 'ru') ? 'каталог' : 'catalog';
+        if ($lang === 'ru') {
+            $prefix = 'каталог';
+        } elseif ($lang === 'zh') {
+            $prefix = 'catalog-zh'; // Китайский префикс для "каталог"
+        } else {
+            $prefix = 'catalog'; // Английский по умолчанию
+        }
 
         add_rewrite_rule(
             "^$prefix/([^/]+)/?$",

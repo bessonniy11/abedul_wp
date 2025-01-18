@@ -1,5 +1,5 @@
 <?php
-/* Template Name: Наша фабрика */
+/* Template Name: Fabric */
 // Получаем данные полей
 $factory_main_title = carbon_get_the_post_meta('factory_main_title');
 $factory_subtitle = carbon_get_the_post_meta('factory_subtitle');

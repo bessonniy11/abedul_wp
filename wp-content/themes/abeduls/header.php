@@ -82,6 +82,8 @@
                                         decodedValue = decodedValue.replace('category_group', 'catalog');
                                     } else if (langSelectOption.lang === "ru-RU") {
                                         decodedValue = decodedValue.replace('category_group', 'каталог');
+                                    } else if (langSelectOption.lang === "zh-CN") {
+                                        decodedValue = decodedValue.replace('category_group', 'catalog-zh');
                                     }
 
                                     // Присваиваем изменённое значение обратно
@@ -99,6 +101,8 @@
                                         redirectURL = "/projects/"; // Английская версия
                                     } else if (currentLanguage === "ru") {
                                         redirectURL = "/проекты/"; // Русская версия
+                                    } else if (currentLanguage === "zh") {
+                                        redirectURL = "/projects-zh/"; // Русская версия
                                     }
 
                                     // Выполняем перенаправление
@@ -113,6 +117,8 @@
                                         redirectURL = "/catalog/"; // Английская версия
                                     } else if (currentLanguage === "ru") {
                                         redirectURL = "/каталог/"; // Русская версия
+                                    } else if (currentLanguage === "zh") {
+                                        redirectURL = "/catalog-zh/"; // китайская версия
                                     }
 
                                     // Выполняем перенаправление
@@ -202,7 +208,13 @@
                                             // Получаем текущий язык
                                             $current_language = pll_current_language();
                                             // Определяем slug для текущего языка
-                                            $catalog_slug = ($current_language === 'ru') ? 'каталог' : 'catalog';
+                                            if ($current_language === 'ru') {
+                                                $catalog_slug = 'каталог';
+                                            } elseif ($current_language === 'zh') {
+                                                $catalog_slug = 'catalog-zh'; // Пример перевода "каталог" на китайский (можете заменить на нужное слово)
+                                            } else {
+                                                $catalog_slug = 'catalog'; // По умолчанию английский
+                                            }
                                         ?>
                                             <div class="catalog-item-group">
                                                 <div class="catalog-item-group__title-wrapper">

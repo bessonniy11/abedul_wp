@@ -1,15 +1,21 @@
 <?php
 /* Template Name: Catalog */
-$category_slug = get_query_var('category_slug');
-$subcategory_slug = get_query_var('subcategory_slug');
-// echo 'Category Slug: ' . esc_html($category_slug) . '<br>';
+$category_slug = urldecode(get_query_var('category_slug'));
+$subcategory_slug = urldecode(get_query_var('subcategory_slug'));
+// echo 'Category Slug: ' . $category_slug . '<br>';
 // echo 'Subcategory Slug: ' . esc_html($subcategory_slug) . '<br>';
 // Получаем ID страницы "Каталог" по её пути
 // Получаем текущий язык
 $current_language = pll_current_language();
 
 // Определяем slug для текущего языка
-$catalog_slug = ($current_language === 'ru') ? 'каталог' : 'catalog';
+if ($current_language === 'ru') {
+    $catalog_slug = 'каталог';
+} elseif ($current_language === 'zh') {
+    $catalog_slug = 'catalog-zh'; // Пример перевода "каталог" на китайский (можете заменить на нужное слово)
+} else {
+    $catalog_slug = 'catalog'; // По умолчанию английский
+}
 
 // Получаем ID страницы "Каталог"
 $catalog_page = get_page_by_path($catalog_slug);

@@ -19,11 +19,17 @@ get_header(); ?>
                     $icon = carbon_get_the_post_meta('category_icon');
                     $slug = carbon_get_the_post_meta('category_slug');
                     $subcategories = carbon_get_the_post_meta('subcategories');
-                    // Получаем текущий язык
-                    $current_language = pll_current_language();
                     // Определяем slug для текущего языка
-                    $catalog_slug = ($current_language === 'ru') ? 'каталог' : 'catalog';
-                    $category_url = site_url('/' . $catalog_slug . '/' . $slug); // Формируем URL категории
+                    if ($current_language === 'ru') {
+                        $catalog_slug = 'каталог';
+                    } elseif ($current_language === 'zh') {
+                        $catalog_slug = 'catalog-zh'; // Пример перевода "каталог" на китайский (можете заменить на нужное слово)
+                    } else {
+                        $catalog_slug = 'catalog'; // По умолчанию английский
+                    }
+
+                    // Формируем URL категории
+                    $category_url = site_url('/' . $catalog_slug . '/' . $slug);
                 ?>
                     <div class="side-bar-item">
                         <div class="side-bar-item__content">
