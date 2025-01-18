@@ -33,6 +33,7 @@
         if (!empty($header_id)) {
             $header_id = $header_id[0]; // Берём ID первой записи
             $header_location = carbon_get_post_meta($header_id, 'header_location');
+            $header_location_link = carbon_get_post_meta($header_id, 'header_location_link');
             $header_email = carbon_get_post_meta($header_id, 'header_email');
             $header_phone = carbon_get_post_meta($header_id, 'header_phone');
             $header_project_button_text = carbon_get_post_meta($header_id, 'header_project_button_text');
@@ -47,7 +48,7 @@
         <header class="header">
             <div class="header-top">
                 <div class="header__container">
-                    <a href="" class="header-contacts-item header-contacts-item-location">
+                    <a href="<?php echo $header_location_link; ?>" target="_blank" class="header-contacts-item header-contacts-item-location">
                         <div class="location-icon">
                             <img loading="lazy" src="<?php echo get_template_directory_uri(); ?>/layout/img/icons/location.svg" alt="location">
                         </div>

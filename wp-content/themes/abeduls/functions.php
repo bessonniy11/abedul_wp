@@ -785,6 +785,8 @@ add_action('carbon_fields_register_fields', function () {
         ->add_fields([
             Field::make('text', 'header_location', 'Адрес')
                 ->set_default_value('г. Москва ул.Дубнинская д. 83, 8-й этаж №819-820-821'),
+            Field::make('text', 'header_location_link', 'Ссылка на адрес')
+                ->set_help_text('Ссылка на адрес).'),
             Field::make('text', 'header_email', 'Email')
                 ->set_default_value('info_abedul@mail.ru'),
             Field::make('text', 'header_phone', 'Телефон')
