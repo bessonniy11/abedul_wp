@@ -90,6 +90,10 @@ add_action('carbon_fields_register_fields', function () {
             Field::make('text', 'we_are_trusted_title', 'Заголовок блока "Нам доверяют"'),
             Field::make('text', 'all_projects_link_text', 'Текст ссылки (все проекты)'),
             Field::make('text', 'all_projects_link', 'Ссылка (все проекты)'),
+            Field::make('text', 'products_empty_text', 'Текст-подсказка если товары отсутсвуют')
+                ->set_help_text('Текст-подсказка если товары отсутсвуют, например "Товары отсутсвуют"'),
+            Field::make('text', 'projects_empty_text', 'Текст-подсказка если проекты не найдены')
+                ->set_help_text('Текст-подсказка если проекты отсутсвуют, например "Проекты отсутсвуют"'),
         ]);
 
     // данные для страницы Услуги
@@ -98,6 +102,12 @@ add_action('carbon_fields_register_fields', function () {
         ->where('post_template', '=', 'page-services.php')
         ->add_fields([
             Field::make('text', 'services_page_title', 'Заголовок страницы'),
+            Field::make('text', 'breadcrumbs_main', 'Текст ссылки на главную')
+                ->set_help_text(
+                    'Текст ссылки на главную, например: "Главная" <br>
+                    Home link text, e.g.: “Home”. <br>
+                    主页链接文本，例如 “主页"。'
+                ),
             Field::make(
                 'complex',
                 'service_items',
@@ -135,6 +145,12 @@ add_action('carbon_fields_register_fields', function () {
         ->where('post_template', '=', 'page-career.php') // Указываем шаблон
         ->add_fields([
             Field::make('text', 'career_page_title', 'Заголовок страницы'),
+            Field::make('text', 'breadcrumbs_main', 'Текст ссылки на главную')
+                ->set_help_text(
+                    'Текст ссылки на главную, например: "Главная" <br>
+                    Home link text, e.g.: “Home”. <br>
+                    主页链接文本，例如 “主页"。'
+                ),
             // Поле для подзаголовка
             Field::make('text', 'career_subtitle', 'Подзаголовок'),
 
@@ -188,7 +204,28 @@ add_action('carbon_fields_register_fields', function () {
                     Field::make('image', 'gallery_image', 'Фото')
                         ->set_help_text('Добавьте изображение'),
                     Field::make('text', 'gallery_title', 'Заголовок фото'),
-                    Field::make('text', 'gallery_link', 'Cсылка на товар'),
+                    Field::make('select', 'gallery_link', 'Ссылка на товар')
+                        ->add_options(function () {
+                            // Получаем текущий язык проекта
+                            $current_language = function_exists('pll_current_language') ? pll_current_language() : 'en';
+
+                            // Получаем товары текущего языка
+                            $args = [
+                                'post_type'      => 'product',
+                                'posts_per_page' => -1,
+                                'lang'           => $current_language, // Указываем язык, если используется Polylang
+                            ];
+                            $products = get_posts($args);
+
+                            // Формируем массив для селекта
+                            $options = [];
+                            foreach ($products as $product) {
+                                $options[get_permalink($product->ID)] = $product->post_title;
+                            }
+
+                            return $options;
+                        })
+                        ->set_help_text('Выберите товар для ссылки'),
                 ])
                 ->set_layout('tabbed-horizontal'),
 
@@ -203,9 +240,28 @@ add_action('carbon_fields_register_fields', function () {
                     [
                         'type'      => 'post',
                         'post_type' => 'product', // Укажите тип записи для товаров
-                    ],
+                    ]
                 ])
                 ->set_help_text('Выберите товары которые использовались в этом проекте'),
+
+            Field::make('text', 'breadcrumbs_main', 'Текст ссылки на главную')
+                ->set_help_text(
+                    'Текст ссылки на главную, например: "Главная" <br>
+                    Home link text, e.g.: “Home”. <br>
+                    主页链接文本，例如 “主页"。'
+                ),
+            Field::make('text', 'breadcrumbs_all_projects', 'Текст ссылки на все проекты')
+                ->set_help_text(
+                    'Текст ссылки на все проекты, например: "Все проекты" <br>
+                    The text of the link to all projects, e.g: “All projects”. <br>
+                    所有项目链接的文本，例如 所有项目。'
+                ),
+            Field::make('text', 'breadcrumbs_all_projects_link', 'Ссылки на все проекты')
+                ->set_help_text(
+                    'Текст ссылки на все проекты, например: "проекты" <br>
+                    The text of the link to all projects, e.g: “projects”.. <br>
+                    将文本链接到所有项目，如 “项目"。'
+                ),
         ]);
     // данные для страницы Все проекты
     Container::make('post_meta', 'Все проекты - содержимое страницы')
@@ -214,6 +270,24 @@ add_action('carbon_fields_register_fields', function () {
         ->add_fields([
             Field::make('text', 'all_projects_title', 'Заголовок страницы')
                 ->set_help_text('Заголовок для страницы со списком всех проектов'),
+            Field::make('text', 'breadcrumbs_main', 'Текст ссылки на главную')
+                ->set_help_text(
+                    'Текст ссылки на главную, например: "Главная" <br>
+                    Home link text, e.g.: “Home”. <br>
+                    主页链接文本，例如 “主页"。'
+                ),
+            Field::make('text', 'empty_projects', 'Текст-подсказка если проекты не найдены')
+                ->set_help_text(
+                    'Текст-подсказка если проекты не найдены, например: "Проекты не найдены" <br>
+                    Tooltip text if no projects found, e.g.: “No projects found”. <br>
+                    未找到项目时的工具提示文本，例如 “未找到项目”'
+                ),
+            Field::make('text', 'project_link', 'Ссылка на первый слаг проекта')
+                ->set_help_text(
+                    'Текст ссылки на первый слаг проекта, например: "проект" <br>
+                    The text of the link to the first slog of the project, e.g.: “project”. <br>
+                    指向项目第一个任务的链接文本，例如 项目'
+                ),
         ]);
     // данные для страницы Каталог
     Container::make('post_meta', 'Каталог - содержимое страницы')
@@ -259,6 +333,12 @@ add_action('carbon_fields_register_fields', function () {
             Field::make('text', 'individual_title', 'Главный заголовок перед галереей')
                 ->set_help_text('Введите заголовок, который будет отображаться перед общей галереей'),
 
+            Field::make('text', 'breadcrumbs_main', 'Текст ссылки на главную')
+                ->set_help_text(
+                    'Текст ссылки на главную, например: "Главная" <br>
+                    Home link text, e.g.: “Home”. <br>
+                    主页链接文本，例如 “主页"。'
+                ),
             // Группа фотографий для общего раздела
             Field::make('media_gallery', 'general_gallery', 'Общая галерея')
                 ->set_type(['image'])
@@ -293,6 +373,12 @@ add_action('carbon_fields_register_fields', function () {
             // Главный заголовок
             Field::make('text', 'factory_main_title', 'Главный заголовок')
                 ->set_help_text('Введите главный заголовок для страницы фабрики'),
+            Field::make('text', 'breadcrumbs_main', 'Текст ссылки на главную')
+                ->set_help_text(
+                    'Текст ссылки на главную, например: "Главная" <br>
+                    Home link text, e.g.: “Home”. <br>
+                    主页链接文本，例如 “主页"。'
+                ),
             // Описание под заголовком
             Field::make('textarea', 'factory_subtitle', 'Под заголовок')
                 ->set_help_text('Введите описание под заголовком'),
@@ -357,6 +443,12 @@ add_action('carbon_fields_register_fields', function () {
             // Главный заголовок
             Field::make('text', 'contacts_main_title', 'Главный заголовок')
                 ->set_help_text('Введите главный заголовок для страницы контактов'),
+            Field::make('text', 'breadcrumbs_main', 'Текст ссылки на главную')
+                ->set_help_text(
+                    'Текст ссылки на главную, например: "Главная" <br>
+                    Home link text, e.g.: “Home”. <br>
+                    主页链接文本，例如 “主页"。'
+                ),
             // Блок с контактами
             Field::make('complex', 'contacts', 'Контакты')
                 ->set_layout('tabbed-horizontal')
@@ -402,6 +494,14 @@ add_action('carbon_fields_register_fields', function () {
                     Enter the product name, e.g. “INGSCREEN K type kiosk”. <br>
                     輸入產品名稱，例如「INGSCREEN K type kiosk」。'
                 ),
+            Field::make('text', 'breadcrumbs_main', 'Текст ссылки на главную')
+                ->set_help_text(
+                    'Текст ссылки на главную, например: "Главная" <br>
+                    Home link text, e.g.: “Home”. <br>
+                    主页链接文本，例如 “主页"。'
+                ),
+            Field::make('text', 'breadcrumbs_catalog', 'Вторая часть хлебных крошек')
+                ->set_help_text('Текст для второй части хлебных крошек, например "Каталог"'),
 
             Field::make(
                 'text',
@@ -845,6 +945,7 @@ add_action('init', function () {
     ]);
 });
 
+// Регистрация кастомного типа записи "header & footer"
 add_action('init', function () {
     register_post_type('header', [
         'labels' => [

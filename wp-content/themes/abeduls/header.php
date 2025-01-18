@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="<?php echo esc_attr(pll_current_language('locale')); ?>">
+<html lang="<?php echo esc_attr(pll_current_language()); ?>">
 
 
 <head>
@@ -57,12 +57,67 @@
                         <div class="header-language" data-da=".header-scroll-items,960,9">
                             <?php
                             if (function_exists('pll_the_languages')) {
-                                pll_the_languages(array(
+                                $languages = pll_the_languages(array(
                                     'dropdown' => 1,
                                     'force_home' => 0,  // Убираем принудительный переход на главную
                                 ));
                             }
+
+                            $current_language = function_exists('pll_current_language') ? pll_current_language() : 'en'; // По умолчанию 'en'
                             ?>
+                            <script>
+                                let currentLanguage = "<?php echo $current_language; ?>";
+                                // console.log("Current language:", currentLanguage);
+                                const langSelectItem = document.getElementById('lang_choice_1');
+                                const langSelectOptions = langSelectItem.querySelectorAll('option');
+
+                                langSelectOptions.forEach((langSelectOption) => {
+                                    // Расшифровываем значение
+                                    let decodedValue = decodeURIComponent(langSelectOption.value);
+                                    // console.log('Decoded value:', decodedValue);
+
+                                    // Замена в зависимости от языка
+                                    if (langSelectOption.lang === "en-US") {
+                                        decodedValue = decodedValue.replace('category_group', 'catalog');
+                                    } else if (langSelectOption.lang === "ru-RU") {
+                                        decodedValue = decodedValue.replace('category_group', 'каталог');
+                                    }
+
+                                    // Присваиваем изменённое значение обратно
+                                    langSelectOption.value = decodedValue;
+                                    // console.log('Updated value for', langSelectOption.lang, ':', langSelectOption.value);
+                                });
+
+                                // Проверяем текущий URL
+                                const currentURL = window.location.pathname;
+                                // Если текущий путь равен "/all-projects/" (или его вариациям)
+                                if (currentURL === "/all-projects/" || currentURL === "/all-projects") {
+                                    // Определяем целевую страницу в зависимости от языка
+                                    let redirectURL = "/";
+                                    if (currentLanguage === "en") {
+                                        redirectURL = "/projects/"; // Английская версия
+                                    } else if (currentLanguage === "ru") {
+                                        redirectURL = "/проекты/"; // Русская версия
+                                    }
+
+                                    // Выполняем перенаправление
+                                    window.location.href = redirectURL;
+                                }
+
+                                // Если текущий путь равен "/all-projects/" (или его вариациям)
+                                if (currentURL === "/products/" || currentURL === "/products") {
+                                    // Определяем целевую страницу в зависимости от языка
+                                    let redirectURL = "/";
+                                    if (currentLanguage === "en") {
+                                        redirectURL = "/catalog/"; // Английская версия
+                                    } else if (currentLanguage === "ru") {
+                                        redirectURL = "/каталог/"; // Русская версия
+                                    }
+
+                                    // Выполняем перенаправление
+                                    window.location.href = redirectURL;
+                                }
+                            </script>
                         </div>
 
                         <style>

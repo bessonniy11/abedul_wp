@@ -167,7 +167,7 @@ get_header(); ?>
                     }
                 ?>
                     <li class="breadcrumbs-item">
-                        <a href="/<?php echo esc_html($$catalog_slug); ?>/<?php echo esc_html($category_slug); ?>" class="breadcrumbs-link">
+                        <a href="/<?php echo esc_html($catalog_slug); ?>/<?php echo esc_html($category_slug); ?>" class="breadcrumbs-link">
                             <?php echo esc_html($category_name); ?> /
                         </a>
                     </li>
@@ -348,9 +348,14 @@ get_header(); ?>
                         </div>
                     </div>
                 </div>
-                <div class="products-items list" id="products-list">
-                    <?php
-                    if ($query->have_posts()) :
+                <?php
+                $product_count = $query->found_posts; // Общее количество товаров в запросе
+                ?>
+
+                <?php if ($query->have_posts()) : ?>
+                    <!-- Список товаров -->
+                    <div class="products-items list" id="products-list">
+                        <?php
                         while ($query->have_posts()) : $query->the_post();
                             // Получаем данные товара
                             $product_name = carbon_get_the_post_meta('product_name');
@@ -362,7 +367,7 @@ get_header(); ?>
                             $product_gallery = carbon_get_the_post_meta('product_gallery');
                             $product_read_more_btn = carbon_get_the_post_meta('product_read_more_btn') ?: 'Подробнее';
                             $product_order_btn = carbon_get_the_post_meta('product_order_btn') ?: 'Заказать';
-                    ?>
+                        ?>
                             <!-- Карточка товара -->
                             <div class="product-item">
                                 <div class="product-slider swiper">
@@ -371,13 +376,11 @@ get_header(); ?>
                                             <?php foreach ($product_gallery as $gallery_item) : ?>
                                                 <?php if ($gallery_item['type'] === 'image') : ?>
                                                     <a data-fslightbox="<?php echo esc_html($product_name); ?>" href="<?php echo wp_get_attachment_image_url($gallery_item['image'], 'full'); ?>" class="swiper-slide">
-                                                        <img src="<?php echo wp_get_attachment_image_url($gallery_item['image'], 'full'); ?>"
-                                                            alt="<?php echo esc_attr($gallery_item['alt_text']); ?>">
+                                                        <img src="<?php echo wp_get_attachment_image_url($gallery_item['image'], 'full'); ?>" alt="<?php echo esc_attr($gallery_item['alt_text']); ?>">
                                                     </a>
                                                 <?php elseif ($gallery_item['type'] === 'video') : ?>
                                                     <a data-fslightbox="<?php echo esc_html($product_name); ?>" href="<?php echo wp_get_attachment_url($gallery_item['video']); ?>" class="swiper-slide">
-                                                        <img src="<?php echo wp_get_attachment_image_url($gallery_item['video_preview'], 'full'); ?>"
-                                                            alt="<?php echo esc_attr($gallery_item['alt_text']); ?>">
+                                                        <img src="<?php echo wp_get_attachment_image_url($gallery_item['video_preview'], 'full'); ?>" alt="<?php echo esc_attr($gallery_item['alt_text']); ?>">
                                                         <img loading="lazy" class="play" src="<?php echo get_template_directory_uri(); ?>/layout/img/icons/play.svg" alt="play">
                                                     </a>
                                                 <?php endif; ?>
@@ -397,29 +400,27 @@ get_header(); ?>
                                     <?php endif; ?>
                                     <div class="product-buttons">
                                         <a href="<?php the_permalink(); ?>" class="btn btn-blue"><?php echo esc_html($product_read_more_btn); ?></a>
-                                        <a href="#order-send-popup" class="btn btn-white order-product-btn popup-link"
-                                            data-product-name="<?php echo esc_attr($product_name); ?>">
+                                        <a href="#order-send-popup" class="btn btn-white order-product-btn popup-link" data-product-name="<?php echo esc_attr($product_name); ?>">
                                             <?php echo esc_html($product_order_btn); ?>
                                         </a>
                                     </div>
                                 </div>
                             </div>
-                        <?php
-                        endwhile;
-                        wp_reset_postdata();
-                    else :
-                        ?>
-                        <p><?php echo esc_html($products_empty_text); ?></p>
+                        <?php endwhile; ?>
+                        <?php wp_reset_postdata(); ?>
+                    </div>
+
+                    <!-- Пагинация -->
+                    <?php if ($product_count >= 7) : ?>
+                        <div class="pagination">
+                            <button class="pagination-btn active" data-page="1">1</button>
+                            <button class="pagination-btn" data-page="2">2</button>
+                            <button class="pagination-btn" data-page="3">3</button>
+                        </div>
                     <?php endif; ?>
-                </div>
-                <!-- Пагинация -->
-                <div class="pagination">
-                    <button class="pagination-btn prev" data-page="prev">Предыдущая</button>
-                    <button class="pagination-btn active" data-page="1">1</button>
-                    <button class="pagination-btn" data-page="2">2</button>
-                    <button class="pagination-btn" data-page="3">3</button>
-                    <button class="pagination-btn next" data-page="next">Следующая</button>
-                </div>
+                <?php else : ?>
+                    <p><?php echo esc_html($products_empty_text); ?></p>
+                <?php endif; ?>
             </section>
         </div>
 </main>

@@ -7,6 +7,7 @@ $video_section_description = carbon_get_the_post_meta('video_section_description
 $video_blocks = carbon_get_the_post_meta('video_blocks');
 $image_text_blocks = carbon_get_the_post_meta('image_text_blocks');
 $image_description_blocks = carbon_get_the_post_meta('image_description_blocks');
+$breadcrumbs_main = carbon_get_post_meta(get_the_ID(), 'breadcrumbs_main');
 get_header(); ?>
 
 <main class="page fabric-page">
@@ -14,7 +15,7 @@ get_header(); ?>
     <div class="fabric-page__container">
         <nav class="breadcrumbs">
             <ul class="breadcrumbs-list">
-                <li class="breadcrumbs-item"><a href="/" class="breadcrumbs-link">Главная / </a></li>
+                <li class="breadcrumbs-item"><a href="<?php echo esc_url(home_url('/')); ?>" class="breadcrumbs-link"><?php echo esc_html($breadcrumbs_main); ?> / </a></li>
                 <li class="breadcrumbs-item breadcrumbs-current"><?= esc_html($factory_main_title); ?></li>
             </ul>
         </nav>

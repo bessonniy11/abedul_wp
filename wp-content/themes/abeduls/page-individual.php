@@ -1,13 +1,13 @@
 <?php
 /* Template Name: Individual order */
-
+$breadcrumbs_main = carbon_get_post_meta(get_the_ID(), 'breadcrumbs_main');
 get_header(); ?>
 <main class="page individual-page">
 
     <div class="individual-page__container">
         <nav class="breadcrumbs">
             <ul class="breadcrumbs-list">
-                <li class="breadcrumbs-item"><a href="/" class="breadcrumbs-link">Главная / </a></li>
+                <li class="breadcrumbs-item"><a href="<?php echo esc_url(home_url('/')); ?>" class="breadcrumbs-link"><?php echo esc_html($breadcrumbs_main); ?> / </a></li>
                 <li class="breadcrumbs-item breadcrumbs-current"><?php echo esc_html(carbon_get_the_post_meta('individual_title')); ?></li>
             </ul>
         </nav>
