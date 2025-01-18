@@ -1,6 +1,6 @@
 <?php
-/* Template Name: Карьера */
-
+/* Template Name: Career */
+$breadcrumbs_main = carbon_get_post_meta(get_the_ID(), 'breadcrumbs_main');
 get_header();
 
 // Получаем данные
@@ -16,7 +16,7 @@ $career_button_text = $career_button_text ?: 'Отправить резюме';
     <div class="career-page__container">
         <nav class="breadcrumbs">
             <ul class="breadcrumbs-list">
-                <li class="breadcrumbs-item"><a href="/" class="breadcrumbs-link">Главная / </a></li>
+                <li class="breadcrumbs-item"><a href="<?php echo esc_url(home_url('/')); ?>" class="breadcrumbs-link"><?php echo esc_html($breadcrumbs_main); ?> / </a></li>
                 <li class="breadcrumbs-item breadcrumbs-current">
                     <?php echo esc_html($career_page_title); ?>
                 </li>

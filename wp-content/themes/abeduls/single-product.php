@@ -35,14 +35,22 @@ $product_related_products = carbon_get_the_post_meta('product_related_products')
 $product_read_more_btn = carbon_get_the_post_meta('product_read_more_btn') ?: 'Подробнее';
 $product_order_btn = carbon_get_the_post_meta('product_order_btn') ?: 'Заказать';
 
+$breadcrumbs_main = carbon_get_post_meta(get_the_ID(), 'breadcrumbs_main') ?: 'Главная';
+$breadcrumbs_catalog = carbon_get_post_meta(get_the_ID(), 'breadcrumbs_catalog') ?: 'Каталог';
+
+// Получаем текущий язык
+$current_language = pll_current_language();
+// Определяем slug для текущего языка
+$catalog_slug = ($current_language === 'ru') ? 'каталог' : 'catalog';
+
 get_header(); ?>
 
 <main class="page product-page">
     <div class="page__container">
         <nav class="breadcrumbs">
             <ul class="breadcrumbs-list">
-                <li class="breadcrumbs-item"><a href="<?php echo esc_url(home_url('/')); ?>" class="breadcrumbs-link">Главная / </a></li>
-                <li class="breadcrumbs-item"><a href="/catalog" class="breadcrumbs-link">Каталог / </a></li>
+                <li class="breadcrumbs-item"><a href="<?php echo esc_url(home_url('/')); ?>" class="breadcrumbs-link"><?php echo esc_html($breadcrumbs_main); ?> / </a></li>
+                <li class="breadcrumbs-item"><a href="/<?php echo esc_html($catalog_slug); ?>" class="breadcrumbs-link"><?php echo esc_html($breadcrumbs_catalog); ?> / </a></li>
             </ul>
         </nav>
 

@@ -1292,130 +1292,134 @@ function dynamicAdapt() {
 }
 
 function langSelect() {
-	// const select = document.querySelector('.header-language');
-	// const selectTrigger = document.querySelector('.selected-option');
-	// const selectOptionsImg = document.querySelector('.lang-arrow');
-	// const selectedOption = select.querySelector('.lang-value');
-	// const options = select.querySelector('.options');
+	// 	const select = document.querySelector('.header-language');
+	// 	const selectTrigger = document.querySelector('.selected-option');
+	// 	const selectOptionsImg = document.querySelector('.lang-arrow');
+	// 	const selectedOption = select.querySelector('.lang-value');
+	// 	const options = select.querySelector('.options');
 
-	// // Устанавливаем язык из localStorage при загрузке страницы
-	// const storedLang = localStorage.getItem('selectedLanguage');
-	// if (storedLang) {
-	// 	selectedOption.textContent = storedLang;
-	// 	updateOptions(storedLang);
-	// }
+	// 	// Устанавливаем язык из localStorage при загрузке страницы
+	// 	const storedLang = localStorage.getItem('selectedLanguage');
+	// 	if (storedLang) {
+	// 		selectedOption.textContent = storedLang;
+	// 		updateOptions(storedLang);
+	// 	}
 
-	// selectTrigger.addEventListener('click', () => {
-	// 	options.classList.toggle('active');
-	// 	selectOptionsImg.classList.toggle('active');
-	// });
+	// 	selectTrigger.addEventListener('click', () => {
+	// 		options.classList.toggle('active');
+	// 		selectOptionsImg.classList.toggle('active');
+	// 	});
 
-	// options.addEventListener('click', (e) => {
-	// 	if (e.target.tagName === 'LI') {
-	// 		let newLang_n = e.target.textContent.toLowerCase(); // Получаем выбранный язык
-	// 		console.log(newLang_n);
-
-	// 		if (newLang_n == "中文") {
-	// 			newLang_n = 'zh';
+	// 	options.addEventListener('click', (e) => {
+	// 		if (e.target.tagName === 'LI') {
+	// 			let newLang_n = e.target.textContent.toLowerCase(); // Получаем выбранный язык
 	// 			console.log(newLang_n);
+
+	// 			if (newLang_n == "中文") {
+	// 				newLang_n = 'zh';
+	// 				console.log(newLang_n);
+	// 			}
+
+	// 			if (newLang_n) {
+	// 				document.cookie = `pll_language=${newLang_n}; path=/; max-age=31536000`; // Cookie на 1 год
+	// 			}
+
+	// 			let currentPath = window.location.pathname;
+	// 			console.log('currentPath', currentPath);
+
+	// 			let pathParts = currentPath.split('/').filter(Boolean); // Разбиваем путь на части и убираем пустые элементы
+
+	// 			const supportedLanguages = ['en', 'zh', 'ru']; // Список поддерживаемых языков
+
+	// 			// Если есть префикс, удаляем его
+	// 			if (supportedLanguages.includes(pathParts[0])) {
+	// 				pathParts.shift(); // Убираем текущий языковой префикс
+	// 			}
+	// 			// Проверяем и удаляем суффикс, если он присутствует
+	// 			let suffixPattern = /-(\d+)$/; // Регулярное выражение для поиска суффикса в конце URL
+	// 			if (suffixPattern.test(pathParts[pathParts.length - 1])) {
+	// 				pathParts[pathParts.length - 1] = pathParts[pathParts.length - 1].replace(suffixPattern, ''); // Убираем суффикс
+	// 			}
+	// 			// Добавляем суффикс в зависимости от выбранного языка
+	// 			let suffix = '';
+	// 			if (newLang_n === 'en') {
+	// 				suffix = '-en'; // Для английского языка добавляем en
+	// 			} else if (newLang_n === 'zh') {
+	// 				suffix = '-zh'; // Для китайского языка добавляем -3
+	// 			} else if (newLang_n === 'ru') {
+	// 				suffix = ''; // Для русского языка добавляем
+	// 			}
+	// 			// Формируем новый путь с префиксом языка и суффиксом
+	// 			let newPath = '/' + pathParts.join('/') + suffix;
+
+	// 			console.log('newPath', newPath); // Для отладки
+	// 			// Переходим на новый URL
+	// 			// window.location.href = newPath;
+
+
+	// 			const newLang = e.target.textContent;
+
+	// 			// Обновляем выбранный язык
+	// 			selectedOption.textContent = newLang;
+
+	// 			// Сохраняем выбранный язык в localStorage
+	// 			localStorage.setItem('selectedLanguage', newLang);
+
+	// 			// Выводим в консоль выбранный язык
+	// 			console.log(`Выбранный язык: ${newLang}`);
+
+	// 			// Обновляем список доступных опций
+	// 			updateOptions(newLang);
+
+	// 			options.classList.remove('active');
+	// 			selectOptionsImg.classList.remove('active');
 	// 		}
+	// 	});
 
-	// 		if (newLang_n) {
-	// 			document.cookie = `selected_language=${newLang_n}; path=/; max-age=31536000`; // Cookie на 1 год
+	// 	document.addEventListener('click', (e) => {
+	// 		if (!select.contains(e.target)) {
+	// 			options.classList.remove('active');
+	// 			selectOptionsImg.classList.remove('active');
 	// 		}
+	// 	});
 
-	// 		let currentPath = window.location.pathname;
-	// 		let pathParts = currentPath.split('/').filter(Boolean); // Разбиваем путь на части и убираем пустые элементы
+	// 	// Функция для обновления списка доступных опций
+	// 	function updateOptions(currentLang) {
+	// 		const allOptions = ['RU', 'EN', '中文'];
+	// 		options.innerHTML = '';
 
-	// 		const supportedLanguages = ['en', 'zh', 'ru']; // Список поддерживаемых языков
-
-	// 		// Если есть префикс, удаляем его
-	// 		if (supportedLanguages.includes(pathParts[0])) {
-	// 			pathParts.shift(); // Убираем текущий языковой префикс
-	// 		}
-	// 		// Проверяем и удаляем суффикс, если он присутствует
-	// 		let suffixPattern = /-(\d+)$/; // Регулярное выражение для поиска суффикса в конце URL
-	// 		if (suffixPattern.test(pathParts[pathParts.length - 1])) {
-	// 			pathParts[pathParts.length - 1] = pathParts[pathParts.length - 1].replace(suffixPattern, ''); // Убираем суффикс
-	// 		}
-	// 		// Добавляем суффикс в зависимости от выбранного языка
-	// 		let suffix = '';
-	// 		if (newLang_n === 'en') {
-	// 			suffix = '-2'; // Для английского языка добавляем -2
-	// 		} else if (newLang_n === 'zh') {
-	// 			suffix = '-3'; // Для китайского языка добавляем -3
-	// 		}
-	// 		// Формируем новый путь с префиксом языка и суффиксом
-	// 		let newPath = '/' + newLang_n + '/' + pathParts.join('/') + suffix;
-
-	// 		console.log(newPath); // Для отладки
-	// 		// Переходим на новый URL
-	// 		window.location.href = newPath;
-
-
-	// 		const newLang = e.target.textContent;
-
-	// 		// Обновляем выбранный язык
-	// 		selectedOption.textContent = newLang;
-
-	// 		// Сохраняем выбранный язык в localStorage
-	// 		localStorage.setItem('selectedLanguage', newLang);
-
-	// 		// Выводим в консоль выбранный язык
-	// 		console.log(`Выбранный язык: ${newLang}`);
-
-	// 		// Обновляем список доступных опций
-	// 		updateOptions(newLang);
-
-	// 		options.classList.remove('active');
-	// 		selectOptionsImg.classList.remove('active');
+	// 		// Генерируем опции, исключая текущий язык
+	// 		allOptions
+	// 			.filter(lang => lang !== currentLang)
+	// 			.forEach(lang => {
+	// 				const li = document.createElement('li');
+	// 				li.textContent = lang;
+	// 				li.dataset.lang = lang.toLowerCase();
+	// 				options.appendChild(li);
+	// 			});
 	// 	}
-	// });
-
-	// document.addEventListener('click', (e) => {
-	// 	if (!select.contains(e.target)) {
-	// 		options.classList.remove('active');
-	// 		selectOptionsImg.classList.remove('active');
-	// 	}
-	// });
-
-	// // Функция для обновления списка доступных опций
-	// function updateOptions(currentLang) {
-	// 	const allOptions = ['RU', 'EN', '中文'];
-	// 	options.innerHTML = '';
-
-	// 	// Генерируем опции, исключая текущий язык
-	// 	allOptions
-	// 		.filter(lang => lang !== currentLang)
-	// 		.forEach(lang => {
-	// 			const li = document.createElement('li');
-	// 			li.textContent = lang;
-	// 			li.dataset.lang = lang.toLowerCase();
-	// 			options.appendChild(li);
-	// 		});
 	// }
-}
 
-// if (window.innerWidth < 960) {
-// 	if (!swiperActions) { // Если Swiper ещё не инициализирован
-// 		swiperActions = new Swiper('.main-top-slider', {
-// 			slidesPerView: 1.5,
-// 			spaceBetween: 0,
-// 			loop: false,
-// 			autoHeight: true,
-// 			centeredSlides: true,
-// 			navigation: {
-// 				nextEl: '.actions-swiper-r',
-// 				prevEl: '.actions-swiper-l',
-// 			},
-// 		});
-// 	}
-// } else {
-// 	if (swiperActions) { // Если Swiper уже существует и ширина больше 960
-// 		swiperActions.destroy(); // Уничтожаем Swiper
-// 		swiperActions = null;
-// 	}
-// }
+	// if (window.innerWidth < 960) {
+	// 	if (!swiperActions) { // Если Swiper ещё не инициализирован
+	// 		swiperActions = new Swiper('.main-top-slider', {
+	// 			slidesPerView: 1.5,
+	// 			spaceBetween: 0,
+	// 			loop: false,
+	// 			autoHeight: true,
+	// 			centeredSlides: true,
+	// 			navigation: {
+	// 				nextEl: '.actions-swiper-r',
+	// 				prevEl: '.actions-swiper-l',
+	// 			},
+	// 		});
+	// 	}
+	// } else {
+	// 	if (swiperActions) { // Если Swiper уже существует и ширина больше 960
+	// 		swiperActions.destroy(); // Уничтожаем Swiper
+	// 		swiperActions = null;
+	// 	}
+}
 
 function headerMenu() {
 	// menuMobile_s
@@ -1881,7 +1885,9 @@ function initFilters() {
 			.then(response => response.json())
 			.then(data => {
 				const productsContainer = document.querySelector('.products-items');
-				productsContainer.innerHTML = data.html;
+				if (productsContainer) {
+					productsContainer.innerHTML = data.html;
+				}
 				body.classList.remove('loading');
 
 				// Обновляем пагинацию
@@ -1910,29 +1916,31 @@ function initFilters() {
 	// Обновление пагинации
 	function updatePagination(totalPages, currentPage) {
 		const pagination = document.querySelector('.pagination');
-		const buttons = pagination.querySelectorAll('.pagination-btn');
+		const buttons = pagination?.querySelectorAll('.pagination-btn');
 
 		// Удаляем старые кнопки
-		buttons.forEach(button => button.remove());
+		buttons?.forEach(button => button.remove());
 
 		// Оставляем кнопки для текущих страниц
 		for (let i = 1; i <= totalPages; i++) {
 			let pageButton = document.createElement('button');
-			pageButton.classList.add('pagination-btn');
-			pageButton.setAttribute('data-page', i);
-			pageButton.innerText = i;
-			pagination.insertBefore(pageButton, pagination.querySelector('.next'));
-			pageButton.addEventListener('click', (e) => {
-				const currentPage = e.target.getAttribute('data-page');
-				sendFilterData(currentPage);
-			});
+			if (pageButton) {
+				pageButton.classList.add('pagination-btn');
+				pageButton.setAttribute('data-page', i);
+				pageButton.innerText = i;
+				pagination?.insertBefore(pageButton, pagination.querySelector('.next'));
+				pageButton.addEventListener('click', (e) => {
+					const currentPage = e.target.getAttribute('data-page');
+					sendFilterData(currentPage);
+				});
+			}
 		}
 
 		// Убираем старые активные кнопки
-		buttons.forEach(button => button.classList.remove('active'));
+		buttons?.forEach(button => button.classList.remove('active'));
 
 		// Устанавливаем активную кнопку
-		const pageButton = pagination.querySelector(`[data-page="${currentPage}"]`);
+		const pageButton = pagination?.querySelector(`[data-page="${currentPage}"]`);
 		if (pageButton) {
 			pageButton.classList.add('active');
 		}
@@ -1949,9 +1957,9 @@ function initViewType() {
 	// Функция для установки типа отображения
 	const setViewType = (viewType) => {
 		// Удаляем предыдущие классы отображения
-		productsContainer.classList.remove("grid", "list");
+		productsContainer?.classList.remove("grid", "list");
 		// Устанавливаем новый класс
-		productsContainer.classList.add(viewType);
+		productsContainer?.classList.add(viewType);
 		// Сохраняем выбор пользователя в localStorage
 		localStorage.setItem("viewType", viewType);
 		// Обновляем активный элемент в переключателе

@@ -19,7 +19,11 @@ get_header(); ?>
                     $icon = carbon_get_the_post_meta('category_icon');
                     $slug = carbon_get_the_post_meta('category_slug');
                     $subcategories = carbon_get_the_post_meta('subcategories');
-                    $category_url = site_url('/catalog/' . $slug); // Формируем URL категории
+                    // Получаем текущий язык
+                    $current_language = pll_current_language();
+                    // Определяем slug для текущего языка
+                    $catalog_slug = ($current_language === 'ru') ? 'каталог' : 'catalog';
+                    $category_url = site_url('/' . $catalog_slug . '/' . $slug); // Формируем URL категории
                 ?>
                     <div class="side-bar-item">
                         <div class="side-bar-item__content">
@@ -245,7 +249,7 @@ get_header(); ?>
                                         <?php endif; ?>
                                         <div class="product-buttons">
                                             <a href="<?php the_permalink(); ?>" class="btn btn-blue"><?php echo esc_html($product_read_more_btn); ?></a>
-                                            <a href="#order-send-popup" class="btn btn-white order-product-btn popup-link">
+                                            <a href="#order-send-popup" class="btn btn-white order-product-btn popup-link" data-product-name="<?php echo esc_html($product_name); ?>">
                                                 <?php echo esc_html($product_order_btn); ?>
                                             </a>
                                         </div>
@@ -256,7 +260,7 @@ get_header(); ?>
                             wp_reset_postdata();
                         else :
                             ?>
-                            <p><?php echo esc_html($products_empty_text); ?></p>
+                            <p><?php echo esc_html(carbon_get_the_post_meta('products_empty_text')); ?></p>
                         <?php endif; ?>
                     </div>
 
@@ -292,6 +296,8 @@ get_header(); ?>
                                 $main_image_url = $main_image ? wp_get_attachment_image_url($main_image, 'medium') : '';
                                 $project_gallery = carbon_get_post_meta(get_the_ID(), 'project_gallery');
                                 $project_see_more_btn = carbon_get_post_meta(get_the_ID(), 'project_see_more_btn');
+                                // Получаем ссылку project
+                                $project_permalink = get_permalink(get_the_ID());
                             ?>
                                 <div class="swiper-slide">
                                     <div class="main-page-clients-item">
@@ -352,7 +358,7 @@ get_header(); ?>
                                                     <p></p>
                                                 <?php endif; ?>
                                             </div>
-                                            <a href="/projects/<?php echo esc_html($main_slug); ?>" class="main-page-clients-item__link arrow-link">
+                                            <a href="<?php echo esc_html($project_permalink); ?>" class="main-page-clients-item__link arrow-link">
                                                 <span><?php echo esc_html($project_see_more_btn); ?></span>
                                                 <img loading="lazy" src="<?php echo get_template_directory_uri(); ?>/layout/img/icons/arrow-right-blue.svg" alt="arrow-right">
                                             </a>
@@ -364,131 +370,9 @@ get_header(); ?>
                         </div>
                     </div>
                 <?php else: ?>
-                    <p>Проекты не найдены.</p>
+                    <p><?php echo esc_html(carbon_get_the_post_meta('projects_empty_text')); ?></p>
                 <?php endif;
                 wp_reset_postdata(); ?>
-                <!-- <div class="main-page-clients-items swiper-container">
-                    <div class="swiper-wrapper">
-                        <div class="swiper-slide">
-                            <div class="main-page-clients-item">
-                                <div class="main-page-clients-item__slider swiper-container">
-                                    <div class="swiper-wrapper">
-                                        <div class="swiper-slide">
-                                            <div class="main-page-clients-item-slide ibg">
-                                                <img loading="lazy" src="<?php echo get_template_directory_uri(); ?>/layout/img/products/burger-king.png" alt="">
-                                            </div>
-                                        </div>
-                                        <div class="swiper-slide">
-                                            <div class="main-page-clients-item-slide ibg">
-                                                <img loading="lazy" src="<?php echo get_template_directory_uri(); ?>/layout/img/products/02.png" alt="">
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="main-page-clients-item__slider-controls">
-                                        <div class="control-left">
-                                            <img loading="lazy" src="<?php echo get_template_directory_uri(); ?>/layout/img/icons/arrow-left-blue.svg" alt="arrow-left">
-                                        </div>
-                                        <div class="control-right">
-                                            <img loading="lazy" src="<?php echo get_template_directory_uri(); ?>/layout/img/icons/arrow-right-blue.svg" alt="arrow-right">
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="main-page-clients-item__content">
-                                    <div class="main-page-clients-item__title">Burger King</div>
-                                    <div class="main-page-clients-item__subtitle">
-                                        Полная комплектация оборудованием 12 точек по всей Москве
-                                    </div>
-                                    <div class="main-page-clients-item__elems">
-                                        <div class="main-page-clients-item__elem">Киоск типа INGSCREEN K x6</div>
-                                        <div class="main-page-clients-item__elem">Телевизор большого размера x2</div>
-                                        <div class="main-page-clients-item__elem">ЖК-ВИДЕОСТЕНА x34</div>
-                                    </div>
-                                    <a href="" class="main-page-clients-item__link arrow-link">
-                                        <span>Смотреть всю подборку</span>
-                                        <img loading="lazy" src="<?php echo get_template_directory_uri(); ?>/layout/img/icons/arrow-right-blue.svg" alt="arrow-right">
-                                    </a>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="swiper-slide">
-                            <div class="main-page-clients-item">
-                                <div class="main-page-clients-item__slider swiper-container">
-                                    <div class="swiper-wrapper">
-                                        <div class="swiper-slide">
-                                            <div class="main-page-clients-item-slide ibg">
-                                                <img loading="lazy" src="<?php echo get_template_directory_uri(); ?>/layout/img/products/perekrestok.png" alt="">
-                                            </div>
-                                        </div>
-                                        <div class="swiper-slide">
-                                            <div class="main-page-clients-item-slide ibg">
-                                                <img loading="lazy" src="<?php echo get_template_directory_uri(); ?>/layout/img/products/05.png" alt="">
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="main-page-clients-item__slider-controls">
-                                        <div class="control-left">
-                                            <img loading="lazy" src="<?php echo get_template_directory_uri(); ?>/layout/img/icons/arrow-left-blue.svg" alt="arrow-left">
-                                        </div>
-                                        <div class="control-right">
-                                            <img loading="lazy" src="<?php echo get_template_directory_uri(); ?>/layout/img/icons/arrow-right-blue.svg" alt="arrow-right">
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="main-page-clients-item__content">
-                                    <div class="main-page-clients-item__title">Перекресток Супермаркет</div>
-                                    <div class="main-page-clients-item__subtitle">
-                                        Под ключ подготовили открытие новой точки в зоне касс самообслуживания
-                                    </div>
-                                    <a href="" class="main-page-clients-item__link arrow-link">
-                                        <span>Смотреть всю подборку</span>
-                                        <img loading="lazy" src="<?php echo get_template_directory_uri(); ?>/layout/img/icons/arrow-right-blue.svg" alt="arrow-right">
-                                    </a>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="swiper-slide">
-                            <div class="main-page-clients-item">
-                                <div class="main-page-clients-item__slider swiper-container">
-                                    <div class="swiper-wrapper">
-                                        <div class="swiper-slide">
-                                            <div class="main-page-clients-item-slide ibg">
-                                                <img loading="lazy" src="<?php echo get_template_directory_uri(); ?>/layout/img/products/burger-king.png" alt="">
-                                            </div>
-                                        </div>
-                                        <div class="swiper-slide">
-                                            <div class="main-page-clients-item-slide ibg">
-                                                <img loading="lazy" src="<?php echo get_template_directory_uri(); ?>/layout/img/products/06.png" alt="">
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="main-page-clients-item__slider-controls">
-                                        <div class="control-left">
-                                            <img loading="lazy" src="<?php echo get_template_directory_uri(); ?>/layout/img/icons/arrow-left-blue.svg" alt="arrow-left">
-                                        </div>
-                                        <div class="control-right">
-                                            <img loading="lazy" src="<?php echo get_template_directory_uri(); ?>/layout/img/icons/arrow-right-blue.svg" alt="arrow-right">
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="main-page-clients-item__content">
-                                    <div class="main-page-clients-item__title">Burger King</div>
-                                    <div class="main-page-clients-item__subtitle">
-                                        Полная комплектация оборудованием 12 точек по всей Москве
-                                    </div>
-                                    <div class="main-page-clients-item__elems">
-                                        <div class="main-page-clients-item__elem">Киоск типа INGSCREEN K x6</div>
-                                        <div class="main-page-clients-item__elem">Телевизор большого размера x2</div>
-                                        <div class="main-page-clients-item__elem">ЖК-ВИДЕОСТЕНА x34</div>
-                                    </div>
-                                    <a href="" class="main-page-clients-item__link arrow-link">
-                                        <span>Смотреть всю подборку</span>
-                                        <img loading="lazy" src="<?php echo get_template_directory_uri(); ?>/layout/img/icons/arrow-right-blue.svg" alt="arrow-right">
-                                    </a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div> -->
             </div>
         </div>
     </div>

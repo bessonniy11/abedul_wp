@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="<?php echo esc_attr(pll_current_language('locale')); ?>">
+<html lang="<?php echo esc_attr(pll_current_language()); ?>">
 
 
 <head>
@@ -33,6 +33,7 @@
         if (!empty($header_id)) {
             $header_id = $header_id[0]; // Берём ID первой записи
             $header_location = carbon_get_post_meta($header_id, 'header_location');
+            $header_location_link = carbon_get_post_meta($header_id, 'header_location_link');
             $header_email = carbon_get_post_meta($header_id, 'header_email');
             $header_phone = carbon_get_post_meta($header_id, 'header_phone');
             $header_project_button_text = carbon_get_post_meta($header_id, 'header_project_button_text');
@@ -47,7 +48,7 @@
         <header class="header">
             <div class="header-top">
                 <div class="header__container">
-                    <a href="" class="header-contacts-item header-contacts-item-location">
+                    <a href="<?php echo $header_location_link; ?>" target="_blank" class="header-contacts-item header-contacts-item-location">
                         <div class="location-icon">
                             <img loading="lazy" src="<?php echo get_template_directory_uri(); ?>/layout/img/icons/location.svg" alt="location">
                         </div>
@@ -55,12 +56,69 @@
                     </a>
                     <div class="header-top-l">
                         <div class="header-language" data-da=".header-scroll-items,960,9">
-                            <?php pll_the_languages(
-                                array(
+                            <?php
+                            if (function_exists('pll_the_languages')) {
+                                $languages = pll_the_languages(array(
                                     'dropdown' => 1,
-                                    'force_home' => 0
-                                )
-                            );  ?>
+                                    'force_home' => 0,  // Убираем принудительный переход на главную
+                                ));
+                            }
+
+                            $current_language = function_exists('pll_current_language') ? pll_current_language() : 'en'; // По умолчанию 'en'
+                            ?>
+                            <script>
+                                let currentLanguage = "<?php echo $current_language; ?>";
+                                // console.log("Current language:", currentLanguage);
+                                const langSelectItem = document.getElementById('lang_choice_1');
+                                const langSelectOptions = langSelectItem.querySelectorAll('option');
+
+                                langSelectOptions.forEach((langSelectOption) => {
+                                    // Расшифровываем значение
+                                    let decodedValue = decodeURIComponent(langSelectOption.value);
+                                    // console.log('Decoded value:', decodedValue);
+
+                                    // Замена в зависимости от языка
+                                    if (langSelectOption.lang === "en-US") {
+                                        decodedValue = decodedValue.replace('category_group', 'catalog');
+                                    } else if (langSelectOption.lang === "ru-RU") {
+                                        decodedValue = decodedValue.replace('category_group', 'каталог');
+                                    }
+
+                                    // Присваиваем изменённое значение обратно
+                                    langSelectOption.value = decodedValue;
+                                    // console.log('Updated value for', langSelectOption.lang, ':', langSelectOption.value);
+                                });
+
+                                // Проверяем текущий URL
+                                const currentURL = window.location.pathname;
+                                // Если текущий путь равен "/all-projects/" (или его вариациям)
+                                if (currentURL === "/all-projects/" || currentURL === "/all-projects") {
+                                    // Определяем целевую страницу в зависимости от языка
+                                    let redirectURL = "/";
+                                    if (currentLanguage === "en") {
+                                        redirectURL = "/projects/"; // Английская версия
+                                    } else if (currentLanguage === "ru") {
+                                        redirectURL = "/проекты/"; // Русская версия
+                                    }
+
+                                    // Выполняем перенаправление
+                                    window.location.href = redirectURL;
+                                }
+
+                                // Если текущий путь равен "/all-projects/" (или его вариациям)
+                                if (currentURL === "/products/" || currentURL === "/products") {
+                                    // Определяем целевую страницу в зависимости от языка
+                                    let redirectURL = "/";
+                                    if (currentLanguage === "en") {
+                                        redirectURL = "/catalog/"; // Английская версия
+                                    } else if (currentLanguage === "ru") {
+                                        redirectURL = "/каталог/"; // Русская версия
+                                    }
+
+                                    // Выполняем перенаправление
+                                    window.location.href = redirectURL;
+                                }
+                            </script>
                         </div>
 
                         <style>
@@ -141,6 +199,10 @@
                                             $category_slug = carbon_get_the_post_meta('category_slug');
                                             $icon_url = $icon_id ? wp_get_attachment_image_url($icon_id, 'full') : ''; // Получаем URL изображения
                                             $subcategories = carbon_get_the_post_meta('subcategories');
+                                            // Получаем текущий язык
+                                            $current_language = pll_current_language();
+                                            // Определяем slug для текущего языка
+                                            $catalog_slug = ($current_language === 'ru') ? 'каталог' : 'catalog';
                                         ?>
                                             <div class="catalog-item-group">
                                                 <div class="catalog-item-group__title-wrapper">
@@ -152,13 +214,13 @@
                                                     </div>
                                                 </div>
                                                 <div class="catalog-item-group__content">
-                                                    <a href="/catalog/<?php echo esc_html($category_slug) ?>" class="catalog-item-group-title">
+                                                    <a href="<?php echo esc_url('/' . $catalog_slug . '/' . esc_html($category_slug)); ?>" class="catalog-item-group-title">
                                                         <?php the_title(); ?>
                                                     </a>
                                                     <?php if (!empty($subcategories)) : ?>
                                                         <div class="catalog-item-group-elems">
                                                             <?php foreach ($subcategories as $sub) : ?>
-                                                                <a href="/catalog/<?php echo esc_html($category_slug) ?>/<?php echo esc_html($sub['subcategory_slug']); ?>" class="catalog-item-group-elem">
+                                                                <a href="<?php echo esc_url('/' . $catalog_slug . '/' . esc_html($category_slug) . '/' . esc_html($sub['subcategory_slug'])); ?>" class="catalog-item-group-elem">
                                                                     <span><?php echo esc_html($sub['subcategory_title']); ?></span>
                                                                     <?php if (!empty($sub['subcategory_extra'])): ?>
                                                                         <div class="catalog-item-group-elem-extra">
