@@ -2012,3 +2012,102 @@ function abedul_localize_search_script()
     ]);
 }
 add_action('wp_enqueue_scripts', 'abedul_localize_search_script');
+
+// Регистрируем маршрут для отправки формы через REST API
+add_action('rest_api_init', function () {
+    register_rest_route('send-form', '/send', [
+        'methods' => 'POST',
+        'callback' => 'send_form_email',
+    ]);
+});
+
+function send_form_email(WP_REST_Request $request)
+{
+    $form_data = $request->get_params();
+    $uploaded_files = $request->get_file_params(); // Получаем файлы из запроса
+
+    $form_id = get_posts([
+        'post_type' => 'forms',
+        'numberposts' => 1,
+        'fields' => 'ids',
+    ]);
+
+    if (!empty($form_id)) {
+        $form_id = $form_id[0];
+        $form_emails = carbon_get_post_meta($form_id, 'form_emails');
+    }
+
+    // Формируем тело письма
+    $message = "Заявка с формы: " . $form_data['form-type'] . "\n";
+
+    if (isset($form_data['name'])) {
+        $message .= "Имя: " . $form_data['name'] . "\n";
+    }
+
+    if (isset($form_data['phone'])) {
+        $message .= "Телефон: " . $form_data['phone'] . "\n";
+    }
+
+    if (isset($form_data['product-name'])) {
+        $message .= "Название товара: " . $form_data['product-name'] . "\n";
+    }
+
+    if (isset($form_data['email'])) {
+        $message .= "Email: " . $form_data['email'] . "\n";
+    }
+
+    if (isset($form_data['position'])) {
+        $message .= "Должность: " . $form_data['position'] . "\n";
+    }
+
+    if (isset($form_data['coverLetter'])) {
+        $message .= "Сопроводительное письмо: " . $form_data['coverLetter'] . "\n";
+    }
+
+    // Обработка файла
+    $attachments = [];
+    if (isset($uploaded_files['file']) && $uploaded_files['file']['error'] === UPLOAD_ERR_OK) {
+        // Подключаем файл с функцией wp_handle_upload
+        if (!function_exists('wp_handle_upload')) {
+            require_once ABSPATH . 'wp-admin/includes/file.php';
+        }
+
+        $file = $uploaded_files['file'];
+
+        $file_info = pathinfo($file['name']);
+        $file_extension = strtolower($file_info['extension']);
+
+        if ($file_extension !== 'pdf') {
+            return new WP_REST_Response([
+                'success' => false,
+                'error' => 'Только PDF файлы разрешены.'
+            ], 400);
+        }
+
+        // Сохраняем файл во временную директорию WordPress
+        $uploaded_file = wp_handle_upload($file, ['test_form' => false]);
+
+        if (isset($uploaded_file['file'])) {
+            $attachments[] = $uploaded_file['file'];
+        } else {
+            return new WP_REST_Response([
+                'success' => false,
+                'error' => 'Ошибка загрузки файла.'
+            ], 400);
+        }
+    }
+
+    // Настройки для отправки почты
+    $subject = "Заявка с сайта abedul.com";
+    $headers = ['Content-Type: text/plain; charset=UTF-8'];
+
+    // Отправляем email на все указанные адреса
+    foreach ($form_emails as $email) {
+        wp_mail($email['email'], $subject, $message, $headers, $attachments);
+    }
+
+    return new WP_REST_Response([
+        'success' => true,
+        'emails' => $form_emails
+    ], 200);
+}

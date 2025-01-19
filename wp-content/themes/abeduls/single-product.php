@@ -392,48 +392,70 @@ get_header(); ?>
 
         <div class="main-page-form form-wrapper">
 
+            <?php
+            // Получаем ID записи типа "forms"
+            $form_id = get_posts([
+                'post_type' => 'forms',
+                'numberposts' => 1,
+                'fields' => 'ids',
+            ]);
+
+            if (!empty($form_id)) {
+                $form_id = $form_id[0]; // Берём ID первой записи
+
+                // Получаем значения мета-полей
+                $form_title = carbon_get_post_meta($form_id, 'main_form_title');
+                $form_subtitle = carbon_get_post_meta($form_id, 'main_form_subtitle');
+                $form_name_title = carbon_get_post_meta($form_id, 'main_form_form_name_title');
+                $form_phone_title = carbon_get_post_meta($form_id, 'main_form_form_phone_title');
+                $form_button_text = carbon_get_post_meta($form_id, 'main_form_button_text');
+                $sending_title = carbon_get_post_meta($form_id, 'main_form_sending_title');
+                $sending_subtitle = carbon_get_post_meta($form_id, 'main_form_sending_subtitle');
+            }
+            ?>
+
             <div class="main-page-form__title">
-                Не нашли, что искали?
+                <?php echo esc_html($form_title); ?>
             </div>
             <div class="main-page-form__subtitle">
-                Предложим варианты, подходящие под различные бюджеты, а также консультацию опытных специалистов для
-                оптимизации затрат
+                <?php echo esc_html($form_subtitle); ?>
             </div>
 
             <form class="main-page-form__form form" id="contact-form">
+                <div style="display: none;" class="form-item" aria-required="true" field-name="nameProduct">
+                    <label class="form-item-label">
+                        <span class="form-item-label-value"></span>
+                        <span class="required-item">*</span>
+                    </label>
+                    <input type="text" name="form-type"
+                        value="Заявка с формы Консультация со страницы 'Услуги' / Request from the Consultation form from the 'Services' page / 通过 “服务 ”页面的咨询表提出申请"
+                        class="form-item-input request_a_call">
+                    <span class="form-item-confirm-check"></span>
+                </div>
                 <div class="form-item white" aria-required="true" field-name="firstName">
-                    <!-- <label class="form-item-label">
-                            <span class="form-item-label-value">Ваше имя</span>
-                            <span class="required-item">*</span>
-                        </label> -->
-                    <input placeholder="Ваше имя" type="text" name="name" class="form-item-input">
+                    <input placeholder="<?php echo esc_html($form_name_title); ?>" type="text" name="name" class="form-item-input">
                     <span class="form-item-confirm-check"></span>
                 </div>
 
                 <div class="form-item white" aria-required="true" field-name="phone">
-                    <!-- <label class="form-item-label">
-                            <span class="form-item-label-value">Телефон</span>
-                            <span class="required-item">*</span>
-                        </label> -->
                     <input placeholder="(999) 999-99-99" name="phone" type="tel" data-tel-input
                         class="form-item-input form-item-input-phone">
                     <span class="form-item-confirm-check"></span>
                 </div>
 
                 <button class="btn btn-form-white">
-                    Получить консультацию
+                    <?php echo esc_html($form_button_text); ?>
                 </button>
-
             </form>
 
             <div class="loader"></div>
             <div class="form-sending">
-                <img loading="lazy" loading="lazy" src="<?php echo get_template_directory_uri(); ?>/layout/img/icons/check.svg" alt="check">
+                <img loading="lazy" src="<?php echo get_template_directory_uri(); ?>/layout/img/icons/check.svg" alt="check">
                 <div class="form-sending__title">
-                    Спасибо за обращение!
+                    <?php echo esc_html($sending_title); ?>
                 </div>
                 <div class="form-sending__subtitle">
-                    Мы свяжемся с Вами в ближайшее время
+                    <?php echo esc_html($sending_subtitle); ?>
                 </div>
             </div>
         </div>

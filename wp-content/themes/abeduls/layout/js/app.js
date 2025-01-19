@@ -1091,7 +1091,7 @@ async function form() {
 			}
 
 			initializeFormValidation(null, [], countryData.dialCode ? countryData.dialCode : '7');
-			form.querySelector('.btn').addEventListener('click', () => {
+			form.querySelector('.btn').addEventListener('click', async () => {
 				const formData = initializeFormValidation(form, [], countryData.dialCode ? countryData.dialCode : '7');
 				console.log('formData:', formData);
 				if (formData) {
@@ -1108,21 +1108,15 @@ async function form() {
 						popupClose(form.closest('.popup'));
 						body.classList.add('load');
 					}
-					// const contactFormId = document.getElementsByName('_wpcf7')[0].value;
-					// fetch(`/wp-json/contact-form-7/v1/contact-forms/${contactFormId}/feedback`, {
-					// 	method: 'POST',
-					// 	body: formBody
-					// })
-					// 	.then(response => response.json())
-					// 	.then(data => {
-					// 		console.log('Success:', data);
-					// 		document.querySelector('.form-block__content').classList.remove('load');
-					// 		document.querySelector('.form-sending').style.display = 'flex';
-					// 	})
-					// 	.catch(error => console.error('Error:', error));
 
-					// temporarily set to 5000, there will be a request to the server in the future.
-					setTimeout(() => {
+					// Отправка данных на сервер
+					const response = await fetch('/wp-json/send-form/send', {
+						method: 'POST',
+						body: formBody
+					});
+
+					const result = await response.json();
+					if (result.success) {
 						form.closest('.form-wrapper')?.classList.remove('load');
 						form.closest('.form-wrapper')?.querySelector('.form-sending')?.classList.add('active');
 
@@ -1132,7 +1126,9 @@ async function form() {
 						}
 
 						form.reset();
-					}, 5000);
+					} else {
+						console.error('Error sending form', result.error);
+					}
 				} else {
 					// some form fields did not pass validation
 				}

@@ -276,6 +276,16 @@ if (!empty($header_id)) {
 
             <form class="form form-popup">
                 <div style="display: none;" class="form-item" aria-required="true" field-name="nameProduct">
+                    <label class="form-item-label">
+                        <span class="form-item-label-value"></span>
+                        <span class="required-item">*</span>
+                    </label>
+                    <input type="text" name="form-type"
+                        value="Заявка с формы 'Товар' / Application from the 'Product' form / 货物 表格中的申请 "
+                        class=" form-item-input request_a_call">
+                    <span class="form-item-confirm-check"></span>
+                </div>
+                <div style="display: none;" class="form-item" aria-required="true" field-name="nameProduct">
                     <input placeholder="" type="text" name="product-name" class="form-item-input name-product">
                     <span class="form-item-confirm-check"></span>
                 </div>
@@ -388,7 +398,7 @@ if (!empty($header_id)) {
                 <?php echo esc_html($form_title); ?>
             </div>
 
-            <form class="form form-popup">
+            <form class="form form-popup" enctype="multipart/form-data">
                 <div style="display: none;" class="form-item" aria-required="true" field-name="nameProduct">
                     <label class="form-item-label">
                         <span class="form-item-label-value"></span>
@@ -439,7 +449,7 @@ if (!empty($header_id)) {
                     <label class="form-item-label">
                         <span class="form-item-label-value"><?php echo esc_html($form_file_title); ?></span>
                     </label>
-                    <input type="file" name="file" class="form-item-input form-item-input-file">
+                    <input type="file" name="file" accept=".pdf" class="form-item-input form-item-input-file">
                     <span class="form-item-confirm-check"></span>
                 </div>
 
