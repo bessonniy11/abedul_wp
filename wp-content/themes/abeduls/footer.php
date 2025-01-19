@@ -283,6 +283,90 @@ if (!empty($header_id)) {
         </div>
     </div>
 
+    <div class="popup order-popup order-send-popup career-popup" id="career-popup">
+        <div class="popup__content">
+            <div class="popup-close popup-close-trigger">
+                <img loading="lazy" loading="lazy" src="<?php echo get_template_directory_uri(); ?>/layout/img/icons/close-blue.svg" alt="close">
+            </div>
+
+            <div class="popup-title">
+                Отправить резюме
+            </div>
+
+            <form class="form form-popup">
+                <div class="form-item" aria-required="true" field-name="firstName">
+                    <label class="form-item-label">
+                        <span class="form-item-label-value">Ваше имя</span>
+                        <span class="required-item">*</span>
+                    </label>
+                    <input placeholder="Ваше имя" type="text" name="name" class="form-item-input">
+                    <span class="form-item-confirm-check"></span>
+                </div>
+
+                <div class="form-item" aria-required="true" field-name="phone">
+                    <label class="form-item-label">
+                        <span class="form-item-label-value">Телефон</span>
+                        <span class="required-item">*</span>
+                    </label>
+                    <input placeholder="(999) 999-99-99" name="phone" type="tel" data-tel-input
+                        class="form-item-input form-item-input-phone">
+                    <span class="form-item-confirm-check"></span>
+                </div>
+
+                <div class="form-item" aria-required="true" field-name="position">
+                    <label class="form-item-label">
+                        <span class="form-item-label-value">Желаемая должность</span>
+                        <span class="required-item">*</span>
+                    </label>
+                    <input placeholder="Ваше имя" type="text" name="position" class="form-item-input">
+                    <span class="form-item-confirm-check"></span>
+                </div>
+
+                <div class="form-item" aria-required="false" field-name="email">
+                    <label class="form-item-label">
+                        <span class="form-item-label-value">Email</span>
+                        <span class="required-item">*</span>
+                    </label>
+                    <input placeholder="Ваше имя" type="text" name="email" class="form-item-input">
+                    <span class="form-item-confirm-check"></span>
+                </div>
+
+                <div class="form-item" aria-required="false" field-name="file">
+                    <label class="form-item-label">
+                        <span class="form-item-label-value">Резюме</span>
+                        <span class="required-item">*</span>
+                    </label>
+                    <input placeholder="Ваше имя" type="file" name="file" class="form-item-input form-item-input-file">
+                    <span class="form-item-confirm-check"></span>
+                </div>
+
+                <div class="form-item form-item-textarea" aria-required="false" field-name="coverLetter">
+                    <label class="form-item-label">
+                        <span class="form-item-label-value">Сопроводительное письмо</span>
+                        <span class="required-item">*</span>
+                    </label>
+                    <textarea rows="3" name="coverLetter" id="coverLetter" class="form-item-input scroll-style"></textarea>
+                    <span class="form-item-confirm-check"></span>
+                </div>
+
+
+                <div class="form-item form-item-checkbox transparent" aria-required="true">
+                    <label class="custom-checkbox">
+                        <input type="checkbox" class="">
+                        <span class="checkmark">
+                            <span class="checkmark-check"></span>
+                        </span>
+                        <div class="custom-checkbox-label">Я даю согласие на обработку персональных данных</div>
+                    </label>
+                </div>
+
+                <button class="btn btn-blue">
+                    Заказать
+                </button>
+            </form>
+        </div>
+    </div>
+
 </div>
 </div>
 

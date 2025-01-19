@@ -25,12 +25,14 @@ function updatePopupLinks() {
                 // Получаем название товара из data-атрибута
                 const productName = popupLink.getAttribute('data-product-name');
 
-                // Обновляем подзаголовок в попапе
-                const popupSubtitle = curentPopup.querySelector('.popup-subtitle');
-                const nameProductInput = curentPopup.querySelector('.name-product');
-                if (popupSubtitle) {
-                    popupSubtitle.textContent = productName;
-                    nameProductInput.value = productName;
+                if (productName) {
+                    // Обновляем подзаголовок в попапе
+                    const popupSubtitle = curentPopup.querySelector('.popup-subtitle');
+                    const nameProductInput = curentPopup.querySelector('.name-product');
+                    if (popupSubtitle) {
+                        popupSubtitle.textContent = productName;
+                        nameProductInput.value = productName;
+                    }
                 }
 
                 popupOpen(curentPopup);

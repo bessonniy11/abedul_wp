@@ -1542,3 +1542,50 @@ function register_theme_menus()
     ));
 }
 add_action('init', 'register_theme_menus');
+
+function abedul_ajax_search()
+{
+    // Проверка безопасности
+    check_ajax_referer('search_nonce', 'nonce');
+
+    // Получение текущего языка
+    $current_language = function_exists('pll_current_language') ? pll_current_language() : 'en';
+
+    // Получение поискового запроса
+    $query = sanitize_text_field($_POST['query']);
+
+    // Поиск товаров
+    $args = [
+        'post_type' => 'product',
+        'posts_per_page' => 10,
+        's' => $query,
+        'lang' => $current_language, // Фильтрация по текущему языку Polylang
+    ];
+    $products = new WP_Query($args);
+
+    $results = [];
+    if ($products->have_posts()) {
+        while ($products->have_posts()) {
+            $products->the_post();
+            $results[] = [
+                'title' => get_the_title(),
+                'url' => get_permalink(),
+            ];
+        }
+    }
+    wp_reset_postdata();
+
+    // Возвращаем JSON-ответ
+    wp_send_json_success($results);
+}
+add_action('wp_ajax_abedul_search', 'abedul_ajax_search');
+add_action('wp_ajax_nopriv_abedul_search', 'abedul_ajax_search');
+
+function abedul_localize_search_script()
+{
+    wp_localize_script('app', 'abedulSearch', [
+        'ajaxurl' => admin_url('admin-ajax.php'), // URL для AJAX-запросов
+        'nonce' => wp_create_nonce('search_nonce'), // Безопасность
+    ]);
+}
+add_action('wp_enqueue_scripts', 'abedul_localize_search_script');

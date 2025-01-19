@@ -638,80 +638,87 @@ async function resize() {
 function searchHeader() {
 	const searchInputContainer = document.querySelector('.header-search-input-wrapper');
 	const searchInput = searchInputContainer.querySelector('.header-search-input__input');
-	const headerSearchMobile = document.querySelector('.header-mobile .header-search');
-	const headerSearchMobileClose = document.querySelector('.header-search-input__close');
 	const searchResultContainer = searchInputContainer.querySelector('.header-search-result');
+	const headerCenter = document.querySelector('.header .header-center')
 
-	// Список для поиска
-	const products = [
-		"Интерактивные панели",
-		"Доски",
-		"Информационные киоски",
-		"Киоски",
-		"Промышленные мониторы",
-		"Интерактивные столы (прозрачные)",
-		"Интерактивные столы (двухсторонние)",
-		"Панели",
-		"Планшеты на ножке",
-		"Столы",
-		"Видеостены",
-		"Изогнутые мониторы",
-		"Терминал самообслуживания",
-		"Проекционная пленка (прозрачная)",
-		"Проекционная пленка (светодиодная)",
-		"3D кабина"
-	];
+	let debounceTimer;
 
-	// Поиск по введенному тексту
-	searchInput.addEventListener('input', () => {
-		const query = searchInput.value.trim().toLowerCase(); // Приводим к нижнему регистру для сравнения
-		searchResultContainer.innerHTML = ''; // Очищаем предыдущие результаты
+	// Функция для подсветки текста
+	function highlightMatch(text, query) {
+		const regex = new RegExp(`(${query})`, 'gi');
+		return text.replace(regex, '<span style="color: blue;">$1</span>');
+	}
 
-		if (query.length > 0) {
-			document.querySelector('.header-center').classList.add('open-search');
-			// Фильтруем список
-			const filteredProducts = products.filter(product =>
-				product.toLowerCase().includes(query) // Проверяем, содержит ли элемент введенные символы
-			);
-
-			// Отображаем результаты
-			if (filteredProducts.length > 0) {
-				filteredProducts.forEach(product => {
-					const resultItem = document.createElement('div');
-					resultItem.classList.add('header-search-result-item');
-					resultItem.textContent = product; // Добавляем текст в элемент
-					searchResultContainer.appendChild(resultItem); // Вставляем в контейнер
-				});
-			} else {
-				// Если ничего не найдено
-				const noResults = document.createElement('div');
-				noResults.classList.add('header-search-result-item');
-				noResults.textContent = 'Ничего не найдено';
-				searchResultContainer.appendChild(noResults);
-			}
-
-			searchInputContainer.querySelectorAll('.header-search-result-item').forEach((item) => {
-				item.addEventListener('click', () => {
-					searchInput.value = '';
-					searchResultContainer.classList.remove('show');
-				})
-			})
-
-			// Показываем контейнер с результатами
-			searchResultContainer.classList.add('show');
-		} else {
-			document.querySelector('.header-center').classList.remove('open-search');
-			// Если поле ввода пустое, скрываем контейнер
+	// Функция для выполнения поиска
+	function performSearch(query) {
+		if (query.length < 2) {
+			searchResultContainer.innerHTML = '';
 			searchResultContainer.classList.remove('show');
+			return;
 		}
+
+		// AJAX-запрос
+		fetch(abedulSearch.ajaxurl, {
+			method: 'POST',
+			headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+			body: new URLSearchParams({
+				action: 'abedul_search',
+				nonce: abedulSearch.nonce,
+				query: query
+			})
+		})
+			.then(response => response.json())
+			.then(data => {
+				searchResultContainer.innerHTML = '';
+				if (data.success && data.data.length > 0) {
+					data.data.forEach(product => {
+						const resultItem = document.createElement('div');
+						resultItem.classList.add('header-search-result-item');
+						headerCenter.classList.add('open-search');
+						resultItem.innerHTML = highlightMatch(product.title, query);
+						resultItem.addEventListener('click', () => {
+							window.location.href = product.url;
+						});
+						searchResultContainer.appendChild(resultItem);
+					});
+				} else {
+					const noResults = document.createElement('div');
+					noResults.classList.add('header-search-result-item');
+
+					let emptyResult = '';
+					if (currentLanguage === "en") {
+						emptyResult = "Nothing found"; // Английская версия
+					} else if (currentLanguage === "ru") {
+						emptyResult = "Ничего не найдено"; // Русская версия
+					} else if (currentLanguage === "zh") {
+						emptyResult = "未找到"; // Русская версия
+					}
+					noResults.textContent = emptyResult;
+					searchResultContainer.appendChild(noResults);
+				}
+				searchResultContainer.classList.add('show');
+			});
+	}
+
+	// Событие ввода текста
+	searchInput.addEventListener('input', () => {
+		const query = searchInput.value.trim();
+
+		clearTimeout(debounceTimer);
+		debounceTimer = setTimeout(() => {
+			if (query.length) {
+				headerCenter.classList.add('open-search');
+			}
+			performSearch(query);
+		}, 500); // Задержка в 500 мс
 	});
 
-	headerSearchMobile.addEventListener('click', () => {
-		searchInputContainer.classList.toggle('show');
-	});
-
-	headerSearchMobileClose.addEventListener('click', () => {
-		searchInputContainer.classList.remove('show');
+	// Скрытие результатов при пустом вводе
+	searchInput.addEventListener('blur', () => {
+		setTimeout(() => {
+			searchResultContainer.classList.remove('show');
+			headerCenter.classList.remove('open-search');
+		}, 200);
 	});
 }
 
@@ -1427,7 +1434,15 @@ function headerMenu() {
 	let iconMenu = document.querySelector(".icon-menu");
 	let menuMobile = document.querySelector(".menu__mobile");
 	let headerSearch = document.querySelector(".header-search");
+	let headerSearchClose = document.querySelector(".header-search-input__close");
 	let menuLinks = document.querySelectorAll(".menu-link-trigger");
+	let mobileSearchWrapper = document.querySelector('.header-mobile-container .header-search-input-wrapper');
+	headerSearch.addEventListener("click", function () {
+		mobileSearchWrapper.classList.add('show');
+	})
+	headerSearchClose.addEventListener("click", function () {
+		mobileSearchWrapper.classList.remove('show');
+	})
 	menuLinks?.forEach(element => {
 		// element.preventDefault();
 		element.addEventListener("click", function () {

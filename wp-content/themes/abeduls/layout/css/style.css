@@ -1221,6 +1221,7 @@ h6 {
   .career-popup .popup__content {
     max-height: 80vh;
     overflow-y: auto;
+    margin: 0 15px;
   }
 }
 
@@ -2221,7 +2222,7 @@ h6 {
   bottom: calc(50% - 1px);
 }
 .header .header-scroll .header-mobile .header__container .header-logo {
-  width: 100% !important;
+  width: max-content !important;
   display: flex !important;
   align-items: center;
   justify-content: center;
@@ -2337,10 +2338,13 @@ h6 {
   position: absolute;
   top: calc(100% + 5px);
   width: 100%;
+  max-height: 50vh;
+  overflow-x: hidden;
+  overflow-y: auto;
   padding: 0px 0px;
   border: 1px solid #e1e1e1;
   border-radius: 4px;
-  overflow: hidden;
+  /* overflow: hidden; */
   box-shadow: 0 4px 20px 0 rgba(0, 0, 0, 0.25);
   background: var(--white);
   display: flex;
@@ -4535,7 +4539,7 @@ h6 {
   font-weight: 400;
   font-size: 16px;
   line-height: 120%;
-  text-align: center;
+  text-align: start;
   color: var(--black-700);
 }
 @media (max-width: 860px) {
