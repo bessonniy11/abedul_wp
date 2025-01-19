@@ -29,6 +29,390 @@ add_action('after_setup_theme', function () {
 });
 
 add_action('carbon_fields_register_fields', function () {
+    // Общие настройки формы с мультиязычными подсказками
+    Container::make('post_meta', 'Общие настройки форм / Forms Settings / 常规表格设置')
+        ->where('post_type', '=', 'forms')
+        ->add_fields([
+            Field::make('complex', 'form_emails', 'Почты получателей / Email Recipients / 电子邮件收件人')
+                ->add_fields([
+                    Field::make('text', 'email', 'Email')
+                        ->set_attribute('placeholder', 'example@domain.com')
+                        ->set_help_text('
+                        Добавьте адреса электронной почты, на которые будут отправляться заявки. <br>
+                        Add email addresses where form submissions will be sent. <br>
+                        添加将接收表单提交的电子邮件地址')
+                ])
+                ->set_help_text('
+                        Вы можете добавить несколько email-адресов. <br>
+                        You can add multiple email addresses <br>
+                        您可以添加多个电子邮件地址')
+        ]);
+
+    // Настройки формы "Заказать звонок" / "Request a Call" / "请求通话"
+    Container::make('post_meta', 'Заказать звонок / Request a Call / 请求通话')
+        ->where('post_type', '=', 'forms')
+        ->add_fields([
+            Field::make('text', 'request_a_call_form_popup_title', 'Заголовок формы / Form Title / 表单标题')
+                ->set_attribute('placeholder', 'Заказать звонок / Request a Call / 请求通话')
+                ->set_help_text('
+                    Укажите заголовок формы, который будет отображаться в попапе. <br>
+                    Specify the form title to be displayed in the popup. <br>
+                    指定将在弹出窗口中显示的表单标题.'),
+
+            Field::make(
+                'text',
+                'request_a_call_form_name_title',
+                'Заголовок имени / Name title / 姓名占位符'
+            )
+                ->set_attribute('placeholder', 'Ваше имя / Your Name / 您的姓名')
+                ->set_help_text('
+                    Заголовок для поля "Ваше имя". <br>
+                    Title for the "Your Name" field. <br>
+                    "您的姓名"字段的占位符.'),
+
+            Field::make(
+                'text',
+                'request_a_call_form_phone_title',
+                'Заголовок телефона / Phone Title / 电话占位符'
+            )
+                ->set_help_text('
+                    Заголовок для поля "Телефон". <br>
+                    Title for the "Phone" field. <br>
+                    "电话"字段的占位符.'),
+
+            Field::make('text', 'request_a_call_form_checkbox_label', 'Метка чекбокса / Checkbox Label / 复选框标签')
+                ->set_attribute('placeholder', 'Я даю согласие на обработку персональных данных')
+                ->set_help_text('
+                    Текст для чекбокса согласия, например "Я даю согласие на обработку персональных данных". <br>
+                    Text for the consent checkbox, e.g. “I consent to the processing of personal data”. <br>
+                    同意复选框的文本，例如 “我同意处理个人数据”。.'),
+
+            Field::make(
+                'text',
+                'request_a_call_form_button_text',
+                'Текст кнопки / Button Text / 按钮文本'
+            )
+                ->set_attribute('placeholder', 'Заказать / Order / 订购')
+                ->set_help_text('
+                    Текст кнопки отправки формы. <br>
+                    Text for the form submit button. <br>
+                    表单提交按钮的文本.'),
+        ]);
+
+    // Настройки формы "Заявка на товар"
+    Container::make('post_meta', 'Заявка на товар / Product Request Form / 商品请求表单')
+        ->where('post_type', '=', 'forms')
+        ->add_fields([
+            Field::make('text', 'product_request_form_title', 'Заголовок формы / Form Title / 表单标题')
+                ->set_attribute('placeholder', 'Оформить заявку / Submit an Application / 提交申请')
+                ->set_help_text('
+                Укажите заголовок формы, который будет отображаться в попапе. <br>
+                Specify the form title to be displayed in the popup. <br>
+                指定将在弹出窗口中显示的表单标题.'),
+
+            Field::make(
+                'text',
+                'product_request_form_name_title',
+                'Заголовок имени / Name Title / 姓名占位符'
+            )
+                ->set_attribute('placeholder', 'Ваше имя / Your Name / 您的姓名')
+                ->set_help_text('
+                Заголовок для поля "Ваше имя". <br>
+                Title for the "Your Name" field. <br>
+                "您的姓名"字段的占位符.'),
+
+            Field::make(
+                'text',
+                'product_request_form_phone_title',
+                'Заголовок телефона / Phone Title / 电话占位符'
+            )
+                ->set_attribute('placeholder', 'Ваш телефон / Your Phone / 您的电话')
+                ->set_help_text('
+                Заголовок для поля "Телефон". <br>
+                Title for the "Phone" field. <br>
+                "电话"字段的占位符.'),
+
+            Field::make('text', 'product_request_form_checkbox_label', 'Метка чекбокса / Checkbox Label / 复选框标签')
+                ->set_attribute('placeholder', 'Я даю согласие на обработку персональных данных')
+                ->set_help_text('
+                Текст для чекбокса согласия, например "Я даю согласие на обработку персональных данных". <br>
+                Text for the consent checkbox, e.g. “I consent to the processing of personal data”. <br>
+                同意复选框的文本，例如 “我同意处理个人数据”。.'),
+
+            Field::make(
+                'text',
+                'product_request_form_button_text',
+                'Текст кнопки / Button Text / 按钮文本'
+            )
+                ->set_attribute('placeholder', 'Заказать / Order / 订购')
+                ->set_help_text('
+                Текст кнопки отправки формы. <br>
+                Text for the form submit button. <br>
+                表单提交按钮的文本.'),
+        ]);
+    // Настройки формы "Резюме"
+    Container::make('post_meta', 'Отправить резюме / Submit Resume / 提交简历')
+        ->where('post_type', '=', 'forms')
+        ->add_fields([
+            Field::make('text', 'career_form_title', 'Заголовок формы / Form Title / 表单标题')
+                ->set_attribute('placeholder', 'Отправить резюме / Submit Resume / 提交简历')
+                ->set_help_text('
+                Укажите заголовок формы, который будет отображаться в попапе. <br>
+                Specify the form title to be displayed in the popup. <br>
+                指定将在弹出窗口中显示的表单标题.'),
+
+            Field::make('text', 'career_form_name_title', 'Заголовок имени / Name Title / 姓名占位符')
+                ->set_attribute('placeholder', 'Ваше имя / Your Name / 您的姓名')
+                ->set_help_text('
+                Заголовок для поля "Ваше имя". <br>
+                Title for the "Your Name" field. <br>
+                "您的姓名"字段的占位符.'),
+
+            Field::make('text', 'career_form_phone_title', 'Заголовок телефона / Phone Title / 电话占位符')
+                ->set_attribute('placeholder', 'Ваш телефон / Your Phone / 您的电话')
+                ->set_help_text('
+                Заголовок для поля "Телефон". <br>
+                Title for the "Phone" field. <br>
+                "电话"字段的占位符.'),
+
+            Field::make('text', 'career_form_position_title', 'Заголовок желаемой должности / Position Title / 职位标题')
+                ->set_attribute('placeholder', 'Желаемая должность / Desired Position / 希望职位')
+                ->set_help_text('
+                Заголовок для поля "Желаемая должность". <br>
+                Title for the "Desired Position" field. <br>
+                "希望职位"字段的标题.'),
+
+            Field::make('text', 'career_form_email_title', 'Заголовок email / Email Title / 邮箱标题')
+                ->set_attribute('placeholder', 'Email / Email / 邮箱')
+                ->set_help_text('
+                Заголовок для поля "Email". <br>
+                Title for the "Email" field. <br>
+                "邮箱"字段的标题.'),
+
+            Field::make('text', 'career_form_file_title', 'Заголовок для загрузки файла / File Title / 文件标题')
+                ->set_attribute('placeholder', 'Резюме / Resume / 简历')
+                ->set_help_text('
+                Заголовок для поля загрузки файла. <br>
+                Title for the file upload field. <br>
+                文件上传字段的标题.'),
+
+            Field::make('text', 'career_form_cover_letter_title', 'Заголовок для сопроводительного письма / Cover Letter Title / 求职信标题')
+                ->set_attribute('placeholder', 'Сопроводительное письмо / Cover Letter / 求职信')
+                ->set_help_text('
+                Заголовок для поля "Сопроводительное письмо". <br>
+                Title for the "Cover Letter" field. <br>
+                "求职信"字段的标题.'),
+
+            Field::make('text', 'career_form_checkbox_label', 'Метка чекбокса / Checkbox Label / 复选框标签')
+                ->set_attribute('placeholder', 'Я даю согласие на обработку персональных данных')
+                ->set_help_text('
+                Текст для чекбокса согласия. <br>
+                Text for the consent checkbox. <br>
+                同意复选框的文本.'),
+
+            Field::make('text', 'career_form_button_text', 'Текст кнопки / Button Text / 按钮文本')
+                ->set_attribute('placeholder', 'Отправить / Submit / 提交')
+                ->set_help_text('
+                Текст кнопки отправки формы. <br>
+                Text for the form submit button. <br>
+                表单提交按钮的文本.'),
+        ]);
+    // данные для Попапа подтверждения
+    Container::make('post_meta', 'Попап подтверждения / Confirmation Popup / 确认弹窗')
+        ->where('post_type', '=', 'forms')
+        ->add_fields([
+            Field::make('text', 'confirm_popup_title', 'Заголовок попапа / Popup Title / 弹窗标题')
+                ->set_attribute('placeholder', 'Спасибо за заявку')
+                ->set_help_text('
+                Укажите заголовок, который будет отображаться в подтверждающем попапе. <br>
+                Specify the title to be displayed in the confirmation popup. <br>
+                指定将在确认弹窗中显示的标题.'),
+
+            Field::make('text', 'confirm_popup_subtitle', 'Подзаголовок попапа / Popup Subtitle / 弹窗副标题')
+                ->set_attribute('placeholder', 'Мы свяжемся с Вами в ближайшее время')
+                ->set_help_text('
+                Укажите текст подзаголовка для подтверждающего попапа. <br>
+                Specify the subtitle text for the confirmation popup. <br>
+                指定确认弹窗的副标题文本.'),
+
+            Field::make('text', 'confirm_popup_button_text', 'Текст кнопки / Button Text / 按钮文本')
+                ->set_attribute('placeholder', 'ОК')
+                ->set_help_text('
+                Укажите текст кнопки в попапе подтверждения. <br>
+                Specify the button text in the confirmation popup. <br>
+                指定确认弹窗中的按钮文本.'),
+        ]);
+    // данные для Главной формы консультации
+    Container::make('post_meta', 'Главная форма / Main Form / 主表单')
+        ->where(
+            'post_type',
+            '=',
+            'forms'
+        )
+        ->add_fields([
+            Field::make('text', 'main_form_title', 'Заголовок формы / Form Title / 表单标题')
+                ->set_attribute('placeholder', 'Не нашли, что искали?')
+                ->set_help_text('
+                Укажите заголовок формы, который будет отображаться на главной странице. <br>
+                Specify the form title to be displayed on the main page. <br>
+                指定将在主页上显示的表单标题.'),
+
+            Field::make('textarea', 'main_form_subtitle', 'Подзаголовок формы / Form Subtitle / 表单副标题')
+                ->set_attribute('placeholder', 'Предложим варианты, подходящие под различные бюджеты...')
+                ->set_help_text('
+                Укажите подзаголовок формы, например "Предложим варианты, подходящие под различные бюджеты..". <br>
+                Specify a subheading for the form, such as “Offer options to fit a variety of budgets...” <br>
+                为表格指定一个小标题，例如 "提供适合各种预算的选项......”'),
+
+            Field::make('text', 'main_form_form_name_title', 'Заголовок имени / Name Title / 姓名占位符')
+                ->set_attribute('placeholder', 'Ваше имя / Your Name / 您的姓名')
+                ->set_help_text('
+                Заголовок для поля "Ваше имя". <br>
+                Title for the "Your Name" field. <br>
+                "您的姓名"字段的占位符.'),
+
+            Field::make('text', 'main_form_form_phone_title', 'Заголовок телефона / Phone Title / 电话占位符')
+                ->set_attribute('placeholder', 'Ваш телефон / Your Phone / 您的电话')
+                ->set_help_text('
+                Заголовок для поля "Телефон". <br>
+                Title for the "Phone" field. <br>
+                "电话"字段的占位符.'),
+
+            Field::make('text', 'main_form_button_text', 'Текст кнопки / Button Text / 按钮文本')
+                ->set_attribute('placeholder', 'Получить консультацию')
+                ->set_help_text('
+                Укажите текст кнопки для формы, например "Получить консультацию". <br>
+                Specify the button text for the form, e.g. “Get a consultation” <br>
+                指定表单的按钮文本，如 “获取咨询”。'),
+
+            Field::make('text', 'main_form_sending_title', 'Заголовок подтверждения / Confirmation Title / 确认标题')
+                ->set_attribute('placeholder', 'Спасибо за обращение!')
+                ->set_help_text('
+                Укажите заголовок окна подтверждения отправки формы, например "Спасибо за обращение!". <br>
+                Specify a title for the form submission confirmation window, e.g. “Thank you for applying!”. <br>
+                指定表格提交确认窗口的标题，例如 "感谢您的申请！”'),
+
+            Field::make('textarea', 'main_form_sending_subtitle', 'Подзаголовок подтверждения / Confirmation Subtitle / 确认副标题')
+                ->set_attribute('placeholder', 'Мы свяжемся с Вами в ближайшее время')
+                ->set_help_text('
+                Укажите подзаголовок окна подтверждения отправки формы, например "Мы свяжемся с Вами в ближайшее время". <br>
+                Specify a subheading for the form submission confirmation window, e.g. “We will contact you shortly”. <br>
+                为表格提交确认窗口指定一个副标题，例如 “我们将尽快与您联系”。'),
+        ]);
+
+    // данные для Формы помощника
+    Container::make('post_meta', 'Форма помощника / Helper Form / 帮助表单')
+        ->where('post_type', '=', 'forms')
+        ->add_fields([
+            Field::make('text', 'helper_form_title', 'Заголовок формы / Form Title / 表单标题')
+                ->set_attribute('placeholder', 'Поможем подобрать')
+                ->set_help_text('
+                Укажите заголовок формы, например "Поможем подобрать". <br>
+                Specify the form title, e.g. “We will help you choose”. <br>
+                指定表单标题，例如 “我们将帮助您选择”。'),
+
+            Field::make('textarea', 'helper_form_subtitle', 'Подзаголовок формы / Form Subtitle / 表单副标题')
+                ->set_attribute('placeholder', 'Предложим варианты, подходящие под различные бюджеты...')
+                ->set_help_text('
+                Укажите подзаголовок формы, например "Предложим варианты, подходящие под различные бюджеты...". <br>
+                Specify the form subtitle, e.g. “We will offer options suitable for different budgets…”. <br>
+                指定表单副标题，例如 “我们将提供适合不同预算的选项……”。'),
+
+            Field::make('text', 'helper_form_form_name_title', 'Заголовок имени / Name Title / 姓名占位符')
+                ->set_attribute('placeholder', 'Ваше имя / Your Name / 您的姓名')
+                ->set_help_text('
+                Заголовок для поля "Ваше имя". <br>
+                Title for the "Your Name" field. <br>
+                "您的姓名"字段的占位符.'),
+
+            Field::make('text', 'helper_form_form_phone_title', 'Заголовок телефона / Phone Title / 电话占位符')
+                ->set_attribute('placeholder', 'Ваш телефон / Your Phone / 您的电话')
+                ->set_help_text('
+                Заголовок для поля "Телефон". <br>
+                Title for the "Phone" field. <br>
+                "电话"字段的占位符.'),
+
+            Field::make('text', 'helper_form_button_text', 'Текст кнопки / Button Text / 按钮文本')
+                ->set_attribute('placeholder', 'Получить консультацию')
+                ->set_help_text('
+                Укажите текст кнопки, например "Получить консультацию". <br>
+                Specify the button text, e.g. “Get a consultation”. <br>
+                指定按钮文本，例如 “获取咨询”。'),
+
+            Field::make('text', 'helper_form_sending_title', 'Заголовок подтверждения / Confirmation Title / 确认标题')
+                ->set_attribute('placeholder', 'Спасибо за обращение!')
+                ->set_help_text('
+                Укажите заголовок окна подтверждения отправки формы, например "Спасибо за обращение!". <br>
+                Specify a title for the form submission confirmation window, e.g. “Thank you for applying!”. <br>
+                指定表格提交确认窗口的标题，例如 "感谢您的申请！”'),
+
+            Field::make('textarea', 'helper_form_sending_subtitle', 'Подзаголовок подтверждения / Confirmation Subtitle / 确认副标题')
+                ->set_attribute('placeholder', 'Мы свяжемся с Вами в ближайшее время')
+                ->set_help_text('
+                Укажите подзаголовок окна подтверждения отправки формы, например "Мы свяжемся с Вами в ближайшее время". <br>
+                Specify a subheading for the form submission confirmation window, e.g. “We will contact you shortly”. <br>
+                为表格提交确认窗口指定一个副标题，例如 “我们将尽快与您联系”。'),
+        ]);
+    // Настройки формы "Индивидуальный заказ"
+    Container::make('post_meta', 'Индивидуальный заказ / Custom Order Request / 定制订单')
+        ->where('post_type', '=', 'forms')
+        ->add_fields([
+            Field::make('text', 'custom_order_request_form_popup_title', 'Заголовок формы / Form Title / 表单标题')
+                ->set_attribute('placeholder', 'Связаться с нами / Contact Us / 联系我们')
+                ->set_help_text('
+                    Укажите заголовок формы, который будет отображаться в попапе. <br>
+                    Specify the form title to be displayed in the popup. <br>
+                    指定将在弹出窗口中显示的表单标题.'),
+
+            Field::make('text', 'custom_order_request_form_subtitle_line_1', 'Первая строка подзаголовка / Subtitle Line 1 / 副标题第一行')
+                ->set_attribute('placeholder', 'Готовы сделать заказ или хотите узнать больше? / Ready to order or want to know more? / 准备下单或想了解更多？')
+                ->set_help_text('
+                    Первая строка подзаголовка формы, которая будет отображаться в блоке с текстом. <br>
+                    First line of the subtitle to be displayed in the block. <br>
+                    表单标题的第一行。'),
+
+            Field::make('text', 'custom_order_request_form_subtitle_line_2', 'Вторая строка подзаголовка / Subtitle Line 2 / 副标题第二行')
+                ->set_attribute('placeholder', 'Отправьте заявку на обратный звонок! / Send a callback request! / 发送回电请求！')
+                ->set_help_text('
+                    Вторая строка подзаголовка, которая будет отображаться в блоке. <br>
+                    Second line of the subtitle to be displayed in the block. <br>
+                    显示在块中的副标题第二行。'),
+
+            Field::make('text', 'custom_order_request_form_name_title', 'Заголовок имени / Name title / 姓名占位符')
+                ->set_attribute('placeholder', 'Ваше имя / Your Name / 您的姓名')
+                ->set_help_text('
+                    Заголовок для поля "Ваше имя". <br>
+                    Title for the "Your Name" field. <br>
+                    "您的姓名"字段的占位符.'),
+
+            Field::make('text', 'custom_order_request_form_phone_title', 'Заголовок телефона / Phone Title / 电话占位符')
+                ->set_attribute('placeholder', 'Телефон / Phone / 电话')
+                ->set_help_text('
+                    Заголовок для поля "Телефон". <br>
+                    Title for the "Phone" field. <br>
+                    "电话"字段的占位符.'),
+
+            Field::make('text', 'custom_order_request_form_button_text', 'Текст кнопки / Button Text / 按钮文本')
+                ->set_attribute('placeholder', 'Отправить заявку / Submit Request / 提交申请')
+                ->set_help_text('
+                    Текст кнопки отправки формы. <br>
+                    Text for the form submit button. <br>
+                    表单提交按钮的文本.'),
+
+            Field::make('text', 'custom_order_request_form_sending_title', 'Заголовок благодарности / Thank You Title / 感谢标题')
+                ->set_attribute('placeholder', 'Спасибо за обращение! / Thank you for contacting us! / 感谢您的联系!')
+                ->set_help_text('
+                    Заголовок, который будет отображаться после отправки формы. <br>
+                    Title to be displayed after form submission. <br>
+                    表单提交后显示的标题.'),
+
+            Field::make('text', 'custom_order_request_form_sending_subtitle', 'Подзаголовок благодарности / Thank You Subtitle / 感谢副标题')
+                ->set_attribute('placeholder', 'Мы свяжемся с Вами в ближайшее время / We will contact you shortly / 我们将尽快与您联系')
+                ->set_help_text('
+                    Подзаголовок, который будет отображаться после отправки формы. <br>
+                    Subtitle to be displayed after form submission. <br>
+                    表单提交后显示的副标题.'),
+        ]);
     // данные для категорий и подкатегорий
     Container::make('post_meta', 'Настройки категории')
         ->where('post_type', '=', 'category_group') // Применяем только к "Категории"
@@ -915,6 +1299,33 @@ add_action('carbon_fields_register_fields', function () {
 
         ]);
 });
+
+// Регистрация кастомного типа записей "Формы"
+function register_forms_post_type()
+{
+    register_post_type('forms', [
+        'labels' => [
+            'name' => 'Forms',
+            'singular_name' => 'Form',
+            'add_new' => 'Add New Form',
+            'add_new_item' => 'Add New Form',
+            'edit_item' => 'Edit Form',
+            'new_item' => 'New Form',
+            'view_item' => 'View Form',
+            'all_items' => 'All Forms',
+            'search_items' => 'Search Forms',
+            'not_found' => 'No forms found',
+            'not_found_in_trash' => 'No forms found in trash'
+        ],
+        'public' => true,
+        'show_ui' => true,
+        'show_in_menu' => true,
+        'supports' => ['title'],
+        'menu_position' => 25,
+        'menu_icon' => 'dashicons-feedback',
+    ]);
+}
+add_action('init', 'register_forms_post_type');
 
 add_action('init', function () {
     add_rewrite_rule(

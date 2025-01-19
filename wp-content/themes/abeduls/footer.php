@@ -158,63 +158,32 @@ if (!empty($header_id)) {
 
 <div class="popups">
     <div class="popup order-popup order-a-call-popup" id="order-a-call-popup">
+        <?php
+        // Получение ID записи типа "forms"
+        $form_id = get_posts([
+            'post_type' => 'forms',
+            'numberposts' => 1,
+            'fields' => 'ids', // Получаем только ID
+        ]);
+
+        if (!empty($form_id)) {
+            $form_id = $form_id[0]; // Берём ID первой записи
+            $form_title = carbon_get_post_meta($form_id, 'request_a_call_form_popup_title');  // Получаем заголовок формы
+            $form_name_title = carbon_get_post_meta($form_id, 'request_a_call_form_name_title');
+            $form_phone_title = carbon_get_post_meta($form_id, 'request_a_call_form_phone_title');
+            $form_checkbox_label = carbon_get_post_meta($form_id, 'request_a_call_form_checkbox_label');
+            $form_button_text = carbon_get_post_meta($form_id, 'request_a_call_form_button_text');
+        }
+        ?>
+
         <div class="popup__content">
             <div class="popup-close popup-close-trigger">
-                <img loading="lazy" loading="lazy" src="<?php echo get_template_directory_uri(); ?>/layout/img/icons/close-blue.svg" alt="close">
+                <img loading="lazy" src="<?php echo get_template_directory_uri(); ?>/layout/img/icons/close-blue.svg" alt="close">
             </div>
 
             <div class="popup-title">
-                Заказать звонок
+                <?php echo esc_html($form_title); ?>
             </div>
-
-            <form class="form form-popup">
-                <div class="form-item" aria-required="true" field-name="firstName">
-                    <label class="form-item-label">
-                        <span class="form-item-label-value">Ваше имя</span>
-                        <span class="required-item">*</span>
-                    </label>
-                    <input placeholder="Ваше имя" type="text" name="name" class="form-item-input">
-                    <span class="form-item-confirm-check"></span>
-                </div>
-
-                <div class="form-item" aria-required="true" field-name="phone">
-                    <label class="form-item-label">
-                        <span class="form-item-label-value">Телефон</span>
-                        <span class="required-item">*</span>
-                    </label>
-                    <input placeholder="(999) 999-99-99" name="phone" type="tel" data-tel-input
-                        class="form-item-input form-item-input-phone">
-                    <span class="form-item-confirm-check"></span>
-                </div>
-
-                <div class="form-item form-item-checkbox transparent" aria-required="true">
-                    <label class="custom-checkbox">
-                        <input type="checkbox" class="">
-                        <span class="checkmark">
-                            <span class="checkmark-check"></span>
-                        </span>
-                        <div class="custom-checkbox-label">Я даю согласие на обработку персональных данных</div>
-                    </label>
-                </div>
-
-                <button class="btn btn-blue">
-                    Заказать
-                </button>
-            </form>
-        </div>
-    </div>
-
-    <div class="popup order-popup order-send-popup" id="order-send-popup">
-        <div class="popup__content">
-            <div class="popup-close popup-close-trigger">
-                <img loading="lazy" loading="lazy" src="<?php echo get_template_directory_uri(); ?>/layout/img/icons/close-blue.svg" alt="close">
-            </div>
-
-            <div class="popup-title">
-                Оформить заявку
-            </div>
-
-            <div class="popup-subtitle"></div>
 
             <form class="form form-popup">
                 <div style="display: none;" class="form-item" aria-required="true" field-name="nameProduct">
@@ -222,21 +191,103 @@ if (!empty($header_id)) {
                         <span class="form-item-label-value"></span>
                         <span class="required-item">*</span>
                     </label>
-                    <input placeholder="" type="text" name="name-product" class="form-item-input name-product">
+                    <input type="text" name="form-type"
+                        value="Заявка с формы 'заказать обратный звонок' / Request from the 'order a callback' form / 通过 “订购回电 ”表单提出申请 "
+                        class="form-item-input request_a_call">
                     <span class="form-item-confirm-check"></span>
                 </div>
                 <div class="form-item" aria-required="true" field-name="firstName">
                     <label class="form-item-label">
-                        <span class="form-item-label-value">Ваше имя</span>
+                        <span class="form-item-label-value">
+                            <?php echo esc_html($form_name_title); ?>
+                        </span>
                         <span class="required-item">*</span>
                     </label>
-                    <input placeholder="Ваше имя" type="text" name="name" class="form-item-input">
+                    <input
+                        placeholder="<?php echo esc_html($form_name_title); ?>"
+                        type="text" name="name" class="form-item-input">
                     <span class="form-item-confirm-check"></span>
                 </div>
 
                 <div class="form-item" aria-required="true" field-name="phone">
                     <label class="form-item-label">
-                        <span class="form-item-label-value">Телефон</span>
+                        <span class="form-item-label-value">
+                            <?php echo esc_html($form_phone_title); ?>
+                        </span>
+                        <span class="required-item">*</span>
+                    </label>
+                    <input
+                        placeholder="(999) 999-99-99"
+                        name="phone" type="tel" data-tel-input class="form-item-input form-item-input-phone">
+                    <span class="form-item-confirm-check"></span>
+                </div>
+
+                <div class="form-item form-item-checkbox transparent" aria-required="true">
+                    <label class="custom-checkbox">
+                        <input type="checkbox" class="">
+                        <span class="checkmark">
+                            <span class="checkmark-check"></span>
+                        </span>
+                        <div class="custom-checkbox-label">
+                            <?php echo esc_html($form_checkbox_label); ?>
+                        </div>
+                    </label>
+                </div>
+
+                <button class="btn btn-blue">
+                    <?php echo esc_html($form_button_text); ?>
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <div class="popup order-popup order-send-popup" id="order-send-popup">
+        <div class="popup__content">
+            <?php
+            // Получаем ID записи типа "forms"
+            $form_id = get_posts([
+                'post_type' => 'forms',
+                'numberposts' => 1,
+                'fields' => 'ids',
+            ]);
+
+            if (!empty($form_id)) {
+                $form_id = $form_id[0]; // Берём ID первой записи
+
+                $form_title = carbon_get_post_meta($form_id, 'product_request_form_title');
+                $form_name_title = carbon_get_post_meta($form_id, 'product_request_form_name_title');
+                $form_phone_title = carbon_get_post_meta($form_id, 'product_request_form_phone_title');
+                $form_checkbox_label = carbon_get_post_meta($form_id, 'product_request_form_checkbox_label');
+                $form_button_text = carbon_get_post_meta($form_id, 'product_request_form_button_text');
+            }
+            ?>
+            <div class="popup-close popup-close-trigger">
+                <img loading="lazy" src="<?php echo get_template_directory_uri(); ?>/layout/img/icons/close-blue.svg" alt="close">
+            </div>
+
+            <div class="popup-title">
+                <?php echo esc_html($form_title); ?>
+            </div>
+
+            <div class="popup-subtitle"></div> <!-- JS будет автоматически добавлять название товара -->
+
+            <form class="form form-popup">
+                <div style="display: none;" class="form-item" aria-required="true" field-name="nameProduct">
+                    <input placeholder="" type="text" name="product-name" class="form-item-input name-product">
+                    <span class="form-item-confirm-check"></span>
+                </div>
+                <div class="form-item" aria-required="true" field-name="firstName">
+                    <label class="form-item-label">
+                        <span class="form-item-label-value"><?php echo esc_html($form_name_title); ?></span>
+                        <span class="required-item">*</span>
+                    </label>
+                    <input placeholder="<?php echo esc_html($form_name_title); ?>" type="text" name="name" class="form-item-input">
+                    <span class="form-item-confirm-check"></span>
+                </div>
+
+                <div class="form-item" aria-required="true" field-name="phone">
+                    <label class="form-item-label">
+                        <span class="form-item-label-value"><?php echo esc_html($form_phone_title); ?></span>
                         <span class="required-item">*</span>
                     </label>
                     <input placeholder="(999) 999-99-99" name="phone" type="tel" data-tel-input
@@ -250,12 +301,12 @@ if (!empty($header_id)) {
                         <span class="checkmark">
                             <span class="checkmark-check"></span>
                         </span>
-                        <div class="custom-checkbox-label">Я даю согласие на обработку персональных данных</div>
+                        <div class="custom-checkbox-label"><?php echo esc_html($form_checkbox_label); ?></div>
                     </label>
                 </div>
 
                 <button class="btn btn-blue">
-                    Заказать
+                    <?php echo esc_html($form_button_text); ?>
                 </button>
             </form>
         </div>
@@ -263,105 +314,147 @@ if (!empty($header_id)) {
 
     <div class="popup confirm-send-form" id="order-a-call-popup">
         <div class="popup__content">
+            <?php
+            // Получаем данные из мета-полей
+            $form_id = get_posts([
+                'post_type' => 'forms',
+                'numberposts' => 1,
+                'fields' => 'ids',
+            ]);
+
+            if (!empty($form_id)) {
+                $form_id = $form_id[0];
+
+                $popup_title = carbon_get_post_meta($form_id, 'confirm_popup_title');
+                $popup_subtitle = carbon_get_post_meta($form_id, 'confirm_popup_subtitle');
+                $popup_button_text = carbon_get_post_meta($form_id, 'confirm_popup_button_text');
+            }
+            ?>
             <div class="popup-close popup-close-trigger">
-                <img loading="lazy" loading="lazy" src="<?php echo get_template_directory_uri(); ?>/layout/img/icons/close-blue.svg" alt="close">
+                <img loading="lazy" src="<?php echo get_template_directory_uri(); ?>/layout/img/icons/close-blue.svg" alt="close">
             </div>
 
-            <img loading="lazy" class="popup-check-icon" loading="lazy" src="<?php echo get_template_directory_uri(); ?>/layout/img/icons/check.svg" alt="check">
+            <img loading="lazy" class="popup-check-icon" src="<?php echo get_template_directory_uri(); ?>/layout/img/icons/check.svg" alt="check">
 
             <div class="popup-title">
-                Спасибо за заявку
+                <?php echo esc_html($popup_title); ?>
             </div>
 
             <div class="popup-subtitle">
-                Мы свяжемся с Вами в ближайшее время
+                <?php echo esc_html($popup_subtitle); ?>
             </div>
 
             <button class="btn btn-blue popup-close-trigger">
-                ОК
+                <?php echo esc_html($popup_button_text); ?>
             </button>
         </div>
     </div>
 
     <div class="popup order-popup order-send-popup career-popup" id="career-popup">
         <div class="popup__content">
+            <?php
+            // Получаем данные из мета-полей
+            $form_id = get_posts([
+                'post_type' => 'forms',
+                'numberposts' => 1,
+                'fields' => 'ids',
+            ]);
+
+            if (!empty($form_id)) {
+                $form_id = $form_id[0];
+
+                $form_title = carbon_get_post_meta($form_id, 'career_form_title');
+                $form_name_title = carbon_get_post_meta($form_id, 'career_form_name_title');
+                $form_phone_title = carbon_get_post_meta($form_id, 'career_form_phone_title');
+                $form_position_title = carbon_get_post_meta($form_id, 'career_form_position_title');
+                $form_email_title = carbon_get_post_meta($form_id, 'career_form_email_title');
+                $form_file_title = carbon_get_post_meta($form_id, 'career_form_file_title');
+                $form_cover_letter_title = carbon_get_post_meta($form_id, 'career_form_cover_letter_title');
+                $form_checkbox_label = carbon_get_post_meta($form_id, 'career_form_checkbox_label');
+                $form_button_text = carbon_get_post_meta($form_id, 'career_form_button_text');
+            }
+            ?>
             <div class="popup-close popup-close-trigger">
-                <img loading="lazy" loading="lazy" src="<?php echo get_template_directory_uri(); ?>/layout/img/icons/close-blue.svg" alt="close">
+                <img loading="lazy" src="<?php echo get_template_directory_uri(); ?>/layout/img/icons/close-blue.svg" alt="close">
             </div>
 
             <div class="popup-title">
-                Отправить резюме
+                <?php echo esc_html($form_title); ?>
             </div>
 
             <form class="form form-popup">
-                <div class="form-item" aria-required="true" field-name="firstName">
+                <div style="display: none;" class="form-item" aria-required="true" field-name="nameProduct">
                     <label class="form-item-label">
-                        <span class="form-item-label-value">Ваше имя</span>
+                        <span class="form-item-label-value"></span>
                         <span class="required-item">*</span>
                     </label>
-                    <input placeholder="Ваше имя" type="text" name="name" class="form-item-input">
+                    <input type="text" name="form-type"
+                        value="Заявка с формы 'Резюме' / Application from the 'Resume' form / 从 “简历 ”表中申请 "
+                        class="form-item-input request_a_call">
+                    <span class="form-item-confirm-check"></span>
+                </div>
+                <div class="form-item" aria-required="true" field-name="firstName">
+                    <label class="form-item-label">
+                        <span class="form-item-label-value"><?php echo esc_html($form_name_title); ?></span>
+                        <span class="required-item">*</span>
+                    </label>
+                    <input placeholder="<?php echo esc_html($form_name_title); ?>" type="text" name="name" class="form-item-input">
                     <span class="form-item-confirm-check"></span>
                 </div>
 
                 <div class="form-item" aria-required="true" field-name="phone">
                     <label class="form-item-label">
-                        <span class="form-item-label-value">Телефон</span>
+                        <span class="form-item-label-value"><?php echo esc_html($form_phone_title); ?></span>
                         <span class="required-item">*</span>
                     </label>
-                    <input placeholder="(999) 999-99-99" name="phone" type="tel" data-tel-input
-                        class="form-item-input form-item-input-phone">
+                    <input placeholder="(999) 999-99-99" name="phone" type="tel" data-tel-input class="form-item-input form-item-input-phone">
                     <span class="form-item-confirm-check"></span>
                 </div>
 
                 <div class="form-item" aria-required="true" field-name="position">
                     <label class="form-item-label">
-                        <span class="form-item-label-value">Желаемая должность</span>
+                        <span class="form-item-label-value"><?php echo esc_html($form_position_title); ?></span>
                         <span class="required-item">*</span>
                     </label>
-                    <input placeholder="Ваше имя" type="text" name="position" class="form-item-input">
+                    <input placeholder="<?php echo esc_html($form_position_title); ?>" type="text" name="position" class="form-item-input">
                     <span class="form-item-confirm-check"></span>
                 </div>
 
                 <div class="form-item" aria-required="false" field-name="email">
                     <label class="form-item-label">
-                        <span class="form-item-label-value">Email</span>
+                        <span class="form-item-label-value"><?php echo esc_html($form_email_title); ?></span>
                         <span class="required-item">*</span>
                     </label>
-                    <input placeholder="Ваше имя" type="text" name="email" class="form-item-input">
+                    <input placeholder="<?php echo esc_html($form_email_title); ?>" type="text" name="email" class="form-item-input">
                     <span class="form-item-confirm-check"></span>
                 </div>
 
                 <div class="form-item" aria-required="false" field-name="file">
                     <label class="form-item-label">
-                        <span class="form-item-label-value">Резюме</span>
-                        <span class="required-item">*</span>
+                        <span class="form-item-label-value"><?php echo esc_html($form_file_title); ?></span>
                     </label>
-                    <input placeholder="Ваше имя" type="file" name="file" class="form-item-input form-item-input-file">
+                    <input type="file" name="file" class="form-item-input form-item-input-file">
                     <span class="form-item-confirm-check"></span>
                 </div>
 
                 <div class="form-item form-item-textarea" aria-required="false" field-name="coverLetter">
                     <label class="form-item-label">
-                        <span class="form-item-label-value">Сопроводительное письмо</span>
-                        <span class="required-item">*</span>
+                        <span class="form-item-label-value"><?php echo esc_html($form_cover_letter_title); ?></span>
                     </label>
-                    <textarea rows="3" name="coverLetter" id="coverLetter" class="form-item-input scroll-style"></textarea>
+                    <textarea rows="3" name="coverLetter" class="form-item-input scroll-style"></textarea>
                     <span class="form-item-confirm-check"></span>
                 </div>
-
 
                 <div class="form-item form-item-checkbox transparent" aria-required="true">
                     <label class="custom-checkbox">
                         <input type="checkbox" class="">
-                        <span class="checkmark">
-                            <span class="checkmark-check"></span>
-                        </span>
-                        <div class="custom-checkbox-label">Я даю согласие на обработку персональных данных</div>
+                        <span class="checkmark"><span class="checkmark-check"></span></span>
+                        <div class="custom-checkbox-label"><?php echo esc_html($form_checkbox_label); ?></div>
                     </label>
                 </div>
 
                 <button class="btn btn-blue">
-                    Заказать
+                    <?php echo esc_html($form_button_text); ?>
                 </button>
             </form>
         </div>

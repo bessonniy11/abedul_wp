@@ -79,21 +79,51 @@ get_header(); ?>
             </div>
 
             <div class="individual-page__form">
+                <?php
+                // Получение ID записи типа "forms"
+                $form_id = get_posts([
+                    'post_type' => 'forms',
+                    'numberposts' => 1,
+                    'fields' => 'ids', // Получаем только ID
+                ]);
+
+                if (!empty($form_id)) {
+                    $form_id = $form_id[0]; // Берём ID первой записи
+                    $form_title = carbon_get_post_meta($form_id, 'custom_order_request_form_popup_title'); // Заголовок формы
+
+                    // Тексты для подзаголовков
+                    $form_subtitle_line_1 = carbon_get_post_meta($form_id, 'custom_order_request_form_subtitle_line_1');
+                    $form_subtitle_line_2 = carbon_get_post_meta($form_id, 'custom_order_request_form_subtitle_line_2');
+
+                    $form_name_title = carbon_get_post_meta($form_id, 'custom_order_request_form_name_title');
+                    $form_phone_title = carbon_get_post_meta($form_id, 'custom_order_request_form_phone_title');
+                    $form_button_text = carbon_get_post_meta($form_id, 'custom_order_request_form_button_text');
+
+                    // Тексты для "Спасибо за обращение"
+                    $form_sending_title = carbon_get_post_meta($form_id, 'custom_order_request_form_sending_title');
+                    $form_sending_subtitle = carbon_get_post_meta($form_id, 'custom_order_request_form_sending_subtitle');
+                }
+                ?>
                 <div class="individual-page__content form-wrapper">
-                    <div class="individual-page-title">Связаться с нами</div>
+                    <div class="individual-page-title">
+                        <?php echo esc_html($form_title); ?>
+                    </div>
+
                     <div class="individual-page-subtitle">
-                        <span>Готовы сделать заказ или хотите узнать больше?</span>
-                        <span>Отправьте заявку на обратный звонок!</span>
+                        <span><?php echo esc_html($form_subtitle_line_1); ?></span>
+                        <span><?php echo esc_html($form_subtitle_line_2); ?></span>
                     </div>
 
                     <form class="helper-form__form form" id="contact-form">
-                        <div style="display: none;" class="form-item" aria-required="true" field-name="firstName">
-                            <input type="text" name="page" value="Заявка со страницы индивидуального заказа" class="form-item-input">
+                        <div style="display: none;" class="form-item" aria-required="true" field-name="page">
+                            <input type="text" name="page"
+                                value="Заявка со страницы индивидуального заказа / Application from the individual order page / 从个人订单页面申请"
+                                class="form-item-input">
                             <span class="form-item-confirm-check"></span>
                         </div>
 
                         <div class="form-item" aria-required="true" field-name="firstName">
-                            <input placeholder="Ваше имя" type="text" name="name" class="form-item-input">
+                            <input placeholder="<?php echo esc_html($form_name_title); ?>" type="text" name="name" class="form-item-input">
                             <span class="form-item-confirm-check"></span>
                         </div>
 
@@ -104,19 +134,18 @@ get_header(); ?>
                         </div>
 
                         <button class="btn btn-blue">
-                            Отправить заявку
+                            <?php echo esc_html($form_button_text); ?>
                         </button>
-
                     </form>
 
                     <div class="loader"></div>
                     <div class="form-sending">
-                        <img loading="lazy" loading="lazy" src="<?php echo get_template_directory_uri(); ?>/layout/img/icons/check.svg" alt="check">
+                        <img loading="lazy" src="<?php echo get_template_directory_uri(); ?>/layout/img/icons/check.svg" alt="check">
                         <div class="form-sending__title">
-                            Спасибо за обращение!
+                            <?php echo esc_html($form_sending_title); ?>
                         </div>
                         <div class="form-sending__subtitle">
-                            Мы свяжемся с Вами в ближайшее время
+                            <?php echo esc_html($form_sending_subtitle); ?>
                         </div>
                     </div>
                 </div>
