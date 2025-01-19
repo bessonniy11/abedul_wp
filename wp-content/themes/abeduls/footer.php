@@ -232,6 +232,9 @@ if (!empty($header_id)) {
                             <?php echo esc_html($form_checkbox_label); ?>
                         </div>
                     </label>
+                    <a href="#privacy-policy" class="question-privacy-policy popup-link">
+                        <img loading="lazy" src="<?php echo get_template_directory_uri(); ?>/layout/img/icons/questions-fill.svg" alt="question">
+                    </a>
                 </div>
 
                 <button class="btn btn-blue">
@@ -303,6 +306,9 @@ if (!empty($header_id)) {
                         </span>
                         <div class="custom-checkbox-label"><?php echo esc_html($form_checkbox_label); ?></div>
                     </label>
+                    <a href="#privacy-policy" class="question-privacy-policy popup-link">
+                        <img loading="lazy" src="<?php echo get_template_directory_uri(); ?>/layout/img/icons/questions-fill.svg" alt="question">
+                    </a>
                 </div>
 
                 <button class="btn btn-blue">
@@ -451,12 +457,69 @@ if (!empty($header_id)) {
                         <span class="checkmark"><span class="checkmark-check"></span></span>
                         <div class="custom-checkbox-label"><?php echo esc_html($form_checkbox_label); ?></div>
                     </label>
+                    <a href="#privacy-policy" class="question-privacy-policy popup-link">
+                        <img loading="lazy" src="<?php echo get_template_directory_uri(); ?>/layout/img/icons/questions-fill.svg" alt="question">
+                    </a>
                 </div>
 
                 <button class="btn btn-blue">
                     <?php echo esc_html($form_button_text); ?>
                 </button>
             </form>
+        </div>
+    </div>
+
+    <div class="popup privacy-policy" id="privacy-policy">
+        <div class="popup__content">
+            <?php
+            // Получаем данные из мета-полей
+            $form_id = get_posts([
+                'post_type' => 'forms',
+                'numberposts' => 1,
+                'fields' => 'ids',
+            ]);
+
+            if (!empty($form_id)) {
+                $form_id = $form_id[0];
+
+                $popup_privacy_policy_text = carbon_get_post_meta($form_id, 'popup_privacy_policy_text');
+            }
+            ?>
+            <div class="popup-close popup-close-trigger">
+                <img loading="lazy" src="<?php echo get_template_directory_uri(); ?>/layout/img/icons/close-blue.svg" alt="close">
+            </div>
+
+            <div class="popup-text">
+                <?php echo wp_kses_post(nl2br($popup_privacy_policy_text)); ?>
+            </div>
+
+        </div>
+    </div>
+
+    <div class="popup privacy-policy" id="user-agreement">
+        <div class="popup__content">
+            <?php
+            // Получаем данные из мета-полей
+            $form_id = get_posts([
+                'post_type' => 'forms',
+                'numberposts' => 1,
+                'fields' => 'ids',
+            ]);
+
+            if (!empty($form_id)) {
+                $form_id = $form_id[0];
+
+                $popup_user_agreement_text = carbon_get_post_meta($form_id, 'popup_user_agreement_text');
+            }
+            ?>
+            <div class="popup-close popup-close-trigger">
+                <img loading="lazy" src="<?php echo get_template_directory_uri(); ?>/layout/img/icons/close-blue.svg" alt="close">
+            </div>
+
+            <div class="popup-text">
+                <?php echo wp_kses_post(nl2br($popup_user_agreement_text)); ?>
+            </div>
+
         </div>
     </div>
 

@@ -606,6 +606,10 @@ h6 {
   transform: rotate(130deg);
 }
 
+.form-item-checkbox {
+  align-items: center;
+}
+
 .form-item-checkbox.blue-checkbox .custom-checkbox {
   width: 100%;
 }
@@ -1198,6 +1202,56 @@ h6 {
   .order-popup .popup__content {
     width: 320px;
     height: auto;
+  }
+}
+.privacy-policy .popup__content {
+  position: relative;
+  width: 800px;
+  min-height: auto;
+  padding: 24px;
+  background: var(--white);
+  border-radius: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  transition: all 0.3s ease;
+}
+
+.privacy-policy .popup__content .popup-text {
+  margin-top: 25px;
+  max-height: 80vh;
+  overflow-y: auto;
+}
+
+/* Кастомный скроллбар */
+.privacy-policy .popup__content .popup-text::-webkit-scrollbar {
+  width: 12px;  /* Толщина скроллбара */
+}
+
+.privacy-policy .popup__content .popup-text::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.529);  /* Цвет фона скроллбар-трека */
+}
+
+.privacy-policy .popup__content .popup-text::-webkit-scrollbar-thumb {
+  background-color: #4285B4;  /* Цвет ползунка */
+  border-radius: 6px;  /* Радиус скругления */
+  border: 3px solid #fff;  /* Ободок вокруг ползунка */
+}
+
+@media (max-width: 960px) {
+  .privacy-policy .popup__content {
+    width: 320px;
+    margin: 0 15px;
+    height: auto;
+    max-height: 80vh;
+  }
+}
+@media (max-width: 960px) {
+  .privacy-policy .popup__content {
+    width: 320px;
+    margin: 0 15px;
+    height: auto;
+    max-height: 80vh;
   }
 }
 .order-popup .popup__content .form {
@@ -5332,3 +5386,17 @@ h6 {
     height: 68px;
   }
 }/*# sourceMappingURL=style.css.map */
+
+.question-privacy-policy {
+  width: 20px;
+  height: 20px;
+  opacity: 0.5;
+  transition: all 0.3s ease 0s;
+}
+.question-privacy-policy:hover {
+  opacity: 1;
+}
+.question-privacy-policy img {
+  width: 20px;
+  height: 20px;
+}

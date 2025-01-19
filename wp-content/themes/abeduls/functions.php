@@ -45,7 +45,19 @@ add_action('carbon_fields_register_fields', function () {
                 ->set_help_text('
                         Вы можете добавить несколько email-адресов. <br>
                         You can add multiple email addresses <br>
-                        您可以添加多个电子邮件地址')
+                        您可以添加多个电子邮件地址'),
+            // Новое поле для текста политики конфиденциальности
+            Field::make('rich_text', 'popup_privacy_policy_text', 'Текст политики конфиденциальности / Privacy Policy Text / 隐私政策文本')
+                ->set_help_text('
+                Укажите текст политики конфиденциальности, который будет отображаться в попапе. <br>
+                Specify the privacy policy text to be displayed in the popup. <br>
+                指定将在弹出窗口中显示的隐私政策文本。'),
+            // Новое поле для текста пользовательское соглашение
+            Field::make('rich_text', 'popup_user_agreement_text', 'Текст пользовательского соглашения / User agreement Text / 隐私政策文本')
+                ->set_help_text('
+                Укажите текст пользовательского соглашения, который будет отображаться в попапе. <br>
+                Specify the user agreement text to be displayed in the popup. <br>
+                指定将在弹出窗口中显示的隐私政策文本。'),
         ]);
 
     // Настройки формы "Заказать звонок" / "Request a Call" / "请求通话"
