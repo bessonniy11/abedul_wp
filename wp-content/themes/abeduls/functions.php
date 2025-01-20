@@ -1310,6 +1310,20 @@ add_action('carbon_fields_register_fields', function () {
                 ),
 
         ]);
+    // страница 404
+    Container::make('post_meta', 'Настройки страницы 404')
+        ->where('post_type', '=', 'page')
+        ->where('post_template', '=', '404.php')
+        ->add_fields([
+            Field::make('text', 'notfound_title', 'Заголовок 404')
+                ->set_default_value('404'),
+            Field::make('text', 'notfound_subtitle', 'Подзаголовок')
+                ->set_default_value('Страница не найдена'),
+            Field::make('textarea', 'notfound_text', 'Описание')
+                ->set_default_value('Неправильно набран адрес или такой страницы не существует'),
+            Field::make('text', 'notfound_button_text', 'Текст кнопки')
+                ->set_default_value('На главную'),
+        ]);
 });
 
 // Регистрация кастомного типа записей "Формы"
