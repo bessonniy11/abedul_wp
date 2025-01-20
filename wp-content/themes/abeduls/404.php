@@ -1,13 +1,21 @@
-<?php get_header(); ?>
+<?php
+/* Template Name: Nonexistent */
+get_header(); ?>
 <main class="page nonexistent-page">
     <div class="nonexistent-page__container">
         <div class="nonexistent-content">
-            <div class="nonexistent-content__title">404</div>
-            <div class="nonexistent-content__subtitle">Страница не найдена</div>
-            <div class="nonexistent-content__text">
-                Неправильно набран адрес или такой страницы не существует
+            <div class="nonexistent-content__title">
+                <?php echo esc_html(carbon_get_theme_option('notfound_title')); ?>
             </div>
-            <a href="<?php echo esc_url(home_url('/')); ?>" class="btn btn-blue">На главную</a>
+            <div class="nonexistent-content__subtitle">
+                <?php echo esc_html(carbon_get_theme_option('notfound_subtitle')); ?>
+            </div>
+            <div class="nonexistent-content__text">
+                <?php echo esc_html(carbon_get_theme_option('notfound_text')); ?>
+            </div>
+            <a href="<?php echo esc_url(home_url('/')); ?>" class="btn btn-blue">
+                <?php echo esc_html(carbon_get_theme_option('notfound_button_text')); ?>
+            </a>
         </div>
     </div>
 </main>
