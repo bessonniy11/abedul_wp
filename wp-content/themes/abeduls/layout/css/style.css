@@ -2494,7 +2494,7 @@ h6 {
   font-weight: 400;
   color: var(--black-700);
   text-align: left;
-  white-space: nowrap;
+  /* white-space: nowrap; */
 }
 .header .catalog-container .catalog-item-group .catalog-item-group__content .catalog-item-group-elems .catalog-item-group-elem {
   padding: 5px 0;
