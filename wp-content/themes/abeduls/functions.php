@@ -1311,7 +1311,7 @@ add_action('carbon_fields_register_fields', function () {
 
         ]);
     // страница 404
-    Container::make('theme_options', 'Настройки страницы 404')
+    Container::make('post_meta', 'Настройки страницы 404')
         ->where('post_type', '=', 'page')
         ->where('post_template', '=', '404.php')
         ->add_fields([
