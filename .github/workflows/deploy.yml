@@ -18,11 +18,6 @@ jobs:
           echo "${{ secrets.SSH_PRIVATE_KEY }}" > "$HOME/.ssh/authorized_keys"
           chmod 600 "$HOME/.ssh/authorized_keys"
 
-      # Add the host to known_hosts
-      - name: Add remote host to known_hosts
-        run: |
-          ssh-keyscan -p 22 185.137.235.119 >> "$HOME/.ssh/known_hosts"
-
       # Deploy using rsync
       - name: Deploy files
         run: |
