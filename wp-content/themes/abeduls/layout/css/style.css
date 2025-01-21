@@ -3312,6 +3312,13 @@ h6 {
 }
 .products .products-items .product-item .product-info .product-buttons .btn {
   width: 100%;
+  min-width: 170px;
+}
+@media (max-width: 1000px) {
+  .products .products-items .product-item .product-info .product-buttons .btn {
+    width: 100%;
+    min-width: auto;
+  }
 }
 
 .main-page-form {
