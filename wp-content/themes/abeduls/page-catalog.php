@@ -402,7 +402,7 @@ get_header(); ?>
                                         <p class="product-article"><?php echo esc_html($product_artikul_name); ?> <?php echo esc_html($product_sku); ?></p>
                                     <?php endif; ?>
                                     <?php if (!empty($product_main_description)) : ?>
-                                        <p class="product-description product-description-text"><?php echo wp_kses_post(nl2br($product_main_description)); ?></p>
+                                        <div class="product-description product-description-text"><?php echo wp_kses_post(nl2br($product_main_description)); ?></div>
                                     <?php endif; ?>
                                     <div class="product-buttons">
                                         <a href="<?php the_permalink(); ?>" class="btn btn-blue"><?php echo esc_html($product_read_more_btn); ?></a>

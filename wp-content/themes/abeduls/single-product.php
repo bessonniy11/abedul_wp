@@ -44,7 +44,7 @@ $current_language = pll_current_language();
 if ($current_language === 'ru') {
     $catalog_slug = 'каталог';
 } elseif ($current_language === 'zh') {
-    $catalog_slug = '目录'; // Пример перевода "каталог" на китайский (можете заменить на нужное слово)
+    $catalog_slug = 'catalog-zh'; // Пример перевода "каталог" на китайский (можете заменить на нужное слово)
 } else {
     $catalog_slug = 'catalog'; // По умолчанию английский
 }
