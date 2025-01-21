@@ -1938,7 +1938,7 @@ function my_filter_products()
             }
 
             if (!empty($product_main_description)) {
-                $html .= '<p class="product-description product-description-text">' . esc_html($product_main_description) . '</p>';
+                $html .= '<div class="product-description product-description-text">' . esc_html($product_main_description) . '</div>';
             }
 
             $html .= '<div class="product-buttons">';
