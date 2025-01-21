@@ -1753,7 +1753,7 @@ function productSlider() {
 		spaceBetween: 32,
 		mousewheel: true,
 		grabCursor: false,
-		effect: 'fade',
+		// effect: 'fade',
 		thumbs: {
 			swiper: sliderThumbs,
 		},
