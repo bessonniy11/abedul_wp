@@ -30,6 +30,5 @@ jobs:
             --archive --compress --delete \
             --exclude "wp-config.php" \
             --exclude "wp-content/uploads" \
-            --exclude "wp-content/plugins" \
             . \
             strizhki@185.137.235.119:/var/www/strizhki/data/www/abedul.stage.ibessonniy.ru
