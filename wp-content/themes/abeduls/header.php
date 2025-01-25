@@ -5,16 +5,52 @@
 <head>
     <title>
         <?php
-        if (is_front_page() || is_home()) {
-            echo 'Abedul';
+        if (is_singular('page')) {
+            $meta_title = carbon_get_the_post_meta('meta_title');
+            echo $meta_title ? esc_html($meta_title) : wp_title('', false, 'right');
         } else {
-            echo 'Abedul - ' . wp_title('', false, 'right');
+            wp_title('', true);
         }
         ?>
     </title>
     <meta charset="UTF-8">
     <meta name="robots" content="noindex, follow">
     <meta name="viewport" content="width=device-width, initial-scale=1.0 user-scalable=no">
+    <?php if (is_singular('page')) : ?>
+        <?php
+        $meta_description = carbon_get_the_post_meta('meta_description');
+        $meta_keywords = carbon_get_the_post_meta('meta_keywords');
+        ?>
+        <?php if ($meta_description) : ?>
+            <meta name="description" content="<?php echo esc_attr($meta_description); ?>">
+            <meta property="og:description" content="<?php echo esc_attr($meta_description); ?>">
+        <?php endif; ?>
+        <?php if ($meta_keywords) : ?>
+            <meta name="keywords" content="<?php echo esc_attr($meta_keywords); ?>">
+        <?php endif; ?>
+    <?php endif; ?>
+    <?php
+    // Определяем значение og:locale на основе текущего языка
+    $og_locale = '';
+    if (function_exists('pll_current_language')) {
+        $current_language = pll_current_language();
+        switch ($current_language) {
+            case 'ru':
+                $og_locale = 'ru_RU';
+                break;
+            case 'zh':
+                $og_locale = 'zh_CN';
+                break;
+            case 'en':
+            default:
+                $og_locale = 'en_US';
+                break;
+        }
+    }
+    ?>
+    <meta property="og:locale" content="<?php echo esc_attr($og_locale); ?>">
+    <meta property="og:type" content="website">
+    <meta property="og:image" content="<?php echo get_template_directory_uri(); ?>/layout/img/favicon.svg">
     <link rel="shortcut icon" href="<?php echo get_template_directory_uri(); ?>/layout/img/favicon.svg">
     <link rel="stylesheet" href="https://use.typekit.net/jby8qxe.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;&display=swap" rel="stylesheet">

@@ -453,6 +453,12 @@ add_action('carbon_fields_register_fields', function () {
         ->where('post_type', '=', 'page')
         ->where('post_template', '=', 'index.php') // Только для страницы с шаблоном Главная
         ->add_fields([
+            Field::make('text', 'meta_title', 'Мета-заголовок (title)')
+                ->set_help_text('Введите заголовок страницы для отображения в поисковиках'),
+            Field::make('textarea', 'meta_description', 'Мета-описание (description)')
+                ->set_help_text('Введите описание страницы для SEO'),
+            Field::make('textarea', 'meta_keywords', 'Ключевые слова (keywords)')
+                ->set_help_text('Введите ключевые слова через запятую'),
             Field::make('complex', 'main_slider', 'Слайдер')
                 ->set_layout('tabbed-horizontal')
                 ->add_fields([
@@ -497,6 +503,12 @@ add_action('carbon_fields_register_fields', function () {
         ->where('post_type', '=', 'page') // Применяем только к страницам
         ->where('post_template', '=', 'page-services.php')
         ->add_fields([
+            Field::make('text', 'meta_title', 'Мета-заголовок (title)')
+                ->set_help_text('Введите заголовок страницы для отображения в поисковиках'),
+            Field::make('textarea', 'meta_description', 'Мета-описание (description)')
+                ->set_help_text('Введите описание страницы для SEO'),
+            Field::make('textarea', 'meta_keywords', 'Ключевые слова (keywords)')
+                ->set_help_text('Введите ключевые слова через запятую'),
             Field::make('text', 'services_page_title', 'Заголовок страницы'),
             Field::make('text', 'breadcrumbs_main', 'Текст ссылки на главную')
                 ->set_help_text(
@@ -540,6 +552,12 @@ add_action('carbon_fields_register_fields', function () {
         ->where('post_type', '=', 'page')
         ->where('post_template', '=', 'page-career.php') // Указываем шаблон
         ->add_fields([
+            Field::make('text', 'meta_title', 'Мета-заголовок (title)')
+                ->set_help_text('Введите заголовок страницы для отображения в поисковиках'),
+            Field::make('textarea', 'meta_description', 'Мета-описание (description)')
+                ->set_help_text('Введите описание страницы для SEO'),
+            Field::make('textarea', 'meta_keywords', 'Ключевые слова (keywords)')
+                ->set_help_text('Введите ключевые слова через запятую'),
             Field::make('text', 'career_page_title', 'Заголовок страницы'),
             Field::make('text', 'breadcrumbs_main', 'Текст ссылки на главную')
                 ->set_help_text(
@@ -664,6 +682,12 @@ add_action('carbon_fields_register_fields', function () {
         ->where('post_type', '=', 'page')
         ->where('post_template', '=', 'page-projects.php') // Указываем шаблон
         ->add_fields([
+            Field::make('text', 'meta_title', 'Мета-заголовок (title)')
+                ->set_help_text('Введите заголовок страницы для отображения в поисковиках'),
+            Field::make('textarea', 'meta_description', 'Мета-описание (description)')
+                ->set_help_text('Введите описание страницы для SEO'),
+            Field::make('textarea', 'meta_keywords', 'Ключевые слова (keywords)')
+                ->set_help_text('Введите ключевые слова через запятую'),
             Field::make('text', 'all_projects_title', 'Заголовок страницы')
                 ->set_help_text('Заголовок для страницы со списком всех проектов'),
             Field::make('text', 'breadcrumbs_main', 'Текст ссылки на главную')
@@ -690,6 +714,12 @@ add_action('carbon_fields_register_fields', function () {
         ->where('post_type', '=', 'page')
         ->where('post_template', '=', 'page-catalog.php') // Указываем шаблон
         ->add_fields([
+            Field::make('text', 'meta_title', 'Мета-заголовок (title)')
+                ->set_help_text('Введите заголовок страницы для отображения в поисковиках'),
+            Field::make('textarea', 'meta_description', 'Мета-описание (description)')
+                ->set_help_text('Введите описание страницы для SEO'),
+            Field::make('textarea', 'meta_keywords', 'Ключевые слова (keywords)')
+                ->set_help_text('Введите ключевые слова через запятую'),
             Field::make('text', 'catalog_page_title', 'Заголовок страницы')
                 ->set_help_text('Заголовок для страницы Каталог'),
             Field::make('text', 'main_breadcrumb', 'Первая часть хлебных крошек')
@@ -725,6 +755,12 @@ add_action('carbon_fields_register_fields', function () {
         ->where('post_type', '=', 'page')
         ->where('post_template', '=', 'page-individual.php')
         ->add_fields([
+            Field::make('text', 'meta_title', 'Мета-заголовок (title)')
+                ->set_help_text('Введите заголовок страницы для отображения в поисковиках'),
+            Field::make('textarea', 'meta_description', 'Мета-описание (description)')
+                ->set_help_text('Введите описание страницы для SEO'),
+            Field::make('textarea', 'meta_keywords', 'Ключевые слова (keywords)')
+                ->set_help_text('Введите ключевые слова через запятую'),
             // Заголовок перед общей галереей
             Field::make('text', 'individual_title', 'Главный заголовок перед галереей')
                 ->set_help_text('Введите заголовок, который будет отображаться перед общей галереей'),
@@ -766,6 +802,12 @@ add_action('carbon_fields_register_fields', function () {
         ->where('post_type', '=', 'page') // Применяем только к страницам
         ->where('post_template', '=', 'page-fabric.php') // Применяем только к шаблону "page-factory.php"
         ->add_fields([
+            Field::make('text', 'meta_title', 'Мета-заголовок (title)')
+                ->set_help_text('Введите заголовок страницы для отображения в поисковиках'),
+            Field::make('textarea', 'meta_description', 'Мета-описание (description)')
+                ->set_help_text('Введите описание страницы для SEO'),
+            Field::make('textarea', 'meta_keywords', 'Ключевые слова (keywords)')
+                ->set_help_text('Введите ключевые слова через запятую'),
             // Главный заголовок
             Field::make('text', 'factory_main_title', 'Главный заголовок')
                 ->set_help_text('Введите главный заголовок для страницы фабрики'),
@@ -836,6 +878,12 @@ add_action('carbon_fields_register_fields', function () {
         ->where('post_type', '=', 'page')
         ->where('post_template', '=', 'page-contacts.php')
         ->add_fields([
+            Field::make('text', 'meta_title', 'Мета-заголовок (title)')
+                ->set_help_text('Введите заголовок страницы для отображения в поисковиках'),
+            Field::make('textarea', 'meta_description', 'Мета-описание (description)')
+                ->set_help_text('Введите описание страницы для SEO'),
+            Field::make('textarea', 'meta_keywords', 'Ключевые слова (keywords)')
+                ->set_help_text('Введите ключевые слова через запятую'),
             // Главный заголовок
             Field::make('text', 'contacts_main_title', 'Главный заголовок')
                 ->set_help_text('Введите главный заголовок для страницы контактов'),
@@ -1315,6 +1363,12 @@ add_action('carbon_fields_register_fields', function () {
         ->where('post_type', '=', 'page')
         ->where('post_template', '=', '404.php')
         ->add_fields([
+            Field::make('text', 'meta_title', 'Мета-заголовок (title)')
+                ->set_help_text('Введите заголовок страницы для отображения в поисковиках'),
+            Field::make('textarea', 'meta_description', 'Мета-описание (description)')
+                ->set_help_text('Введите описание страницы для SEO'),
+            Field::make('textarea', 'meta_keywords', 'Ключевые слова (keywords)')
+                ->set_help_text('Введите ключевые слова через запятую'),
             Field::make('text', 'notfound_title', 'Заголовок 404')
                 ->set_default_value('404'),
             Field::make('text', 'notfound_subtitle', 'Подзаголовок')
