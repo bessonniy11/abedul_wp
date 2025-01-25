@@ -2542,6 +2542,8 @@ h6 {
   display: flex;
   flex-direction: column;
   z-index: 5;
+      position: sticky;
+    top: 80px;
 }
 @media (max-width: 880px) {
   .main-page .side-bar {
