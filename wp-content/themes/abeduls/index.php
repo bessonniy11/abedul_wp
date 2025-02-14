@@ -228,7 +228,7 @@ get_header(); ?>
                                             <?php if (!empty($product_gallery)) : ?>
                                                 <?php foreach ($product_gallery as $gallery_item) : ?>
                                                     <?php if ($gallery_item['type'] === 'image') : ?>
-                                                        <a data-fslightbox="<?php echo esc_html($product_name); ?>" href="<?php echo wp_get_attachment_image_url($gallery_item['image'], 'full'); ?>" class="swiper-slide">
+                                                        <a data-fslightbox="<?php echo esc_html($product_name); ?>" href="<?php echo wp_get_attachment_image_url($gallery_item['image'], 'full'); ?>" class="swiper-slide ibg ibg-ibg_contain">
                                                             <img src="<?php echo wp_get_attachment_image_url($gallery_item['image'], 'full'); ?>"
                                                                 alt="<?php echo esc_attr($gallery_item['alt_text']); ?>">
                                                         </a>

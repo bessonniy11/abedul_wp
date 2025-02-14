@@ -1968,7 +1968,7 @@ function my_filter_products()
             if (!empty($product_gallery)) {
                 foreach ($product_gallery as $gallery_item) {
                     if ($gallery_item['type'] === 'image') {
-                        $html .= '<a data-fslightbox="' . esc_html($product_name) . '" href="' . wp_get_attachment_image_url($gallery_item['image'], 'full') . '" class="swiper-slide">';
+                        $html .= '<a data-fslightbox="' . esc_html($product_name) . '" href="' . wp_get_attachment_image_url($gallery_item['image'], 'full') . '" class="swiper-slide ibg ibg-ibg_contain">';
                         $html .= '<img src="' . wp_get_attachment_image_url($gallery_item['image'], 'full') . '" alt="' . esc_attr($gallery_item['alt_text']) . '">';
                         $html .= '</a>';
                     } elseif ($gallery_item['type'] === 'video') {

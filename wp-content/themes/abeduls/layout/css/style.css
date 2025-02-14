@@ -231,8 +231,8 @@ h6 {
 }
 
 [class*=-ibg_contain] img {
-  -o-object-fit: contain;
-  object-fit: contain;
+  -o-object-fit: contain !important;
+  object-fit: contain !important;
 }
 
 .main-link {
